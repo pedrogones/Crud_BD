@@ -1,3 +1,9 @@
+Pra rodar, use:<br>
+npm install<br>
+npx tailwindcss init<br>
+
+ng serve pra rodar
+
 # CrudBdAngularInterface
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
