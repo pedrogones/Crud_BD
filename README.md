@@ -1,4 +1,4 @@
-Pra rodar, use:<br>
+Pra instalar as dependencias, use:<br>
 npm install<br>
 npx tailwindcss init<br>
 
