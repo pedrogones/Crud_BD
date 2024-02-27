@@ -11,9 +11,6 @@ export class SharedService {
   create(): void {
     this.router.navigate(['/create'], { relativeTo: this.route });
   }
-  delete() {
-  //
-   }
    update() {
     this.router.navigate(['/update'], { relativeTo: this.route });
   }

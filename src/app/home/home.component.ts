@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
+import { CrudService } from '../../services/crud.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home',
@@ -9,17 +11,45 @@ import { SharedService } from '../../shared/shared.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-constructor(
-  private sharedService: SharedService){
-}
-create(){
-  this.sharedService.create();
-}
-update(){
-  this.sharedService.update();
-}
-delete(){
-  this.sharedService.delete();
-}
+
+  users: User[]=[]
+  constructor(
+    private sharedService: SharedService,
+    private http: CrudService ) { }
+
+  ngOnInit(){
+    this.index();
+  }
+
+  index(){
+    this.http.index().subscribe(
+      users => {
+        this.users = users;
+      },
+      error => {
+        console.error('Erro ao carregar usuários:', error);
+      }
+    );
+  }
+
+    redirectCreate() {
+      this.sharedService.create();
+    }
+
+    redirectUpdate() {
+      this.sharedService.update();
+    }
+
+    delete(id: number) {
+      this.http.delete(id).subscribe(
+        response => {
+          console.log('Usuário excluído com sucesso:', response);
+          this.index();
+        },
+        error => {
+          console.error('Erro ao excluir usuário:', error);
+        }
+      );
+    }
 
 }
