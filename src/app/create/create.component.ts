@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './create.component.scss'
 })
 export class CreateComponent {
-  @Input() user: User={
+  user: User={
     name: '',
     last_name: '',
     email: '',
@@ -19,8 +19,6 @@ export class CreateComponent {
   }
 
   showFields(){
-    console.log(this.user);
-
   }
 
 }

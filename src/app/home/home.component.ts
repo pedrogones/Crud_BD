@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { AuthService } from './../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
-import { CrudService } from '../../services/crud.service';
 import { User } from '../models/user';
 
 @Component({
@@ -10,16 +10,18 @@ import { User } from '../models/user';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+
+  ngOnInit(): void {
+
+  }
 
   users: User[]=[]
-  constructor(
-    private sharedService: SharedService,
-    private http: CrudService ) { }
+  constructor(private sharedService: SharedService
+    , private http: AuthService
+    ) { }
 
-  ngOnInit(){
-    this.index();
-  }
+
 
   index(){
     this.http.index().subscribe(
@@ -31,15 +33,6 @@ export class HomeComponent {
       }
     );
   }
-
-    redirectCreate() {
-      this.sharedService.create();
-    }
-
-    redirectUpdate() {
-      this.sharedService.update();
-    }
-
     delete(id: number) {
       this.http.delete(id).subscribe(
         response => {
@@ -52,4 +45,11 @@ export class HomeComponent {
       );
     }
 
+    redirectCreate() {
+      this.sharedService.create();
+    }
+
+    redirectUpdate() {
+      this.sharedService.update();
+    }
 }
