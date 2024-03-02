@@ -7,7 +7,7 @@ import { User } from '../app/models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = ''; // Exemplo de URL base com caminho para os usuários
+  private apiUrl:any // Exemplo de URL base com caminho para os usuários
 
   constructor(private http: HttpClient) { }
 
