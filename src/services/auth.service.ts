@@ -1,32 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../app/models/user';
+import { Consultas } from '../app/models/Consultas';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl:any // Exemplo de URL base com caminho para os usuários
+  private apiUrl:any // Exemplo de URL base com caminho para as Consultas
 
   constructor(private http: HttpClient) { }
 
-  index(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}`);
+  index(): Observable<Consultas[]> {
+    return this.http.get<Consultas[]>(`${this.apiUrl}`);
   }
 
-  create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}`, user);
+  create(consulta: Consultas): Observable<Consultas> {
+    return this.http.post<Consultas>(`${this.apiUrl}`, consulta);
   }
 
-  delete(userId: number): Observable<any> {
-    const url = `${this.apiUrl}/${userId}`;
+  delete(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }
 
-  update(userId: number, updatedUser: User): Observable<User> {
-    const url = `${this.apiUrl}/${userId}`;
-    return this.http.put<User>(url, updatedUser);
+  update(id: number, updatedConsulta: Consultas): Observable<Consultas> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<Consultas>(url, updatedConsulta);
   }
 }
 

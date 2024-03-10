@@ -7,11 +7,16 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 })
 export class SharedService {
   constructor(private router: Router, private route: ActivatedRoute) { }
-
-  create(): void {
-    this.router.navigate(['/create'], { relativeTo: this.route });
+  consultas() {
+    this.router.navigate([''], { relativeTo: this.route });
   }
-   update() {
-    this.router.navigate(['/update'], { relativeTo: this.route });
+  home(){
+    this.router.navigate(['consultas'], { relativeTo: this.route });
+  }
+  create(): void {
+    this.router.navigate(['consultas/create'], { relativeTo: this.route });
+  }
+   update(id: number) {
+    this.router.navigate(['consultas/update', id], { relativeTo: this.route });
   }
 }
