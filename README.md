@@ -1,5 +1,6 @@
 Pra instalar as dependencias, use:<br>
 npm install<br>
+npm install -g @angular/cli <br>
 npx tailwindcss init<br>
 
 ng serve pra rodar
