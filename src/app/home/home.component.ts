@@ -29,15 +29,29 @@ export class HomeComponent implements OnInit {
     {
       id: 1,
       nomePaciente: 'Pedro Gomes',
-      nomeMedico: 'João Marcos',
+      nomeMedico: 'Dr. João Marcos',
       dataConsulta: '20/03, 08:30',
       motivoConsulta: 'Consulta Especializada',
     },
     {
       id: 2,
       nomePaciente: 'Victor Gomes',
-      nomeMedico: 'João Antônio',
+      nomeMedico: 'Dr. João Antônio',
       dataConsulta: '20/03, 09:30',
+      motivoConsulta: 'Consulta de Rotina',
+    },
+    {
+      id: 3,
+      nomePaciente: 'Cassio Vittori',
+      nomeMedico: 'Dr. Clauiana',
+      dataConsulta: '20/03, 10:30',
+      motivoConsulta: 'Consulta de Rotina',
+    },
+    {
+      id: 4,
+      nomePaciente: 'João Victor',
+      nomeMedico: 'Dr. Antônio',
+      dataConsulta: '20/03, 11:30',
       motivoConsulta: 'Consulta de Rotina',
     }
   ];

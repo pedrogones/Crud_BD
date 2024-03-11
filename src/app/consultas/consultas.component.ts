@@ -27,6 +27,20 @@ export class ConsultasComponent {
       nomeMedico: 'João Antônio',
       dataConsulta: '20/03, 09:30',
       motivoConsulta: 'Consulta de Rotina',
+    },
+    {
+      id: 3,
+      nomePaciente: 'Cassio Vittori',
+      nomeMedico: 'Clauiana',
+      dataConsulta: '20/03, 10:30',
+      motivoConsulta: 'Consulta de Rotina',
+    },
+    {
+      id: 4,
+      nomePaciente: 'João Victor',
+      nomeMedico: 'Antônio',
+      dataConsulta: '20/03, 11:30',
+      motivoConsulta: 'Consulta de Rotina',
     }
   ];
 
