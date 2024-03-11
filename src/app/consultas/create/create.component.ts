@@ -8,12 +8,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,],
+  imports: [ CommonModule,FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
   providers: [provideNativeDateAdapter()],
@@ -24,6 +25,7 @@ export class CreateComponent implements OnInit {
   exampleHeader = DatePickerComponent;
   ngOnInit(): void {
   }
+  hora!: string;
   minDate = new Date();
   constructor(
     private sharedService: SharedService,) {
@@ -36,16 +38,30 @@ export class CreateComponent implements OnInit {
     motivoConsulta: ''
   }
 
+  validate_inputs(consulta: Consultas):boolean{
+    if(consulta.nomePaciente==''||
+    consulta.nomeMedico==''||
+    consulta.dataConsulta==''||
+    consulta.motivoConsulta==''){
+      return false
+    }else{
+      return true
+    }
+  }
   save(): void {
     if (this.consultas.dataConsulta instanceof Date) {
       const year = this.consultas.dataConsulta.getUTCFullYear();
-      const month = this.consultas.dataConsulta.getUTCMonth() + 1; // Lembrando que os meses começam em 0
+      const month = this.consultas.dataConsulta.getUTCMonth() + 1;
       const day = this.consultas.dataConsulta.getUTCDate();
       const dataConsultaF = day + '-' + month + '-' + year;
-      // Atualizar a propriedade dataConsulta
-      this.consultas.dataConsulta = dataConsultaF;
+      this.consultas.dataConsulta = dataConsultaF +', '+ this.hora;
     }
-    console.log(this.consultas);
+    if(this.validate_inputs(this.consultas)){
+      console.log(this.consultas);   
+    }else{
+      console.log('Preencha todos os campos');
+    }
+   
   }
 
   backHome() {
