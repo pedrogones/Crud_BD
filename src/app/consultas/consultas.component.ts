@@ -3,11 +3,12 @@ import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
 import { CommonModule } from '@angular/common';
 import { Consultas } from '../models/Consultas';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './consultas.component.html',
   styleUrl: './consultas.component.scss'
 })
@@ -43,4 +44,6 @@ export class ConsultasComponent implements OnInit {
   redirectUpdate(id: number) {
     this.sharedService.update(id);
   }
+
+  
 }

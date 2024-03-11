@@ -7,7 +7,7 @@ import { Consultas } from '../models/Consultas';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule ],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
 
 
     delete(id: number) {
+    
       this.http.delete(id)
     }
 
