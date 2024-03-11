@@ -27,8 +27,10 @@ export class DatePickerComponent<D extends Date | null | undefined = Date | null
     @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
     cdr: ChangeDetectorRef,
   ) {
+
     _calendar.stateChanges.pipe(takeUntil(this._destroyed)).subscribe(() => cdr.markForCheck());
   }
+
 
   ngOnInit() {
     this.selectedDate = this._calendar.activeDate;
@@ -58,7 +60,7 @@ export class DatePickerComponent<D extends Date | null | undefined = Date | null
         ? this._dateAdapter.addCalendarMonths(this._calendar.activeDate!, 1)
         : this._dateAdapter.addCalendarYears(this._calendar.activeDate!, 1);
   }
- 
+
   onDateSelected(date: D) {
     this.selectedDate = date;
     this.dateSelected.emit(this.selectedDate);

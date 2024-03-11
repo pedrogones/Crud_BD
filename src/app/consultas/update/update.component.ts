@@ -14,7 +14,7 @@ export class UpdateComponent implements OnInit {
 
   constructor(private sharedService: SharedService){}
   consulta: Consultas = {
-    id: 1,
+    idConsulta: 1,
     nomePaciente: 'Pedro Gomes',
     nomeMedico: 'João Marcos',
     dataConsulta: '20/03, 08:30',
@@ -24,9 +24,6 @@ export class UpdateComponent implements OnInit {
   ngOnInit(){
 
   }
-
-
-
   backHome(){
     this.sharedService.home()
   }

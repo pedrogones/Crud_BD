@@ -4,7 +4,7 @@
       <div class=" flex justify-between min-w-0 flex-1">
         <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Tabela de Consultas</h2>
       </div>
-      <div style="border-radius: 20px;" class=" mt-10 grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">          
+      <div style="border-radius: 20px;" class=" mt-10 grid max-w-2xl grid-cols-3 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
         <div  *ngFor="let consulta of consultas" class="bg-slate-300 borda-preta bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface rounded-lg mb-4">
           <div
              class="border-b-2 border-100 px-6 py-3 dark:border-white/10">
@@ -34,8 +34,8 @@
                     <span class="absolute inset-0"></span>
                   </a>
                 </p>
-                <p class="text-xs font-medium uppercase leading-normal text-black shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"> 
-                  Paciente:   {{consulta.nomePaciente}} 
+                <p class="text-xs font-medium uppercase leading-normal text-black shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                  Paciente:   {{consulta.nomePaciente}}
                 </p>
               </div>
             </div>
