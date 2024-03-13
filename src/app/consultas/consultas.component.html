@@ -53,7 +53,7 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-              <tr *ngFor="let consulta of consultas" >
+              <tr *ngFor="let consulta of consultas  | async as consultas" >
                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                   <div>
                     <h2 class="font-medium text-gray-800 dark:text-white ">{{ consulta.idConsulta }}</h2>
@@ -92,7 +92,7 @@
                       </svg>
 
                     </button>
-                    <button href="" title="Excluir" class="text-sm font-semibold leading-6 text-red-900">
+                    <button (click)="delete(consulta)"  title="Excluir" class="text-sm font-semibold leading-6 text-red-900">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"

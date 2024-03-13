@@ -1,9 +1,11 @@
 import { AuthService } from '../../services/auth.service';
 import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Consultas } from '../models/Consultas';
 import { MatIconModule } from '@angular/material/icon';
+import { Observable, catchError, delay, of } from 'rxjs';
+import { log } from 'console';
 
 @Component({
   selector: 'app-home',
@@ -14,36 +16,44 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ConsultasComponent implements OnInit {
 
-  consultas: Consultas[] = []
-
+  consultas:  Observable<Consultas[]>|undefined
+  
   ngOnInit(): void {
-      this.index();
+    delay(2000)  
+    this.index();
   }
 
-  constructor(private sharedService: SharedService, private http: AuthService) { }
+  constructor( private sharedService: SharedService, private http: AuthService) {
+     this.index() 
+    }
 
   index() {
-    this.http.index().subscribe(
-      (data: Consultas[]) => {
-        this.consultas = data;
-      },
-      error => {
-        console.error('Ocorreu um erro ao buscar as consultas:', error);
-      }
-    );
+    this.consultas = this.http.index()
+ .pipe(
+  catchError(error =>{
+    console.log("Erro ao carregar o curso: "+error)
+    return of([]);
+  })
+ );
   }
-  delete(id: number) {
-    this.http.delete(id)
+  delete(consulta: Consultas) {
+    this.http.delete(consulta.idConsulta!).subscribe(
+    () => {
+      window.console.log('Removido Com Sucesso');
+      this.index();
+    }
+    );
+
   }
 
+  
 
   redirectCreate() {
     this.sharedService.create();
   }
-
+  
   redirectUpdate(id: number) {
     this.sharedService.update(id);
   }
-
   
 }
