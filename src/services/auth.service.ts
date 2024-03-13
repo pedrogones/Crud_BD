@@ -1,36 +1,37 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Head, Observable, Subject, catchError, delay, first, tap } from 'rxjs';
 import { Consultas } from '../app/models/Consultas';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = "http://localhost:8080/api/consultas"
-
-
+  private readonly apiUrl = "/api/consultas";
   constructor(private http: HttpClient) { }
  
   index(): Observable<Consultas[]> {
-    console.log("chegou")
-    return this.http.get<Consultas[]>(`${this.apiUrl}/all`);
+    return this.http.get<Consultas[]>(`${this.apiUrl}/all`).pipe(
+      first()
+    );
   }
 
-  create(consulta: Partial<Consultas>): Observable<Consultas> {
-    const  headers = new HttpHeaders()
-    .set("Content-type", 'application/json');
-    return this.http.post<Consultas>(`${this.apiUrl}/create`, consulta, {headers});
-  }
+  create(consulta: Partial<Consultas>): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/create`, consulta, { responseType: 'text' as 'json' as 'json' });
 
+  }
   delete(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url);
+    const url = `${this.apiUrl}/delete/${id}`;
+    return this.http.delete(url, { responseType: 'text' as 'json' as 'json' });
   }
 
-  update(id: number, updatedConsulta: Consultas): Observable<Consultas> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.put<Consultas>(url, updatedConsulta);
+  update(consulta: Partial<Consultas>): Observable<Consultas> {
+    const url = `${this.apiUrl}/${consulta.idConsulta}`;
+    return this.http.put<Consultas>(`${this.apiUrl}/update/${consulta.idConsulta}`, consulta, { responseType: 'text' as 'json' as 'json' });
   }
+  loadByID(_id: number){
+    return this.http.get<Consultas>(`${this.apiUrl}/${_id}`)
+   }
+   
 }
 
