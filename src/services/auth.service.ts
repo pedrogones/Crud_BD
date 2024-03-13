@@ -15,7 +15,7 @@ export class AuthService {
       first()
     );
   }
-
+//add coment
   create(consulta: Partial<Consultas>): Observable<string> {
     return this.http.post<string>(`${this.apiUrl}/create`, consulta, { responseType: 'text' as 'json' as 'json' });
 
