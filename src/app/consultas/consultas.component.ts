@@ -1,51 +1,59 @@
 import { AuthService } from '../../services/auth.service';
 import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Consultas } from '../models/Consultas';
+import { MatIconModule } from '@angular/material/icon';
+import { Observable, catchError, delay, of } from 'rxjs';
+import { log } from 'console';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './consultas.component.html',
   styleUrl: './consultas.component.scss'
 })
-export class ConsultasComponent {
+export class ConsultasComponent implements OnInit {
 
-  consultas: Consultas[] = [
-    {
-      id: 1,
-      nomePaciente: 'Pedro Gomes',
-      nomeMedico: 'João Marcos',
-      dataConsulta: '20/03, 08:30',
-      motivoConsulta: 'Consulta Especializada',
-    },
-    {
-      id: 2,
-      nomePaciente: 'Victor Gomes',
-      nomeMedico: 'João Antônio',
-      dataConsulta: '20/03, 09:30',
-      motivoConsulta: 'Consulta de Rotina',
+  consultas:  Observable<Consultas[]>|undefined
+  
+  ngOnInit(): void {
+    delay(2000)  
+    this.index();
+  }
+
+  constructor( private sharedService: SharedService, private http: AuthService) {
+     this.index() 
     }
-  ];
-
-
-  constructor(private sharedService: SharedService, private http: AuthService) { }
 
   index() {
+    this.consultas = this.http.index()
+ .pipe(
+  catchError(error =>{
+    console.log("Erro ao carregar o curso: "+error)
+    return of([]);
+  })
+ );
+  }
+  delete(consulta: Consultas) {
+    this.http.delete(consulta.idConsulta!).subscribe(
+    () => {
+      window.console.log('Removido Com Sucesso');
+      this.index();
+    }
+    );
 
   }
-  delete(id: number) {
-    this.http.delete(id)
-  }
 
+  
 
   redirectCreate() {
     this.sharedService.create();
   }
-
+  
   redirectUpdate(id: number) {
     this.sharedService.update(id);
   }
+  
 }

@@ -7,22 +7,34 @@
       <label for="nomePaciente" class="block text-sm font-medium leading-6 text-gray-900">Nome completo do
         Paciente</label>
       <div>
-        <input type="text" [(ngModel)]="consultas.nomePaciente" name="nomePaciente" id="nomePaciente"
+        <input placeholder="Digite aqui" type="text" [(ngModel)]="consultas.nomePaciente" name="nomePaciente" id="nomePaciente"
           autocomplete="name"
           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
       <label for="nomeMedico" class="block text-sm font-medium leading-6 text-gray-900">Médico para a consulta</label>
       <div>
-        <input type="text" [(ngModel)]="consultas.nomeMedico" name="nomeMedico" id="nomeMedico"
+        <input placeholder="Digite aqui" type="text" [(ngModel)]="consultas.nomeMedico" name="nomeMedico" id="nomeMedico"
           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
     </form>
-    <div class="mb-2" style="margin-left:15px">
+    <div class="mb-2"  style="margin-left:15px">
       <div>
+        <label for="hora" class="block text-sm font-medium leading-6 text-gray-900">Horário Consulta</label>
+        <select  id="hora" name="hora" autocomplete="hora" [(ngModel)]="hora"
+          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+          <option>07:00</option>
+          <option>08:00</option>
+          <option>09:00</option>
+          <option>10:00</option>
+          <option>11:00</option>
+        </select>
+      </div>
         <label for="motivoConsulta" class="block text-sm font-medium leading-6 text-gray-900">Motivo Consulta</label>
         <div>
           <select id="motivoConsulta" name="motivoConsulta" autocomplete="motivoConsulta"
+            [(ngModel)]="consultas.motivoConsulta"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+            <option value="" disabled selected hidden>Selecione</option>
             <option>Consulta Ginecológica</option>
             <option>Consulta Especializada</option>
             <option>Consulta de Emergência</option>
@@ -30,19 +42,20 @@
             <option>Consulta de Pediátrica</option>
           </select>
         </div>
-      </div>
     </div>
-   <div>
-    <label for="dataConsulta" class="block text-sm font-medium leading-6 text-gray-900">Data Consulta</label>
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker"  [(ngModel)]="consultas.dataConsulta" [min]="minDate">
-      <mat-hint>dd/mm/aa</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-    </mat-form-field>
-   
-    
-   </div>
+    <!-- Date Selector -->
+    <div class="mr-2">
+      <label for="dataConsulta" class="block text-sm font-medium leading-6 text-gray-900">Data Consulta</label>
+      <mat-form-field>
+        <input
+        placeholder="Selecione aqui"
+          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          matInput [matDatepicker]="picker" [(ngModel)]="consultas.dataConsulta" [min]="minDate">
+        <mat-hint>mm/dd/aa</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+      </mat-form-field>
+    </div>
   </div>
   <div class="mt-10 flex items-center justify-center gap-x-6">
     <button (click)="backHome()"

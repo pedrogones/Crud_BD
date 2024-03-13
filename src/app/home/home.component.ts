@@ -3,11 +3,12 @@ import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
 import { CommonModule } from '@angular/common';
 import { Consultas } from '../models/Consultas';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule ],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -15,35 +16,28 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-      this.consultas;
+      this.index();
 
   }
 
-  constructor(private sharedService: SharedService, private http: AuthService) { }
+  constructor(private matSnack:MatSnackBar, private sharedService: SharedService, private http: AuthService) { }
 
+  consultas: Consultas[] = [];
+  minDate = Date();
   index(){
-
+  this.http.index().subscribe(
+    (data: Consultas[]) => {
+      this.consultas = data;
+    },
+    error => {
+      console.error('Ocorreu um erro ao buscar as consultas:', error);
+    }
+  );
   }
 
-  consultas: Consultas[] = [
-    {
-      id: 1,
-      nomePaciente: 'Pedro Gomes',
-      nomeMedico: 'João Marcos',
-      dataConsulta: '20/03, 08:30',
-      motivoConsulta: 'Consulta Especializada',
-    },
-    {
-      id: 2,
-      nomePaciente: 'Victor Gomes',
-      nomeMedico: 'João Antônio',
-      dataConsulta: '20/03, 09:30',
-      motivoConsulta: 'Consulta de Rotina',
-    }
-  ];
 
     delete(id: number) {
-      this.http.delete(id)
+    
     }
 
 
@@ -54,4 +48,6 @@ export class HomeComponent implements OnInit {
     redirectUpdate(id: number) {
       this.sharedService.update(id);
     }
+
+    
 }
