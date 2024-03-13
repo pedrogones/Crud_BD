@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
 import { CommonModule } from '@angular/common';
 import { Consultas } from '../models/Consultas';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -19,10 +20,10 @@ export class HomeComponent implements OnInit {
 
   }
 
-  constructor(private sharedService: SharedService, private http: AuthService) { }
+  constructor(private matSnack:MatSnackBar, private sharedService: SharedService, private http: AuthService) { }
 
   consultas: Consultas[] = [];
-
+  minDate = Date();
   index(){
   this.http.index().subscribe(
     (data: Consultas[]) => {
@@ -37,7 +38,6 @@ export class HomeComponent implements OnInit {
 
     delete(id: number) {
     
-      this.http.delete(id)
     }
 
 
@@ -48,4 +48,6 @@ export class HomeComponent implements OnInit {
     redirectUpdate(id: number) {
       this.sharedService.update(id);
     }
+
+    
 }
