@@ -63,32 +63,24 @@ export class CreateComponent implements OnInit {
       const dataConsultaFormatada = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
       this.consultas.dataConsulta = dataConsultaFormatada;
     }
-    console.log(this.consultas);
     if (this.validate_inputs(this.consultas)) {
       this.http.create(this.consultas).pipe(
         delay(2000) // Atraso de 2 segundos
       ).subscribe(
         (response: any) => {
-          console.log(response);
-          console.log('Consulta criada com sucesso!');
-          // Implemente aqui a lógica para retornar à tela anterior
+         this.sharedService.openDialog("Consulta criada com Sucesso");
           this.sharedService.home();
         },
         error => {
-          console.error('Ocorreu um erro ao criar a consulta:', error);
-          // Lógica para lidar com erro, se necessário
+          this.sharedService.openDialog("Ocorreu um erro ao criar a consulta")
         }
       );
     } else {
-      window.alert("Preencha todos os campos");
+     this.sharedService.openDialog('Preencha todos os campos!');
     }
-  }    
+  }
 
   backHome() {
     this.sharedService.home()
   }
-
-
-
-
 }

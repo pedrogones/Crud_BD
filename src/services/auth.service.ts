@@ -9,7 +9,7 @@ import { Consultas } from '../app/models/Consultas';
 export class AuthService {
   private readonly apiUrl = "/api/consultas";
   constructor(private http: HttpClient) { }
- 
+
   index(): Observable<Consultas[]> {
     return this.http.get<Consultas[]>(`${this.apiUrl}/all`).pipe(
       first()
@@ -32,6 +32,6 @@ export class AuthService {
   loadByID(_id: number){
     return this.http.get<Consultas>(`${this.apiUrl}/${_id}`)
    }
-   
+
 }
 

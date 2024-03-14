@@ -16,44 +16,53 @@ import { log } from 'console';
 })
 export class ConsultasComponent implements OnInit {
 
-  consultas:  Observable<Consultas[]>|undefined
-  
-  ngOnInit(): void {
-    delay(2000)  
-    this.index();
-  }
+  consultas:  Consultas[]=[]
 
+  consultaIsEmpty = true;
+  isContentVisible = false
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isContentVisible = true; // Define como true após o atraso de 5 segundos
+      this.index();
+    }, 1500);
+  }
   constructor( private sharedService: SharedService, private http: AuthService) {
-     this.index() 
+    // this.index()
     }
 
-  index() {
-    this.consultas = this.http.index()
- .pipe(
-  catchError(error =>{
-    console.log("Erro ao carregar o curso: "+error)
-    return of([]);
-  })
- );
-  }
+    index() {
+      this.http.index().subscribe(
+        (data: Consultas[]) => {
+          this.consultas = data;
+          this.consultaIsEmpty = false;
+        },
+        error => {
+          this.openDialog('Ocorreu um erro ao listar as consultas, tente novamente mais tarde');
+        }
+      );
+    }
+    openDialog(message: string) {
+      this.sharedService.openDialog(message)
+    }
+
   delete(consulta: Consultas) {
     this.http.delete(consulta.idConsulta!).subscribe(
     () => {
-      window.console.log('Removido Com Sucesso');
+      this.sharedService.openDialog("Curso removido com sucesso")
       this.index();
     }
     );
 
   }
 
-  
+
 
   redirectCreate() {
     this.sharedService.create();
   }
-  
+
   redirectUpdate(id: number) {
     this.sharedService.update(id);
   }
-  
+
 }
