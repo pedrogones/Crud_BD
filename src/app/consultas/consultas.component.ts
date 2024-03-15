@@ -41,6 +41,12 @@ export class ConsultasComponent implements OnInit {
         }
       );
     }
+
+    converterData(data: any): string {
+      return this.sharedService.converterData(data)
+      }
+
+
     openDialog(message: string) {
       this.sharedService.openDialog(message)
     }
@@ -48,7 +54,7 @@ export class ConsultasComponent implements OnInit {
   delete(consulta: Consultas) {
     this.http.delete(consulta.idConsulta!).subscribe(
     () => {
-      this.sharedService.openDialog("Curso removido com sucesso")
+      this.openDialog("Consulta removido com sucesso")
       this.index();
     }
     );

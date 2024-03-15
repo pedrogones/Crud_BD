@@ -44,7 +44,7 @@ export class UpdateComponent implements OnInit {
     this.route.params.subscribe(params => {
       const consultaId = +params['id']; // Use o operador + para converter o ID para número, se necessário
       this.http.loadByID(consultaId).subscribe(
-      
+
         consulta => {
           // Aqui você recebe o valor real da consulta quando o Observable for concluído
           this.consultaPage = consulta;
@@ -76,26 +76,27 @@ export class UpdateComponent implements OnInit {
       this.consultaPage.dataConsulta = dataConsultaFormatada;
       console.log(dataConsultaFormatada);
     }
-  
+
     console.log(this.consultaPage);
-  
+
     if (this.consultaPage.idConsulta !== null && this.consultaPage.idConsulta !== undefined) {
       console.log(this.consultaPage)
       this.http.update(this.consultaPage).pipe(
         delay(2000)
         ).subscribe(
-          () => {
-          this.sharedService.home();
-        },
-        error => {
-          console.error('Ocorreu um erro ao atualizar a consulta:', error);
-        }
+          (response: any) => {
+            this.sharedService.openDialog("Consulta atualizada com Sucesso");
+             this.sharedService.home();
+           },
+           error => {
+             this.sharedService.openDialog("Ocorreu um erro ao atualizar a consulta")
+           }
       );
     } else {
-      console.error('ID da consulta é nulo ou indefinido.');
+      this.sharedService.openDialog('ID da consulta é nulo ou indefinido.');
     }
   }
-  
+
 onCancel(){
  this.sharedService.consultas()
 }

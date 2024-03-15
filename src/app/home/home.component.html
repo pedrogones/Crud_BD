@@ -9,10 +9,14 @@
         <div  *ngFor="let consulta of consultas" class="bg-slate-300 borda-preta bg-white shadow-secondary-1 dark:bg-surface-dark dark:text-white text-surface rounded-lg mb-4">
             <div
                class="border-b-2 border-100 px-6 py-3 dark:border-white/10">
-              <div style="margin-left:10x;" class="flex items-center gap-x-4 text-xs text-xs font-medium leading-normal text-black shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
-                <a class="subpixel-antialiased" >Data da Consulta:</a>
-                <time datetime="2020-03-16" class="text-gray-500 text-xs font-medium leading-normal ">{{ consulta.dataConsulta }}</time><br>
-                </div>
+               <div style="margin-left:10px;" class="flex items-center gap-x-4 text-xs text-xs font-medium leading-normal text-black shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                <a class="subpixel-antialiased">Data da Consulta:</a>
+                <a class="text-gray-500 text-xs font-medium leading-normal ">
+                    {{ converterData(consulta.dataConsulta)}}
+                </a>
+                <br>
+            </div>
+
               <div class="flex items-center gap-x-4 text-xs" style="margin-top: 10px;">
                  <a class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Médico: {{ consulta.nomeMedico }}</a>
               </div>

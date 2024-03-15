@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { Subject, delay } from 'rxjs';
+import { Cons, Subject, delay } from 'rxjs';
 import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -25,7 +25,7 @@ export class CreateComponent implements OnInit {
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
 
-  hora = '';
+  hora!:string;
 
   ngOnInit(): void {
   }
@@ -52,19 +52,22 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
-  save(): void {
+  formatDataTodb(hora: string): any{
     if (this.consultas.dataConsulta instanceof Date) {
       const year = this.consultas.dataConsulta.getUTCFullYear();
       const month = (this.consultas.dataConsulta.getUTCMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
       const day = this.consultas.dataConsulta.getUTCDate().toString().padStart(2, '0');
-      const hours = this.hora.substring(0, 2); // Obtém as horas da string
-      const minutes = this.hora.substring(3); // Obtém os minutos da string
       const seconds = this.consultas.dataConsulta.getUTCSeconds().toString().padStart(2, '0');
-      const dataConsultaFormatada = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-      this.consultas.dataConsulta = dataConsultaFormatada;
+      const dataConsultaFormatada = `${year}-${month}-${day}T${hora}:${seconds}`;
+    return  dataConsultaFormatada;
     }
+  }
+  save(): void {
     if (this.validate_inputs(this.consultas)) {
-      this.http.create(this.consultas).pipe(
+      this.consultas.dataConsulta =  this.formatDataTodb(this.hora)
+      console.log(this.consultas.dataConsulta)
+      this.http.create(this.consultas)
+      .pipe(
         delay(2000) // Atraso de 2 segundos
       ).subscribe(
         (response: any) => {

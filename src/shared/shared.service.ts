@@ -32,4 +32,22 @@ export class SharedService {
     }, 1500);
 
   }
+
+
+  //formatando a data
+  converterData(data: any): string {
+    const dataHora = new Date(data); // Converter a string para um objeto Date
+    const dia = this.pad(dataHora.getDate());
+    const mes = this.pad(dataHora.getMonth() + 1);
+    const ano = dataHora.getFullYear();
+    const hora = this.pad(dataHora.getHours());
+    const minutos = this.pad(dataHora.getMinutes());
+    console.log(`${dia}/${mes}/${ano} às ${hora}:${minutos}`)
+    return `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
+  }
+
+  pad(numero: number): string {
+    return numero < 10 ? '0' + numero : numero.toString();
+  }
+
 }
