@@ -54,7 +54,7 @@ export class ConsultasComponent implements OnInit {
   delete(consulta: Consultas) {
     this.http.delete(consulta.idConsulta!).subscribe(
     () => {
-      this.openDialog("Consulta removido com sucesso")
+      this.openDialog("Consulta removida com sucesso")
       this.index();
     }
     );

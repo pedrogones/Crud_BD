@@ -25,7 +25,7 @@ export class CreateComponent implements OnInit {
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
 
-  hora!:string;
+  hora = "07:00";
 
   ngOnInit(): void {
   }
@@ -52,19 +52,21 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
-  formatDataTodb(hora: string): any{
+  formatDataTodb(): any{
     if (this.consultas.dataConsulta instanceof Date) {
       const year = this.consultas.dataConsulta.getUTCFullYear();
       const month = (this.consultas.dataConsulta.getUTCMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
       const day = this.consultas.dataConsulta.getUTCDate().toString().padStart(2, '0');
+      const hours = this.hora.substring(0, 2); // Obtém as horas da string
+      const minutes = this.hora.substring(3); // Obtém os minutos da string
       const seconds = this.consultas.dataConsulta.getUTCSeconds().toString().padStart(2, '0');
-      const dataConsultaFormatada = `${year}-${month}-${day}T${hora}:${seconds}`;
-    return  dataConsultaFormatada;
+      const dataConsultaFormatada = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+      return dataConsultaFormatada;
     }
   }
   save(): void {
     if (this.validate_inputs(this.consultas)) {
-      this.consultas.dataConsulta =  this.formatDataTodb(this.hora)
+      this.consultas.dataConsulta =  this.formatDataTodb()
       console.log(this.consultas.dataConsulta)
       this.http.create(this.consultas)
       .pipe(
