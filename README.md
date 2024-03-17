@@ -2,7 +2,7 @@ Pra instalar as dependencias, use:<br>
 npm install<br>
 npm install -g @angular/cli <br>
 
-ng serve pra rodar
+ng serve pra rodar<br>
 Cadastro:
 ![image](https://github.com/pedrogones/Crud_BD/assets/70417307/22ddaae5-adf9-4a06-aa16-9434098fb96b)
 Listando:
