@@ -1,6 +1,5 @@
 <div class="py-4 px-10 border-b border-gray-900/10 pb-12">
-  <h2 class="text-base font-semibold leading-7 text-gray-900">Atualizando a consulta de {{ consultaPage.nomePaciente }}</h2>
-  <p class="mt-4 text-lg leading-3 text-gray-300">updating</p>
+  <h2 class="text-base font-semibold leading-7 text-gray-900">Atualize aqui a consulta de {{ consultaPage.nomePaciente }}</h2>
 
   <div class="grid grid-cols-2">
     <form class="mb-2">
@@ -12,8 +11,15 @@
       </div>
       <label for="nomeMedico" class="block text-sm font-medium leading-6 text-gray-900">Médico para a consulta</label>
       <div>
-        <input type="text" [(ngModel)]="consultaPage.nomeMedico" name="nomeMedico" id="nomeMedico"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <select  id="consultaPage.nomeMedico" name="consultaPage.nomeMedico" autocomplete="consultaPage.nomeMedico" [(ngModel)]="consultaPage.nomeMedico"
+        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <option  value="" disabled selected hidden >{{ consultaPage.nomeMedico }}</option>
+        <option> Carlos Oliveira</option>
+          <option> Pedro Rodrigues </option>
+          <option>João Silva</option>
+          <option>Rafael Almeida</option>
+          <option>André Ferreira</option>
+        </select>
       </div>
     </form>
     <div class="mb-2" style="margin-left: 15px">
