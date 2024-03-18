@@ -89,7 +89,7 @@ export class UpdateComponent implements OnInit {
              this.sharedService.home();
            },
            error => {
-             this.sharedService.openDialog("Ocorreu um erro ao atualizar a consulta")
+             this.sharedService.openDialog("Ocorreu um erro ao atualizar a consulta, é possível que já haja ua consulta nesse horário ")
            }
       );
     } else {

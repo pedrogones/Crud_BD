@@ -77,7 +77,7 @@ export class CreateComponent implements OnInit {
           this.sharedService.home();
         },
         error => {
-          this.sharedService.openDialog("Ocorreu um erro ao criar a consulta")
+          this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. é possível que já haja uma consulta nesse horário!")
         }
       );
     } else {
