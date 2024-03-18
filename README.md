@@ -4,11 +4,12 @@ npm install -g @angular/cli <br>
 
 ng serve pra rodar<br>
 Cadastro:
-![image](https://github.com/pedrogones/Crud_BD/assets/70417307/22ddaae5-adf9-4a06-aa16-9434098fb96b)
+![image](https://github.com/pedrogones/Crud_BD/assets/70417307/d5b5c82c-70e4-482d-8bab-82a4fd04cf67)
 Listando:
-![image](https://github.com/pedrogones/Crud_BD/assets/70417307/8c9db4ba-51ff-4019-88f5-d604c154eb9b)
+![image](https://github.com/pedrogones/Crud_BD/assets/70417307/7b0f9a74-b8c1-4bc2-8463-f9c001be2c3a)
 Exibindo posts:
-![image](https://github.com/pedrogones/Crud_BD/assets/70417307/9b3f0118-bc69-4681-87b5-bafeef515854)
+![image](https://github.com/pedrogones/Crud_BD/assets/70417307/eba1926a-fdbb-4b9a-8d97-ea694e934b7b)
+
 
 Tambem tem as funcionalidades Atualizar e Remover
 
