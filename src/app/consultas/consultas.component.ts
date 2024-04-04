@@ -67,7 +67,7 @@ export class ConsultasComponent implements OnInit {
           }
         },
         error => {
-          this.openDialog('Ocorreu um erro ao buscar as consultas, tente novamente mais tarde');
+          this.openDialog('Nenhuma consulta encontrada para o paciente especificado.');
           this.index()
         }
       );
@@ -87,8 +87,8 @@ export class ConsultasComponent implements OnInit {
           }
         },
         error => {
-          this.openDialog('Ocorreu um erro ao buscar as consultas, tente novamente mais tarde');
-          this.index()
+          this.openDialog('Nenhuma consulta encontrada para o Médico especificado.');
+            this.index()
         }
       );
     }

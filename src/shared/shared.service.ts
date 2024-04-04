@@ -9,6 +9,7 @@ import { time } from 'console';
   providedIn: 'root'
 })
 export class SharedService {
+  horaFormatada!:string;
   constructor(private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
   consultas() {
     this.router.navigate([''], { relativeTo: this.route });
@@ -33,7 +34,11 @@ export class SharedService {
 
   }
 
-
+formatarHora(data: string):string{
+   const partes = data.split(' ');
+   const horaMinuto = partes[2].split(':');
+   return horaMinuto[0] + ':' + horaMinuto[1];
+}
   converterData(data: string): string {
     const dataHora = new Date(data); // Converter a string para um objeto Date
     const dia = this.pad(dataHora.getDate());
@@ -41,7 +46,6 @@ export class SharedService {
     const ano = dataHora.getFullYear();
     const hora = this.pad(dataHora.getHours());
     const minutos = this.pad(dataHora.getMinutes());
-
     return `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
   }
 

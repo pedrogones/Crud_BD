@@ -44,11 +44,10 @@ export class UpdateComponent implements OnInit {
     this.route.params.subscribe(params => {
       const consultaId = +params['id']; // Use o operador + para converter o ID para número, se necessário
       this.http.loadByID(consultaId).subscribe(
-
         consulta => {
-          // Aqui você recebe o valor real da consulta quando o Observable for concluído
           this.consultaPage = consulta;
-          console.log(this.consultaPage);
+          const datayhora = this.converterData(this.consultaPage.dataConsulta)
+          this.hora=this.sharedService.formatarHora(datayhora);
         },
         error => {
           console.error('Ocorreu um erro ao carregar a consulta por ID:', error);
@@ -62,7 +61,6 @@ export class UpdateComponent implements OnInit {
   }
 
   save() {
-    console.log(this.consultaPage.dataConsulta)
     if (this.consultaPage.dataConsulta instanceof Date) {
       // Obtendo os componentes da data
       const horaFormate = this.hora
@@ -71,16 +69,12 @@ export class UpdateComponent implements OnInit {
       const day = this.consultaPage.dataConsulta.getUTCDate().toString().padStart(2, '0');
       const seconds = this.consultaPage.dataConsulta.getUTCSeconds().toString().padStart(2, '0');
       const dataConsultaFormatada = `${year}-${month}-${day}T${horaFormate}:${seconds}`;
-      // Atualizar a propriedade dataConsulta
-      console.log(this.hora)
       this.consultaPage.dataConsulta = dataConsultaFormatada;
-      console.log(dataConsultaFormatada);
     }
 
     console.log(this.consultaPage);
 
     if (this.consultaPage.idConsulta !== null && this.consultaPage.idConsulta !== undefined) {
-      console.log(this.consultaPage)
       this.http.update(this.consultaPage).pipe(
         delay(2000)
         ).subscribe(
@@ -100,6 +94,9 @@ export class UpdateComponent implements OnInit {
 onCancel(){
  this.sharedService.consultas()
 }
+converterData(data: any): string {
+  return this.sharedService.converterData(data)
+  }
 
 
 }
