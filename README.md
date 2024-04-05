@@ -2,7 +2,9 @@ Pra instalar as dependencias, use:<br>
 npm install<br>
 npm install -g @angular/cli <br>
 
-ng serve pra rodar<br>
+ng serve pra rodar<br><br>
+<strong>Para renderizar os dados é necessário ter o ambiente da base de dados em execução<strong>
+<br>
 Agendar uma consulta:
 ![image](https://github.com/pedrogones/Crud_BD/assets/70417307/22548e0c-9015-406d-b29e-9cbded0220ce)
 Atualizar Consulta:
