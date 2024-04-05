@@ -3,11 +3,13 @@ npm install<br>
 npm install -g @angular/cli <br>
 
 ng serve pra rodar<br>
-Cadastro:
-![image](https://github.com/pedrogones/Crud_BD/assets/70417307/d5b5c82c-70e4-482d-8bab-82a4fd04cf67)
+Agendar uma consulta:
+![image](https://github.com/pedrogones/Crud_BD/assets/70417307/22548e0c-9015-406d-b29e-9cbded0220ce)
+Atualizar Consulta:
+![image](https://github.com/pedrogones/Crud_BD/assets/70417307/83ee6624-a814-4bfb-8d6c-90ee81c5bbc1)
 Listando:
 ![image](https://github.com/pedrogones/Crud_BD/assets/70417307/7b0f9a74-b8c1-4bc2-8463-f9c001be2c3a)
-Exibindo posts:
+Exibindo cards das consultas:
 ![image](https://github.com/pedrogones/Crud_BD/assets/70417307/eba1926a-fdbb-4b9a-8d97-ea694e934b7b)
 
 
