@@ -4,11 +4,13 @@ import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { UpdateComponent } from './consultas/update/update.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { LoginComponent } from './auth/login/login.component';
 
 
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path:'login', component:LoginComponent},
   {path: 'consultas', component: ConsultasComponent},
   {path: 'consultas/create', component: CreateComponent},
   { path:'consultas/update/:id', component: UpdateComponent }
