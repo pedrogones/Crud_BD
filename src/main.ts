@@ -3,6 +3,8 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SharedService } from './shared/shared.service';
+import { CommonModule } from '@angular/common';
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
@@ -11,13 +13,14 @@ bootstrapApplication(AppComponent, appConfig)
     standalone: true,
     templateUrl: './index.html',
     styleUrl: './styles.scss',
-    imports: [FormsModule, AppComponent]
+    imports: [FormsModule, AppComponent, CommonModule]
 })
   export class main{
 
-
-    home(){
-      console.log('deu certo')
+    authUser = 'mdico'
+    constructor(private sharedService: SharedService){}
+home(){
+      this.sharedService.home()
     }
     consultas(){
 

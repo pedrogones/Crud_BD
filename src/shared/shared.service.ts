@@ -12,7 +12,7 @@ export class SharedService {
   horaFormatada!:string;
   constructor(private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
   consultas() {
-    this.router.navigate([''], { relativeTo: this.route });
+    this.router.navigate(['dashboard'], { relativeTo: this.route });
   }
   home(){
     this.router.navigate(['consultas'], { relativeTo: this.route });

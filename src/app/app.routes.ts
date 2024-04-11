@@ -9,13 +9,12 @@ import { AppComponent } from './app.component';
 
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent
-  },
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
+  { path: 'dashboard', component: HomeComponent },
   { path: 'consultas', component: ConsultasComponent },
   { path: 'consultas/create', component: CreateComponent },
   { path: 'consultas/update/:id', component: UpdateComponent },
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
