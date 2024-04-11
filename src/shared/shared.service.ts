@@ -12,16 +12,16 @@ export class SharedService {
   horaFormatada!:string;
   constructor(private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
   consultas() {
-    this.router.navigate(['dashboard'], { relativeTo: this.route });
+    this.router.navigate(['/dashboard']);
   }
   home(){
-    this.router.navigate(['consultas'], { relativeTo: this.route });
+    this.router.navigate(['/consultas'], { relativeTo: this.route });
   }
   create(): void {
-    this.router.navigate(['consultas/create'], { relativeTo: this.route });
+    this.router.navigate(['/consultas/create'], { relativeTo: this.route });
   }
    update(id: number) {
-    this.router.navigate(['consultas/update', id], { relativeTo: this.route });
+    this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
   }
   openDialog(message: string) {
     const dialogRef = this.dialog.open(ErrorDialogComponent, {
