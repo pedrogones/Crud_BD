@@ -10,7 +10,15 @@ import { Cons, Subject, delay } from 'rxjs';
 import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
-
+interface paciente{
+  nome:string,
+  id: number
+}
+interface medico{
+  nome:string,
+  id: string,
+  especialidade: string,
+}
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -25,6 +33,11 @@ export class CreateComponent implements OnInit {
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
 
+  authUser=1;
+  paciente:paciente = {
+    nome: 'joao pedro',
+    id: 7
+  }
   hora = "07:00";
 
   ngOnInit(): void {
@@ -40,6 +53,12 @@ export class CreateComponent implements OnInit {
     dataConsulta: '',
     motivoConsulta: ''
   }
+  pacientes = [
+    { nome: 'Joao Gomes', id: 0 },
+    { nome: 'Maria Silva', id: 1 },
+    { nome: 'José Santos', id: 2 }
+];
+
 
   validate_inputs(consulta: Consultas): boolean {
     if (consulta.nomePaciente == '' ||
@@ -64,10 +83,12 @@ export class CreateComponent implements OnInit {
       return dataConsultaFormatada;
     }
   }
-  save(): void {
+  save(): void {if(this.authUser==1){
+    this.consultas.nomePaciente=this.paciente.id
+  }
     if (this.validate_inputs(this.consultas)) {
       this.consultas.dataConsulta =  this.formatDataTodb()
-      console.log(this.consultas.dataConsulta)
+      console.log(this.consultas)
       this.http.create(this.consultas)
       .pipe(
         delay(2000) // Atraso de 2 segundos
@@ -86,6 +107,10 @@ export class CreateComponent implements OnInit {
   }
 
   backHome() {
+   if(this.authUser==0){
     this.sharedService.home()
+   }else if(this.authUser==1){
+    this.sharedService.consultas()
+   }
   }
 }

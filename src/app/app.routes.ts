@@ -10,13 +10,13 @@ import { LayoutsComponent } from './layouts/layouts.component';
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona a rota inicial para o login
-  { path: 'login', component: LoginComponent }, // Rota para o LoginComponent
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: LayoutsComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redireciona a rota inicial dentro do layout para o dashboard
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: HomeComponent },
       { path: 'consultas', component: ConsultasComponent },
       { path: 'consultas/create', component: CreateComponent },

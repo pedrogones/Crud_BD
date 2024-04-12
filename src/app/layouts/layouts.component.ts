@@ -15,7 +15,7 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class LayoutsComponent {
 
-    authUser = 'medico'
+    authUser = 1
     constructor(private sharedService: SharedService, private router: Router){}
 home(){
       this.sharedService.home()
