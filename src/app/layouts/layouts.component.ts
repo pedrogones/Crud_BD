@@ -27,10 +27,14 @@ export class LayoutsComponent {
   loginRoute() {
     this.router.navigate(['/login']);
   }
+  profileRoute() {
+    this.menuAberto = false
+    this.router.navigate(['/perfil']);
+  }
 
 
   getPhoto() {
-    console.log("Entrou")
+    this.menuAberto = false
     return this.photoProfile.photoProfile("Pedro")
   }
 

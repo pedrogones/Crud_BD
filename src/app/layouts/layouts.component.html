@@ -24,8 +24,8 @@
           <div style="margin-top: 25px;">
             <div *ngIf="menuAberto" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
               <div class="py-1" role="none">
-                <button href="#" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0">Ver seu perfil</button>
-                <button href="#" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-1">Suas Consultas</button>
+                <button title="Visulaizar seu perfil" (click)="profileRoute()" routerLinkActive="router-link-active" href="" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0">Ver seu perfil</button>
+                <button href="" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-1">Suas Consultas</button>
                 <button title="logout" (click)="loginRoute()" routerLinkActive="router-link-active" href="" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-red-100 dark:bg-red-70" role="menuitem" tabindex="-1" id="menu-item-2">Logout</button>
               </div>
             </div>
