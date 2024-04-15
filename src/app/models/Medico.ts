@@ -4,6 +4,7 @@ export interface Medico {
   email: string;
   senha: string;
   especialidade: string;
+  role: number;
   // Campos opcionais
   telefone?: string;
   endereco?: string;
