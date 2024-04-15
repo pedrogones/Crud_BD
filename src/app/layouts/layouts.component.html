@@ -14,14 +14,24 @@
           </div>
         </div>
       </div>
-      <div class="hidden md:block">
-        <button title="logout" (click)="loginRoute()" routerLinkActive="router-link-active"  href="" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
-          </svg>
-        </button>
+      <div class="hidden md:flex md:items-center">
+        <div class="hidden md:flex md:items-center relative inline-block text-left">
+          <div>
+            <button type="button" (click)="menuAberto = !menuAberto" class="inline-flex w-full justify-center gap-x-1.5" id="menu-button" aria-expanded="true" aria-haspopup="true">
+              <img [src]="foto" alt="Foto de perfil" class="h-8 w-8 rounded-full" style="margin-right: 15px;">
+            </button>
+          </div>
+          <div style="margin-top: 25px;">
+            <div *ngIf="menuAberto" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+              <div class="py-1" role="none">
+                <button href="#" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0">Ver seu perfil</button>
+                <button href="#" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-1">Suas Consultas</button>
+                <button title="logout" (click)="loginRoute()" routerLinkActive="router-link-active" href="" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-red-100 dark:bg-red-70" role="menuitem" tabindex="-1" id="menu-item-2">Logout</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </nav>

@@ -33,7 +33,10 @@ export class CreateComponent implements OnInit {
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
 
-  authUser=1;
+  //para mudar o layout que será renderizado na tela mude a variavel authUser ára 1 ou 0
+  authUser=0;
+
+
   paciente:paciente = {
     nome: 'joao pedro',
     id: 7
