@@ -8,6 +8,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AppComponent } from './app.component';
 import { LayoutsComponent } from './layouts/layouts.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileMedicoComponent } from './profile-medico/profile-medico.component';
 
 
 export const routes: Routes = [
@@ -20,7 +21,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: HomeComponent },
       { path: 'consultas', component: ConsultasComponent },
-      { path: 'perfil', component: ProfileComponent },
+      { path: 'perfil-medico', component: ProfileMedicoComponent },
+      { path: 'perfil-paciente', component: ProfileComponent },
       { path: 'consultas/create', component: CreateComponent },
       { path: 'consultas/update/:id', component: UpdateComponent },
     ]

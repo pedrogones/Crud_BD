@@ -17,8 +17,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LayoutsComponent {
 
-  authUser = 0
-  constructor(private el: ElementRef, private renderer: Renderer2, private sharedService: SharedService, private router: Router, private photoProfile: AuthService) { }
+  authUser = 1
+  constructor(private sharedService: SharedService, private router: Router, private photoProfile: AuthService) { }
   home() {
     this.sharedService.home()
   }
@@ -29,7 +29,11 @@ export class LayoutsComponent {
   }
   profileRoute() {
     this.menuAberto = false
-    this.router.navigate(['/perfil']);
+    if(this.authUser==0){
+      this.router.navigate(['/perfil-medico']);
+    }else if(this.authUser==1){
+      this.router.navigate(['/perfil-paciente']);
+    }
   }
 
 

@@ -8,7 +8,7 @@ import { delay, merge, takeUntil } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
-import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+import { ResetPasswordComponent } from '../register-colaborator/reset-password.component';
 
 @Component({
   selector: 'app-login',
@@ -26,9 +26,11 @@ export class LoginComponent {
   // declarações dos inputs
   email = new FormControl('', [Validators.required, Validators.email])
   senha = new FormControl('', [Validators.required, Validators.minLength(6)])
+  tipoColab = new FormControl('')
+
   nome = new FormControl('', [Validators.required])
   cpf = new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)])
-  loginFormMedico: { email: string|null; password: string|null } = {email: '', password: ''};
+  loginFormMedico: { email: string|null; password: string|null; tipoColab: string|null } = {email: '', password: '', tipoColab: ''};
   loginFormPaciente: { nome: string|null; cpf: string|null } = { nome: '', cpf: '' };
   //
   constructor(private sharedService: SharedService, private http: AuthService, public dialog: MatDialog){
@@ -57,11 +59,15 @@ export class LoginComponent {
       this.errorMessage = '';
     }
 }
+changeValue(tipoUser:any){
+  this.tipoColab = tipoUser;
+}
 //chamadas do metodo http
-  async loginMedico(authUser: string, email:FormControl, senha: FormControl) {
-    if (authUser === 'medico') {
+  async loginMedico(tipoColab: string, email:FormControl, senha: FormControl, ) {
+    if (tipoColab === 'medico') {
       this.loginFormMedico.email = this.email.value
       this.loginFormMedico.password = this.senha.value
+      this.loginFormMedico.tipoColab = this.tipoColab.value
       if(email.invalid||senha.invalid){
         this.sharedService.openDialog("Preencha os campos!")
       }else{
@@ -72,7 +78,18 @@ export class LoginComponent {
         this.sharedService.consultas()
       }
     }else{
-      this.sharedService.openDialog("Ocorreu um erro")
+      this.loginFormMedico.email = this.email.value
+      this.loginFormMedico.password = this.senha.value
+      this.loginFormMedico.tipoColab = this.tipoColab.value
+      if(email.invalid||senha.invalid){
+        this.sharedService.openDialog("Preencha os campos!")
+      }else{
+        console.log(this.loginFormMedico)
+        this.sharedService.openDialog("Entrando!")
+        delay(2000)
+        //this.http.loginMedico(email, senha)
+        this.sharedService.consultas()
+      }
     }
   }
 loginPaciente(authUser: string, nome: FormControl, cpf: FormControl){
