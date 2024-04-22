@@ -1,79 +1,145 @@
 <div class="py-4 px-10 border-b border-gray-900/10 pb-12">
-  <h2 class="text-base font-semibold leading-7 text-gray-900">Atualize aqui a consulta de {{ consultaPage.nomePaciente }}</h2>
 
-  <div class="items-center bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-    <form class="mb-2">
-      <div class="flex mb-4">
-        <div class="w-1/2 px-2">
-          <label for="nomePaciente" class="block text-sm font-medium leading-6 text-gray-900">Nome completo do Paciente</label>
-        <div>
-          <input type="text" [(ngModel)]="consultaPage.nomePaciente" name="nomePaciente" id="nomePaciente"
-            autocomplete="name"
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-        </div>
-        <div class="w-1/2 px-2">
-          <label for="nomeMedico" class="block text-sm font-medium leading-6 text-gray-900">Médico para a consulta</label>
-        <div>
-          <select  id="consultaPage.nomeMedico" name="consultaPage.nomeMedico" autocomplete="consultaPage.nomeMedico" [(ngModel)]="consultaPage.nomeMedico"
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          <option  value="" disabled selected hidden >{{ consultaPage.nomeMedico }}</option>
-          <option> Carlos Oliveira</option>
-            <option> Pedro Rodrigues </option>
-            <option>João Silva</option>
-            <option>Rafael Almeida</option>
-            <option>André Ferreira</option>
+  <h2 class="text-base font-semibold leading-7 text-gray-900">Nesta seção você so pode atualizar o Tipo da Consulta</h2>
+  <div style="margin-top: 15px;" class="flex grid grid-cols-2 gap-4">
+    <div>
+      <ol class="relative border-s border-gray-200 dark:border-gray-700">
+        <li class="mb-10 ms-6">
+            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                </svg>
+            </span>
+            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">A data da sua consulta:</h3>
+            <div class="w-25 px-2">
+              <div class="w-40">
+                <div *ngIf="authUser!==0" >
+                  <button disabled (click)="menuData = !menuData" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    {{ consultaPage.dataConsulta }} ?? Selecionar data
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                      <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <div *ngIf="menuData" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                    <input type="date" [min]="minDate" [(ngModel)]="consultaPage.dataConsulta" class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-600 dark:focus:ring-gray-300 dark:focus:border-gray-300" placeholder="Selecione uma data">
+                    <button (click)="dataConsulta(consultaPage.dataConsulta)" class="block w-full px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900">Buscar</button>
+                  </div>
+                </div>
+                <div *ngIf="authUser==0" >
+                  <span class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">XX/XX/XXXX</span>
+                </div>
+              </div>
+            </div>
+        </li>
+        <li style="margin-top: 20px;" class="mb-10 ms-6">
+          <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+            <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                  </svg>
+                </span>
+        <div *ngIf="authUser!==0" >
+            <h3 class="mb-1 text-lg font-semibold text-white-900 dark:text-white">Selecione o médico disponível para essa data</h3>
+            <div class="w-25 px-2">
+             <select disabled id="nomeMedico" name="nomeMedico" autocomplete="nomeMedico" [(ngModel)]="consultaPage.nomeMedico" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="consultaPage.nomeMedico" disabled selected hidden>{{ consultaPage.nomeMedico }}</option>
+               <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" >André Ferreira</option>
+              </select>
+            </div>
+            </div>
+            <div *ngIf="authUser==0" >
+              <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Médico da sua consulta:</h3>
+
+              <span class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ consultaPage.nomeMedico }}</span>
+            </div>
+          </li>
+    </ol>
+    </div>
+
+    <div>
+    <ol class="relative border-s border-gray-200 dark:border-gray-700">
+      <li class="ms-6">
+        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+          <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+          </svg>
+        </span>
+        <div *ngIf="authUser!==0">
+        <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Selecione a hora da sua consulta</h3>
+       <div class="w-auto px-2">
+            <div class="w-64">
+              <button disabled (click)="selectHour = !selectHour" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Selecionar a hora
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            <div class="flex" *ngIf="selectHour" >
+              <ul id="timetable" class="grid w-full grid-cols-3 gap-2 mt-5">
+                <li>
+                   <input type="radio" id="10-am" value="" class="hidden peer" name="timetable">
+                   <label for="10-am"
+                      class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
+                   10:00 AM
+                   </label>
+                </li>
+                <li>
+                   <input type="radio" id="11-am" value="" class="hidden peer" name="timetable">
+                   <label for="11-am"
+                      class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
+                   11:00 AM
+                   </label>
+                </li>
+                <li>
+                   <input type="radio" id="1-30-pm" value="" class="hidden peer" name="timetable">
+                   <label for="1-30-pm"
+                      class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
+                   01:30 PM
+                   </label>
+                </li>
+                <li>
+                   <input type="radio" id="2-30-pm" value="" class="hidden peer" name="timetable">
+                   <label for="2-30-pm"
+                      class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
+                   02:30 PM
+                   </label>
+                </li>
+                <li>
+                   <input type="radio" id="3-30-pm" value="" class="hidden peer" name="timetable">
+                   <label for="3-30-pm"
+                      class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
+                   03:30 PM
+                   </label>
+                </li>
+             </ul>
+            </div>
+          </div>
+       </div>
+      </div>
+      <div *ngIf="authUser==0">
+        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Hora da sua consulta:</h3>
+
+        <span class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">HH:MM</span>
+
+      </div>
+      </li>
+      <li style="margin-top: 20px;" class="mb-10 ms-6">
+
+        <h2 class="text-base font-semibold leading-7 text-blue-900">Altere aqui</h2>
+        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+            <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+            </svg>
+        </span>
+        <h3 class="mb-1 text-lg font-semibold text-white-900 dark:text-white">Escolha o tipo da consulta</h3>
+        <div class="w-25 px-2">
+         <select  style="cursor: pointer;" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione aqui</option>
+           <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none">Primeira Consulta</option>
+           <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none">Consulta de Retorno</option>
           </select>
         </div>
-        </div>
-      </div>
-    </form>
-    <div class="flex mx-2">
-      <!-- Date Selector -->
-    <div style="margin-left: 45px;" class="w-1/3 px-2">
-      <label for="consultaPage.dataConsulta" class="block text-sm font-medium leading-6 text-gray-900">Data Consulta</label>
-      <mat-form-field>
-        <input
-          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          matInput [matDatepicker]="picker" [(ngModel)]="consultaPage.dataConsulta" [min]="minDate">
-        <mat-hint>mm/dd/aa</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="w-1/3 px-2">
-      <label for="motivoConsulta" class="block text-sm font-medium leading-6 text-gray-900">Motivo Consulta</label>
-      <div>
-        <select id="motivoConsulta" name="motivoConsulta" autocomplete="motivoConsulta"
-        [(ngModel)]="consultaPage.motivoConsulta"
-        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-        <option value="" disabled selected hidden>{{ consultaPage.motivoConsulta }}</option>
-        <option>Consulta Ginecológica</option>
-        <option>Consulta Especializada</option>
-        <option>Consulta de Emergência</option>
-        <option>Consulta de Rotina ou Preventiva</option>
-        <option>Consulta de Pediátrica</option>
-      </select>
-    </div>
+      </li>
+    </ol>
   </div>
-  <div class="w-1/3 px-2">
-    <label for="hora" class="block text-sm font-medium leading-6 text-gray-900">Horário Consulta</label>
-    <select [(ngModel)]="hora" id="hora" name="hora" autocomplete="hora"
-      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-      <option value="" disabled selected hidden>Melhor horário</option>
-      <option>07:00</option>
-      <option>08:00</option>
-      <option>09:00</option>
-      <option>10:00</option>
-      <option>11:00</option>
-    </select>
   </div>
-</div>
-    <div style="margin-bottom: 15px;" class="mt-10 flex items-center justify-center gap-x-6">
-      <button (click)="backHome()"
-        class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cancelar</button>
-      <button (click)="save()"
-        class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
-    </div>
   </div>
-</div>

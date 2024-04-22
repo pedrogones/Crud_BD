@@ -10,6 +10,7 @@ import { Cons, Subject, delay } from 'rxjs';
 import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AuthUser } from '../../models/AuthUser';
 interface paciente{
   nome:string,
   id: number
@@ -28,20 +29,30 @@ interface medico{
   styleUrl: './create.component.scss',
   providers: [provideNativeDateAdapter()],
 })
+
 export class CreateComponent implements OnInit {
   @ViewChild(DatePickerComponent)
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
 
   //para mudar o layout que será renderizado na tela mude a variavel authUser ára 1 ou 0
-  authUser=1;
-
+  authUser=0;
+  menuData=false
+  dataFilter =''
+  private authUser1: AuthUser = {
+    id: 0,
+    nome: '',
+    role: -1,
+    chavePrimaria: '',
+    email: '',
+    senha: ''
+  };
 
   paciente:paciente = {
     nome: 'joao pedro',
     id: 7
   }
-  hora = "07:00";
+  hora = '';
 
   ngOnInit(): void {
   }
@@ -74,6 +85,16 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
+  availableTimes = [
+    { value: '10:00' },
+    { value: '11:00' },
+    { value: '13:30'}
+  ];
+  setHora(hora: string){
+    this.selectHour = false;
+   this.hora = hora; 
+  }
+
   formatDataTodb(): any{
     if (this.consultas.dataConsulta instanceof Date) {
       const year = this.consultas.dataConsulta.getUTCFullYear();
@@ -87,7 +108,7 @@ export class CreateComponent implements OnInit {
     }
   }
   save(): void {if(this.authUser==1){
-    this.consultas.nomePaciente=this.paciente.id
+    this.consultas.nomePaciente=this.paciente.nome
   }
     if (this.validate_inputs(this.consultas)) {
       this.consultas.dataConsulta =  this.formatDataTodb()
@@ -108,7 +129,7 @@ export class CreateComponent implements OnInit {
      this.sharedService.openDialog('Preencha todos os campos!');
     }
   }
-
+  selectHour = false
   backHome() {
    if(this.authUser==0){
     this.sharedService.home()
@@ -116,4 +137,10 @@ export class CreateComponent implements OnInit {
     this.sharedService.consultas()
    }
   }
+
+  dataConsulta(data: any) {
+    this.menuData = false;
+   console.log(data)
+  }
+
 }
