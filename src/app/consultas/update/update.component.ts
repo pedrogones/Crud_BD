@@ -40,6 +40,7 @@ export class UpdateComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  authUser = 0
   ngOnInit() {
     this.route.params.subscribe(params => {
       const consultaId = +params['id']; // Use o operador + para converter o ID para número, se necessário
@@ -98,5 +99,11 @@ converterData(data: any): string {
   return this.sharedService.converterData(data)
   }
 
-
+  menuData=false
+  selectHour = false
+  dataConsulta(data: any) {
+    this.menuData = false;
+   console.log(data)
+  }
 }
+

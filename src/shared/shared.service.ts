@@ -3,6 +3,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ErrorDialogComponent } from '../app/shared/components/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { time } from 'console';
+import { PermissionsService } from '../app/controller/permissions.service';
 
 
 @Injectable({
@@ -10,8 +11,17 @@ import { time } from 'console';
 })
 export class SharedService {
   horaFormatada!:string;
-  constructor(private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
+  constructor(private permissions: PermissionsService, private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
   consultas() {
+    this.router.navigate(['/dashboard']);
+  }
+  consultasAndId(role: any) {
+    this.permissions.setRole(role)
+    this.router.navigate(['/dashboard']);
+  }
+  consultasPorChave(role: any, cpf: any){
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(cpf);
     this.router.navigate(['/dashboard']);
   }
   home(){
@@ -20,9 +30,10 @@ export class SharedService {
   create(): void {
     this.router.navigate(['/consultas/create'], { relativeTo: this.route });
   }
-   update(id: number) {
+  update(id: any) {
     this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
   }
+
   openDialog(message: string) {
     const dialogRef = this.dialog.open(ErrorDialogComponent, {
       data: message,
@@ -48,7 +59,20 @@ formatarHora(data: string):string{
     const minutos = this.pad(dataHora.getMinutes());
     return `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
   }
-
+  dateRigthFormat(data: string): string {
+    const dataHora = new Date(data); // Converter a string para um objeto Date
+    const dia = this.pad(dataHora.getDate());
+    const mes = this.pad(dataHora.getMonth() + 1);
+    const ano = dataHora.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  }
+formatData(data: any){
+  const dataHora = new Date(data); // Converter a string para um objeto Date
+  const dia = this.pad(dataHora.getDate());
+  const mes = this.pad(dataHora.getMonth() + 1);
+  const ano = dataHora.getFullYear();
+  return `${ano}-${mes}-${dia}`
+}
 
   pad(numero: number): string {
     return numero < 10 ? '0' + numero : numero.toString();

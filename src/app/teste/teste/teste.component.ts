@@ -1,36 +1,28 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { SharedService } from '../../../shared/shared.service';
-import { Consultas } from '../../models/Consultas';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { Cons, Subject, delay } from 'rxjs';
-import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
+import { Component, ViewChild } from '@angular/core';
+import { delay } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
-import { CommonModule } from '@angular/common';
+import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
+import { SharedService } from '../../../shared/shared.service';
 import { AuthUser } from '../../models/AuthUser';
+import { Consultas } from '../../models/Consultas';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 interface paciente{
   nome:string,
   id: number
 }
-interface medico{
-  nome:string,
-  id: string,
-  especialidade: string,
-}
 @Component({
-  selector: 'app-create',
+  selector: 'app-teste',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.scss',
-  providers: [provideNativeDateAdapter()],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule],
+  templateUrl: './teste.component.html',
+  styleUrl: './teste.component.scss'
 })
-
-export class CreateComponent implements OnInit {
+export class TesteComponent {
   @ViewChild(DatePickerComponent)
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
@@ -52,7 +44,7 @@ export class CreateComponent implements OnInit {
     nome: 'joao pedro',
     id: 7
   }
-  hora = '';
+  hora = "07:00";
 
   ngOnInit(): void {
   }
@@ -85,16 +77,6 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
-  availableTimes = [
-    { value: '10:00' },
-    { value: '11:00' },
-    { value: '13:30'}
-  ];
-  setHora(hora: string){
-    this.selectHour = false;
-   this.hora = hora; 
-  }
-
   formatDataTodb(): any{
     if (this.consultas.dataConsulta instanceof Date) {
       const year = this.consultas.dataConsulta.getUTCFullYear();
@@ -129,7 +111,7 @@ export class CreateComponent implements OnInit {
      this.sharedService.openDialog('Preencha todos os campos!');
     }
   }
-  selectHour = false
+
   backHome() {
    if(this.authUser==0){
     this.sharedService.home()
