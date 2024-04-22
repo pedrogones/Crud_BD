@@ -16,7 +16,7 @@ export class ProfileMedicoComponent {
 
   getFoto(){
     console.log('entrou')
-    return this.http.photoProfile("Severino");
+    return this.http.photoProfile("Pedro");
   }
 
 }
