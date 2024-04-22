@@ -1,0 +1,38 @@
+<mat-dialog-content class="mat-typography">
+  <section class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Crie aqui sua conta
+                </h1>
+                <p class="text-sm ml-2 hover:text-blue-500  hover:-translate-y-1 duration-500 transition-all">Não esqueça suas credenciais</p>
+
+                <form class="space-y-4 md:space-y-6" #loginForm="ngForm" (ngSubmit)="registerPaciente()">
+                    <div>
+                        <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seu nome</label>
+                        <input matInput [formControl]="nome" (blur)="updateErrorMessage(nome)" type="text" name="nome" id="nome" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Digite seu nome" required="">
+                        @if ( nome.invalid) {
+                          <mat-error class="text-red-500">{{ nomeErroMessage }}</mat-error>
+                        }
+                      </div>
+                    <div>
+                        <label for="cpf" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seu Cpf</label>
+                        <input matInput [formControl]="cpf" (blur)="updateErrorMessage(cpf)" type="text" name="cpf" id="cpf" placeholder="000.000.000-00" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                        @if ( cpf.invalid) {
+                          <mat-error class="text-red-500">{{ cpfErroMessage }}</mat-error>
+                        }
+                      </div>
+                    <button type="submit" class="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Cadastrar-se</button>
+                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                       Ja tem conta? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Tente fazer o login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

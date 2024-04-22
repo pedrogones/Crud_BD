@@ -10,10 +10,19 @@
           <label for="nomePaciente" class="block text-sm font-medium leading-6 text-gray-900">Nome completo do
             Paciente</label>
           <div>
-            <input placeholder="Digite aqui" type="text" [(ngModel)]="consultas.nomePaciente" name="nomePaciente" id="nomePaciente"
+            <div *ngIf="authUser === 0">
+              <select [(ngModel)]="consultas.nomePaciente" name="nomePaciente" id="nomePaciente" autocomplete="name"
+                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option value="" disabled selected hidden>Selecione o paciente</option>
+                <option *ngFor="let paciente of pacientes" [value]="paciente.id">{{ paciente.nome }}</option>
+              </select>
+            </div>
+            <div *ngIf="authUser === 1">
+              <input disabled placeholder="Digite aqui" type="text" value="{{paciente.nome}}" name="nomePaciente" id="nomePaciente"
               autocomplete="name"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
+            </div>
+            </div>
         </div>
         <div class="w-1/2 px-2">
           <label for="nomeMedico" class="block text-sm font-medium leading-6 text-gray-900">Médico para a consulta</label>
