@@ -1,0 +1,40 @@
+<div class="overflow-y-auto overflow-x-hidden top-15 right-15 left-15 z-50 justify-center items-center w-full md:inset-0 max-h-full">
+  <div class="object-center bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-3xl dark:bg-gray-800 dark:border-gray-700">
+
+    <div class="rounded-lg  w-auto overflow-hidden shadow-lg bg-white m-4">
+      <div class="flex flex-col">
+        <div class="border-b">
+          <div class="text-xl text-center">
+            <p class="text-xl font-bold mt-6 mb-4">Gerar Relatório</p>
+            <p class="text-xl mt-6 mb-4">Para gerar o relatório ...</p>
+          </div>
+        </div>
+        <div class="col-1 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <div class="flex px-8 gap-4 text-center mt-5 mb-5">
+            <div>
+              <label for="startDatePicker" class="text-lg font-semibold">Data de Início</label> <br>
+              <input  id="startDatePicker" class="rounded px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500" type="date" placeholder="Selecione a data de início">
+            </div>
+            <div>
+              <label for="endDatePicker" class="text-lg font-semibold mt-4">Data de Término</label> <br>
+              <input [(ngModel)]="dateEnd" id="endDatePicker" class="rounded px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500" type="date" placeholder="Selecione a data de término">
+            </div>
+          </div>
+          <div *ngIf="authUser === 2" class="flex justify-center px-8 gap-4 text-center mt-5 mb-5">
+            <div>
+              <label for="selectMedico" class="text-lg font-semibold">Selecione o médico</label> <br>
+              <select id="selectMedico" class="rounded px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="medicoSelect">
+                <option  class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected>Selecione um médico</option>
+                <option  class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.nome">{{ medico.nome }}</option>
+              </select>
+            </div>
+          </div>
+      </div>
+
+        <div class="flex space-x-4">
+          <button mat-dialog-close (click)="gerarRelatorio()"
+            class="w-1/2 block w-full bg-blue-600 mt-5 py-2 rounded-2xl hover:bg-blue-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Gerar Relatório</button>
+        </div>
+      </div>
+    </div>
+</div>
