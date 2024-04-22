@@ -14,7 +14,7 @@
     <div class="w-full px-8 md:px-32 lg:px-24">
       <h1 class="text-gray-800 font-bold text-2xl mb-1">Olá novamente!</h1>
       <div *ngIf="authUser === 'medico'; else pacienteForm">
-        <form class="bg-white rounded-md shadow-2xl p-5" #loginForm="ngForm" (ngSubmit)="loginMedico(authUser, email, senha)">
+        <form class="bg-white rounded-md shadow-2xl p-5" #loginForm="ngForm" (ngSubmit)="loginMedico(tipoColab, email, senha)">
           <p class="text-sm font-normal text-gray-600 mb-8">Login como Colaborador</p>
           <div class="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -38,13 +38,13 @@
           </div>
           <div class="flex items-start" style="margin-left: 10px;">
             <div class="flex items-center h-5">
-                <input [formControl]="tipoColab" id="medico" name="tipoUsuario" value="medico" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
+                <input [formControl]="tipoColab" id="medico" name="tipoUsuario" value="1" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
             </div>
             <div class="ml-3 text-sm">
                 <label for="medico" class="font-light text-gray-500 dark:text-gray-300">Médico</label>
             </div>
             <div class="flex items-center h-5 ml-6">
-                <input id="admin" [formControl]="tipoColab" name="tipoUsuario" value="administrador" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
+                <input id="admin" [formControl]="tipoColab" name="tipoUsuario" value="2" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
             </div>
             <div class="ml-3 text-sm">
                 <label for="admin" class="font-light text-gray-500 dark:text-gray-300">Administrador</label>
@@ -57,7 +57,7 @@
       </div>
       </div>
       <ng-template #pacienteForm>
-        <form class="bg-white rounded-md shadow-2xl p-5" #loginForm="ngForm" (ngSubmit)="loginPaciente(authUser, nome, cpf)">
+        <form class="bg-white rounded-md shadow-2xl p-5" #loginForm="ngForm" (ngSubmit)="loginPaciente(0, nome, cpf)">
           <p class="text-sm font-normal text-gray-600 mb-8">Login como paciente</p>
           <div class="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
               <path fill-rule="evenodd" d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
             </svg>
-            <input matInput [formControl]="cpf" class="pl-2 w-full outline-none border-none" type="text" required name="cpf" id="cpf" placeholder="Digite seu Cpf"/>
+            <input matInput [formControl]="cpf" (input)="formatCpf($event)" class="pl-2 w-full outline-none border-none" type="text" required name="cpf" id="cpf" placeholder="Digite seu Cpf"/>
             <div class="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
               @if ( cpf.invalid) {
                 <mat-error class="text-red-500">{{ cpfErrorMessage }}</mat-error>

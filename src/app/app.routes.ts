@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LayoutsComponent } from './layouts/layouts.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileMedicoComponent } from './profile-medico/profile-medico.component';
+import { TesteComponent } from './teste/teste/teste.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: HomeComponent },
+      { path: 'teste', component: TesteComponent },
       { path: 'consultas', component: ConsultasComponent },
       { path: 'perfil-medico', component: ProfileMedicoComponent },
       { path: 'perfil-paciente', component: ProfileComponent },
