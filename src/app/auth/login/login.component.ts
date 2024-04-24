@@ -4,12 +4,16 @@ import { SharedService } from '../../../shared/shared.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { AuthService } from '../../../services/auth.service';
-import { delay, merge, takeUntil } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { ResetPasswordComponent } from '../register-colaborator/reset-password.component';
-import { ActivatedRoute } from '@angular/router';
+import { PacienteService } from '../../../services/pacientesServices/paciente.service';
+import { Paciente } from '../../models/Paciente';
+import { MedicosService } from '../../../services/medicoServices/medicos.service';
+import { AdminService } from '../../../services/adminServices/admin.service';
+import { Medico } from '../../models/Medico';
+import { Admin } from '../../models/Admin';
 
 @Component({
   selector: 'app-login',
@@ -18,24 +22,25 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent{
-  constructor( private sharedService: SharedService, private http: AuthService, public dialog: MatDialog){
-    merge(this.email.statusChanges, this.email.valueChanges).subscribe(()=>this.updateErrorMessage(this.email));
-    merge(this.senha.statusChanges, this.senha.valueChanges).subscribe(()=>this.updateErrorMessage(this.senha));
-    merge(this.nome.statusChanges, this.nome.valueChanges).subscribe(()=>this.updateErrorMessage(this.nome));
-    merge(this.cpf.statusChanges, this.cpf.valueChanges).subscribe(()=>this.updateErrorMessage(this.cpf));
+export class LoginComponent implements OnInit {
 
+  ngOnInit(): void {
+      localStorage.clear()
+  }
+
+  constructor(private pacienteService: PacienteService, private medicoService: MedicosService, private admService: AdminService, private sharedService: SharedService, private http: AuthService, public dialog: MatDialog){
+  
   }
 
   authUser = 'medico';
   errorMessage = '';
-  emailErrorMessage='';
+  crmErrorMessage='';
   nomeErrorMessage='';
   cpfErrorMessage='';
   // declarações dos inputs
-  email = new FormControl('', [Validators.required, Validators.email])
+ request = new FormControl('', [Validators.required])
   senha = new FormControl('', [Validators.required, Validators.minLength(6)])
-  tipoColab = new FormControl(-1)
+  tipoColab = new FormControl('1')
 
   nome = new FormControl('', [Validators.required])
   cpf = new FormControl('', [Validators.required, Validators.minLength(14)])
@@ -47,12 +52,10 @@ export class LoginComponent{
   updateErrorMessage(field: FormControl){
     if(field.hasError('required')){
       this.errorMessage = 'Esse campo é obrigatório!';
-      this.emailErrorMessage = 'Esse campo é obrigatório!';
+      this.crmErrorMessage = 'Esse campo é obrigatório!';
       this.nomeErrorMessage = 'Esse campo é obrigatório!';
       this.cpfErrorMessage = 'Esse campo é obrigatório!';
 
-    } else if(field.hasError('email')){
-      this.emailErrorMessage = 'Coloque um email válido!';
     } else if(field.hasError('minlength')){
       this.errorMessage = 'No mínimo 6 caracteres!';
       this.cpfErrorMessage = 'No mínimo 11 caracteres!';
@@ -64,43 +67,88 @@ changeValue(tipoUser:any){
   this.tipoColab = tipoUser;
 }
 //chamadas do metodo http
-  async loginMedico(tipoColab: FormControl, email:FormControl, senha: FormControl, ) {
-   this.loginFormMedico.email = this.email.value
-   this.loginFormMedico.password = this.senha.value
-   this.loginFormMedico.tipoColab = this.tipoColab.value
-   if(email.invalid||senha.invalid){
-    this.sharedService.openDialog("Preencha todos campos!")
-   } else if(tipoColab.value===-1){
+  async loginMedico(pk: FormControl) {
+    if(pk.invalid){ this.sharedService.openDialog("Preencha o campo"); return}
+   let pkAuth = pk.value;
+   if(this.tipoColab.value==='-1'){
     this.sharedService.openDialog("Você precisa dizer se é Medico ou Administrador")
     }
-    if(tipoColab.value==1){
-     console.log('Médico: '+this.loginFormMedico)
-      this.sharedService.openDialog("Entrando!")
-        delay(2000)
-        //this.http.loginMedico(email, senha)
-        this.sharedService.consultasPorChave(1, this.loginFormMedico.password)
-
-    } else if(tipoColab.value==2){
-       console.log('Adm: '+this.loginFormMedico)
-       this.sharedService.openDialog("Entrando!")
-        delay(2000)
-        //this.http.loginMedico(email, senha)
-        this.sharedService.consultasPorChave(2, null)
+    if (this.tipoColab.value == '1') {
+      console.log('Médico: ' + pkAuth)
+      this.sharedService.openDialog("Aguarde um momento.")
+      this.medicoService.getMedicoPorCrm(pkAuth).subscribe(
+        (data: Medico) => {
+          if (data.crm == pkAuth) {
+            localStorage.setItem('chavePrimaria', data.crm);
+            localStorage.setItem('role', '1');
+            localStorage.setItem('nomeUser', data.nomeMedico);
+            this.sharedService.openDialog("Entrando!")
+            this.sharedService.consultas();
+          }
+        }, (erro) => {
+          console.log(erro)
+          this.sharedService.openDialog("Credencial inválida!");
+        }
+      )
+    } else if (this.tipoColab.value == '2') {
+      console.log('Adm: ' + pkAuth)
+      this.sharedService.openDialog("Aguarde um momento.")
+      this.admService.loadByCpf(pkAuth).subscribe(
+        (data: Admin) => {
+          if (data.cpfAdmin == pkAuth) {
+            localStorage.setItem('chavePrimaria', data.cpfAdmin);
+            localStorage.setItem('role', '2');
+            localStorage.setItem('nomeUser', data.nomeAdmin);
+            this.sharedService.openDialog("Entrando!")
+            this.sharedService.consultas();
+          }
+        }, (erro) => {
+          console.log(erro)
+          this.sharedService.openDialog("Credencial inválida!");
+        }
+      )
     }
+    
   }
-loginPaciente(pacienteValue: number, nome: FormControl, cpf: FormControl){
-      this.loginFormPaciente.nome = this.nome.value
-      this.loginFormPaciente.cpf = this.cpf.value
-      this.loginFormPaciente.tipoColab = pacienteValue
-      if(nome.invalid||cpf.invalid){
-        this.sharedService.openDialog("Preencha os campos!")
-      }else{
-        this.sharedService.consultasPorChave(0, this.loginFormPaciente.cpf)
+  loginPaciente(cpf: FormControl) {
+    let pacienteLog!:Paciente;
+    this.loginFormPaciente.cpf = this.cpf.value;
+    console.log(this.loginFormPaciente.cpf);
+    
+    if (cpf.invalid) {
+      this.sharedService.openDialog("Preencha os campos!");
+      return; // Retorna para evitar que o restante do código seja executado se o formulário for inválido
+    }
+    this.pacienteService.loadByCpf(this.loginFormPaciente.cpf).subscribe(
+      (paciente: Paciente) => {
+        pacienteLog = paciente;
+        if (pacienteLog && pacienteLog.cpfPaciente == this.loginFormPaciente.cpf) {
+          localStorage.setItem('chavePrimaria', pacienteLog.cpfPaciente);
+          localStorage.setItem('role', '0');
+          localStorage.setItem('nomeUser', pacienteLog.nomePaciente);
+          this.sharedService.consultas();
+        } else {
+          this.sharedService.openDialog("CPF não encontrado ou inválido!");
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.sharedService.openDialog("Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.");
       }
+    );
   }
-
   changeDisplay(typeUser: string) {
      this.authUser = typeUser
+  }
+  changValueRequest(){
+    this.request.setValue('')
+  }
+  openDialog() {
+    const dialogRef = this.dialog.open(RegisterComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   formatCpf(event: any){
     let inputValue: string = event.target.value.toString();
@@ -116,12 +164,18 @@ loginPaciente(pacienteValue: number, nome: FormControl, cpf: FormControl){
     }
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(RegisterComponent);
+  formatCrm(event: any) {
+    let inputValue: string = event.target.value.toString();
+    const estadoMaxLength = 2;
+    const crmMaxLength = 6;
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+
+    if (inputValue.length > crmMaxLength) {
+      const crmPart = inputValue.slice(0, crmMaxLength);
+      const estadoPart = inputValue.slice(crmMaxLength, crmMaxLength + estadoMaxLength);
+      event.target.value = `${crmPart}/${estadoPart}`;
+    }
   }
   resetPassword(){
     const dialogRef = this.dialog.open(ResetPasswordComponent);
