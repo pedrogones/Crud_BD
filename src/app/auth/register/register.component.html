@@ -49,8 +49,8 @@
           </svg>
           <select [formControl]="sexo" id="countries"  class="pl-2 w-full outline-none border-none">
             <option selected>Selecione</option>
-            <option value="F">Feminino</option>
-            <option value="M">Masculino</option>
+            <option value="f">Feminino</option>
+            <option value="m">Masculino</option>
             </select>
             @if ( sexo.invalid) {
               <mat-error class="text-red-500">{{ sexoErroMessage }}</mat-error>
@@ -65,7 +65,7 @@
       <div class="flex space-x-4">
         <button mat-dialog-close
           class="w-1/2 block w-full bg-red-400 mt-5 py-2 rounded-2xl hover:bg-red-500 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Cancelar</button>
-        <button type="submit"
+        <button type="submit" mat-dialog-close
           class="w-1/2 block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Cadastrar</button>
       </div>
     </form>
