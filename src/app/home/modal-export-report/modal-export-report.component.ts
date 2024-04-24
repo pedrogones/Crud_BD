@@ -18,23 +18,15 @@ export class ModalExportReportComponent{
 medicoSelect = '';
 medicos: Medico[] = [
   {
-    idMedico: 1,
-    nome: 'João Gomi',
-    email: 'xxxxx',
-    senha: 'xxxxx',
-    especialidade: 'Cardiolo',
-    role: 1,
-    crm: '12312/pb'
-  },
-  {
-    idMedico: 2,
-    nome: 'Pedro Kahh',
-    email: 'xxxxx',
-    senha: 'xxxxx',
-    especialidade: 'Ginecolo',
-    role: 1,
-    crm: '13512/pb'
+    nomeMedico: 'ssssssssss',
+    crm: 'ssssssssss',
+    dataNascMedico: 'ssssssssss',
+    sexoMedico: 'ssssssssss',
+    emailMedico: 'ssssssssss',
+    celularMedico: 'ssssssssss',
+    tipoUsuario: 'ssssssssss'
   }
+
 ];
 
 authUser = 1;

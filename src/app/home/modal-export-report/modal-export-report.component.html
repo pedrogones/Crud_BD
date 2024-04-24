@@ -25,7 +25,7 @@
               <label for="selectMedico" class="text-lg font-semibold">Selecione o médico</label> <br>
               <select id="selectMedico" class="rounded px-3 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="medicoSelect">
                 <option  class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected>Selecione um médico</option>
-                <option  class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.nome">{{ medico.nome }}</option>
+                <option  class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.nomeMedico">{{ medico.nomeMedico }}</option>
               </select>
             </div>
           </div>
