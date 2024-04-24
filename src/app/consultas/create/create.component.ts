@@ -135,11 +135,7 @@ return '';
 
   tipoConsulta=""
   save(): void {
-    console.log(this.consultas.dataConsulta);
     let datayhora = this.formatDataTodb(this.hora);
-    console.log(this.consultas.dataConsulta);
-    console.log(this.selectedMedico);
-      // Obter dados do médico
       this.medicoService.getMedicoPorCrm(this.selectedMedico).subscribe(
         (medico) => {
           this.pacienteService.loadByCpf(this.pkUser).subscribe(
