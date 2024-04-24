@@ -1,13 +1,12 @@
-import { Consultas } from './../models/Consultas';
-import { AuthService } from '../../services/auth.service';
+
 import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
 import { CommonModule, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, catchError, delay, of } from 'rxjs';
-import { log } from 'console';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConsultaRequest } from '../models/ConsultaRequest';
+import { ConsultasService } from '../../services/consultasServices/consultas.service';
 
 @Component({
   selector: 'app-home',
@@ -18,17 +17,22 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ConsultasComponent implements OnInit {
   searchNome="";
-   searchMedico = "";
-  consultas: Consultas[] = [];
+  searchMedico = "";
+  consultas: ConsultaRequest[] = [];
   consultaIsEmpty = true;
   isContentVisible = false;
-  dataSource = new MatTableDataSource<Consultas>();
+  dataSource = new MatTableDataSource<ConsultaRequest>();
 
   displayedColumns: string[] = ['idConsulta', 'nomePaciente', 'nomeMedico', 'dataConsulta', 'motivoConsulta'];
 
-  constructor(private sharedService: SharedService, private http: AuthService) {}
+  constructor(private sharedService: SharedService, private consultaService: ConsultasService) {}
+
+  roleUser:any
+  pkUser:any
 
   ngOnInit(): void {
+    this.roleUser=localStorage.getItem('role')
+    this.pkUser = localStorage.getItem('chavePrimaria');
     setTimeout(() => {
       this.isContentVisible = true;
       this.index();
@@ -41,24 +45,18 @@ export class ConsultasComponent implements OnInit {
   }
 
   index() {
-    this.http.index().subscribe(
-      (data: Consultas[]) => {
-        this.consultas = data;
-        this.dataSource.data = this.consultas; // Adiciona os dados ao MatTableDataSource
-        this.consultaIsEmpty = this.consultas.length === 0;
-      },
-      error => {
-        this.openDialog('Ocorreu um erro ao listar as consultas, tente novamente mais tarde');
-      }
-    );
+    if (this.roleUser === '1') { // Se for médico
+      this.loadConsultasMedico();
+    } else { // Se for adm ou outro tipo de usuário
+      this.loadConsultasAll();
+    }
   }
-
   searchByName(name: string) {
     if (name.trim() === "") {
       this.index();
     } else {
-      this.http.searchByName(name).subscribe(
-        (data: Consultas[]) => {
+      this.consultaService.listarConsultasPaciente(name).subscribe(
+        (data: ConsultaRequest[]) => {
           this.dataSource.data = data;
           this.consultaIsEmpty = data.length === 0;
           if (data.length === 0) {
@@ -72,13 +70,14 @@ export class ConsultasComponent implements OnInit {
         }
       );
     }
+
   }
   searchByMedico(name: string) {
     if (name.trim() === "") {
       this.index();
     } else {
-      this.http.searchByMedico(name).subscribe(
-        (data: Consultas[]) => {
+      this.consultaService.listarConsultasMedico(name).subscribe(
+        (data: ConsultaRequest[]) => {
           this.dataSource.data = data;
           this.consultaIsEmpty = data.length === 0;
           if (data.length === 0) {
@@ -103,8 +102,8 @@ export class ConsultasComponent implements OnInit {
     this.sharedService.openDialog(message);
   }
 
-  delete(consulta: Consultas) {
-    this.http.delete(consulta.idConsulta!).subscribe(
+  delete(id:any) {
+    this.consultaService.delete(id).subscribe(
       () => {
         this.openDialog("Consulta removida com sucesso");
         this.index();
@@ -118,8 +117,31 @@ export class ConsultasComponent implements OnInit {
   redirectCreate() {
     this.sharedService.create();
   }
-
-  redirectUpdate(id: number) {
-    this.sharedService.update(id);
+  loadConsultasMedico() {
+  
+          this.consultaService.listarConsultasPorCrm(this.pkUser).subscribe(
+            (data: ConsultaRequest[]) => {
+              this.consultas = data;
+              this.dataSource.data = this.consultas;
+              this.consultaIsEmpty = this.consultas.length === 0;
+            },
+            error => {
+              this.openDialog('Ocorreu um erro ao listar as consultas do médico, tente novamente mais tarde');
+            }
+          );
+        
+  }
+  
+  loadConsultasAll() {
+    this.consultaService.index().subscribe(
+      (data: ConsultaRequest[]) => {
+        this.consultas = data;
+        this.dataSource.data = this.consultas;
+        this.consultaIsEmpty = this.consultas.length === 0;
+      },
+      error => {
+        this.openDialog('Ocorreu um erro ao listar todas as consultas, tente novamente mais tarde');
+      }
+    );
   }
 }
