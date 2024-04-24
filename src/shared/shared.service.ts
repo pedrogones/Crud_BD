@@ -24,13 +24,44 @@ export class SharedService {
     this.permissions.setChavePrimaria(cpf);
     this.router.navigate(['/dashboard']);
   }
+  dashboardRole(role: any, cpf: any){
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(cpf);
+    this.router.navigate(['/dashboard']);
+  }
   home(){
+    this.router.navigate(['/consultas'], { relativeTo: this.route });
+  }
+  homeRole(role: any, primaryKey: any){
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(primaryKey);
     this.router.navigate(['/consultas'], { relativeTo: this.route });
   }
   create(): void {
     this.router.navigate(['/consultas/create'], { relativeTo: this.route });
   }
+  createRole(role: any, primaryKey: any) {
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(primaryKey);
+    this.router.navigate(['/consultas/create'], { relativeTo: this.route });
+  }
   update(id: any) {
+    this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
+  }
+  profileRole(role: any, primaryKey: any){
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(primaryKey);
+    if(role==0){
+      this.router.navigate(['/perfil-paciente']);
+    }else if(role==1){
+      this.router.navigate(['/perfil-medico']);
+    }
+
+  }
+
+  updateRole(id: any, role: any, primaryKey: any) {
+    this.permissions.setRole(role);
+    this.permissions.setChavePrimaria(primaryKey);
     this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
   }
 

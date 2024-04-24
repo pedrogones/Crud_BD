@@ -48,6 +48,9 @@ export class AuthService {
     const apiUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random&color=ffffff&size=200&rounded=true&bold=true&format=svg&length=1&uppercase=true`;
     return apiUrl;
   }
+
+
+
   /**
    * Fazer os metodos de filtro:
    * consultasPorData(data: date){} // retorna todas as data do dia
