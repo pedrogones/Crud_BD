@@ -8,6 +8,7 @@ import { appConfig } from '../app.config';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PermissionsService } from '../controller/permissions.service';
+import { AuthUser } from '../models/AuthUser';
 
 @Component({
   selector: 'app-create',
@@ -18,36 +19,58 @@ import { PermissionsService } from '../controller/permissions.service';
 })
 export class LayoutsComponent implements OnInit{
 
-  authUser = 1
-  teste :any
+  authUser:AuthUser={
+    id: 0,
+    nome: '',
+    role: 0,
+    chavePrimaria:''
+  }
+
+  pkUser:any
+  roleUser:any
+  nomeUser:any
+  primaryKey :any
+
   ngOnInit(): void {
-      this.teste = this.permission.getAuthUser()
-      console.log(this.teste)
+      this.pkUser = localStorage.getItem('chavePrimaria');
+      this.roleUser = Number(localStorage.getItem('role'));
+      this.nomeUser = localStorage.getItem('nomeUser')
+      console.log(this.pkUser, this.roleUser)
+      this.foto =this.getPhoto()
+      this.visible = true
+
   }
   constructor(private permission: PermissionsService, private sharedService: SharedService, private router: Router, private photoProfile: AuthService) { }
   home() {
-    this.sharedService.home()
+    this.sharedService.homeRole(this.roleUser, this.pkUser)
   }
   consultas() {
   }
   loginRoute() {
+    localStorage.clear()
     this.router.navigate(['/login']);
   }
   profileRoute() {
+    console.log(this.roleUser)
     this.menuAberto = false
-    if(this.authUser==0){
-      this.router.navigate(['/perfil-medico']);
-    }else if(this.authUser==1){
+    if(this.roleUser==0){
       this.router.navigate(['/perfil-paciente']);
+    }else if(this.roleUser==1){
+      this.router.navigate(['/perfil-medico']);
     }
+  }
+
+  consultasList(){
+    this.sharedService.homeRole(this.roleUser, this.pkUser)
   }
 
   getPhoto() {
     this.menuAberto = false
-    return this.photoProfile.photoProfile("Pedro")
+    return this.photoProfile.photoProfile(this.nomeUser)
   }
 
-  foto = this.getPhoto();
+  foto =''
+  visible = false
   menuAberto = false;
 }
 
