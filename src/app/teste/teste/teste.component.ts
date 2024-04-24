@@ -23,6 +23,7 @@ interface paciente{
   styleUrl: './teste.component.scss'
 })
 export class TesteComponent {
+  /*
   @ViewChild(DatePickerComponent)
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
@@ -124,5 +125,5 @@ export class TesteComponent {
     this.menuData = false;
    console.log(data)
   }
-
+*/
 }
