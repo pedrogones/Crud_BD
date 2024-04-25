@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
   pkUser: any;
   pacienteLogado!: Paciente;
   dataSource = new MatTableDataSource<ConsultaRequest>();
-  displayedColumns: string[] = ['idConsulta', 'nomePaciente', 'nomeMedico', 'dataConsulta', 'motivoConsulta'];
   consultaIsEmpty = true;
   isContentVisible = false;
   consultas: ConsultaRequest[] = [];
@@ -83,59 +82,61 @@ openModal(idConsulta: any) {
     this.index();
   });
 }
-replaceSpaceString(nome: string): string {
-  return nome.replace(/\s+/g, '_');
-}
-  buscarConsultasPorRole(role: number) {
-    let consultaObservable: Observable<ConsultaRequest[]>;
-    if (role === 0) {
-      consultaObservable = this.httpConsult.listarConsultasPaciente(this.pkUser);
-    } else if (role === 1) {
+
+buscarConsultasPorRole(role: number) {
+  let consultaObservable: Observable<ConsultaRequest[]>;
+
+  switch (role) {
+    case 0:
+      consultaObservable = this.httpConsult.listarConsultasPorCpf(this.pkUser);
+      break;
+    case 1:
       consultaObservable = this.httpConsult.listarConsultasPorCrm(this.pkUser);
-    } else if (role === 2) {
+      break;
+    case 2:
       consultaObservable = this.httpConsult.index();
-    } else {
+      break;
+    default:
       return;
-    }
-    consultaObservable.subscribe(
-      (data: ConsultaRequest[]) => {
-        this.consultas = data;
-        this.dataSource.data = this.consultas;
-        this.consultaIsEmpty = this.consultas.length === 0;
-        if (data.length === 0) {
-         if(this.roleUser==0){
+  }
+
+  consultaObservable.subscribe(
+    (data: ConsultaRequest[]) => {
+      this.consultas = data;
+      this.dataSource.data = this.consultas;
+      this.consultaIsEmpty = this.consultas.length === 0;
+
+      if (data.length === 0) {
+        if (this.roleUser === 0) {
           this.pacienteEmpty = true;
           this.isContentVisible = false;
           this.sharedService.openDialog('Nenhuma consulta encontrada!');
-         } else if(this.roleUser==1){
-            this.medicoEmpty = true;
-            this.isContentVisible = false;
-            this.sharedService.openDialog('Nenhuma consulta encontrada!');
-           }
-        }        delay(3000); // Talvez você queira fazer algo diferente com o atraso aqui.
-      },
-      error => {
-        let errorMessage;
-        switch (role) {
-          case 0:
-            this.pacienteEmpty = true;
-            this.isContentVisible = false;
-            break;
-          case 1:
-            this.medicoEmpty = true;
-            this.isContentVisible = false;
-            break;
-          case 2:
-            errorMessage = 'Ocorreu um erro ao listar as consultas, tente novamente mais tarde';
-            this.openDialog(errorMessage);
-            break;
-          default:
-            errorMessage = 'Ocorreu um erro, tente novamente mais tarde';
-            break;
+        } else if (this.roleUser === 1) {
+          this.medicoEmpty = true;
+          this.isContentVisible = false;
+          this.sharedService.openDialog('Nenhuma consulta encontrada!');
         }
       }
-    );
-  }
+    },
+    error => {
+      let errorMessage = 'Ocorreu um erro';
+      switch (role) {
+        case 0:
+          this.pacienteEmpty = true;
+          break;
+        case 1:
+          this.medicoEmpty = true;
+          break;
+        case 2:
+          errorMessage = 'Ocorreu um erro ao listar as consultas, tente novamente mais tarde';
+          this.openDialog(errorMessage);
+          break;
+      }
+      this.isContentVisible = false;
+    }
+  );
+}
+
   menuData = false;
   menuPaciente = false;
   menuMedico = false;
@@ -158,7 +159,7 @@ replaceSpaceString(nome: string): string {
           this.consultaIsEmpty = false;
         } else {
           this.index();
-          this.sharedService.openDialog('Não há consultas para o médico selecionado.');
+          this.sharedService.openDialog('Não há consultas com o médico selecionado.');
         }
       },
       error => {
@@ -178,7 +179,7 @@ replaceSpaceString(nome: string): string {
           this.consultaIsEmpty = false;
         } else {
           this.index();
-          this.sharedService.openDialog('Não há consultas para o médico selecionado.');
+          this.sharedService.openDialog('Não há consultas a data selecionada.');
         }
       }
     );

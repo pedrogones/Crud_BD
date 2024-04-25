@@ -19,7 +19,7 @@ import { ConsultaRequest } from '../../models/ConsultaRequest';
 export class ModalInfoConsultaComponent implements OnInit {
 consulta!: ConsultaRequest;
 
-constructor(@Inject(MAT_DIALOG_DATA) public data: { idConsulta: string }, private sharedService: SharedService, private httpConsultas: ConsultasService, private route: ActivatedRoute) {
+constructor(@Inject(MAT_DIALOG_DATA) public data: { idConsulta: string },private sharedService: SharedService, private httpConsultas: ConsultasService, private route: ActivatedRoute) {
 
 }
 hora=''

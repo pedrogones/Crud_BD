@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Consultas } from '../../app/models/Consultas';
 import { HttpClient } from '@angular/common/http';
-import { Observable, first } from 'rxjs';
+import { Observable, first, map } from 'rxjs';
 import { ConsultaRequest } from '../../app/models/ConsultaRequest';
+import { Horarios } from '../../app/models/Horarios';
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ConsultasService {
 
     private readonly apiUrl = "/api/consultas";
@@ -22,7 +25,14 @@ export class ConsultasService {
     listarConsultasPaciente(nomePaciente: string): Observable<ConsultaRequest[]>{
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/listar/paciente/${nomePaciente}`)
     }
+
+    horariosIndisponiveis(data: string, crm: string): Observable<string[]> {
+      const params = { data, crm };
+      console.log(crm, data)
+      return this.http.get<string[]>(`${this.apiUrl}/horarios-indisponiveis`, { params });
+    }  
     listarConsultasMedico(nomeMedico: string): Observable<ConsultaRequest[]>{
+      
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/medico/${nomeMedico}`)
     }
     listarConsultasPorCrm(crmMedico: string): Observable<ConsultaRequest[]> {
@@ -33,7 +43,7 @@ export class ConsultasService {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/data?data=${data}`);
     }
     listarConsultasPorCpf(cpf: string): Observable<ConsultaRequest[]> {
-      return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/${cpf}`);
+      return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/paciente/${cpf}`);
     }
     index(): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/all`).pipe(
