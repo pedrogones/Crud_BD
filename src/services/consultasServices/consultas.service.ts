@@ -3,8 +3,6 @@ import { Consultas } from '../../app/models/Consultas';
 import { HttpClient } from '@angular/common/http';
 import { Observable, first, map } from 'rxjs';
 import { ConsultaRequest } from '../../app/models/ConsultaRequest';
-import { Horarios } from '../../app/models/Horarios';
-
 
 @Injectable({
   providedIn: 'root'

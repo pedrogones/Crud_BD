@@ -6,7 +6,6 @@ import { Consultas } from '../models/Consultas';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthUser } from '../models/AuthUser';
 import { Medico } from '../models/Medico';
 import { Observable, delay } from 'rxjs';
 import { ModalInfoConsultaComponent } from './modal-info-consulta/modal-info-consulta.component';

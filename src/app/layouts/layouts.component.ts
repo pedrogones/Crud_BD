@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { SharedService } from '../../shared/shared.service';
 import { AppComponent } from '../app.component';
-import { appConfig } from '../app.config';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PermissionsService } from '../controller/permissions.service';
-import { AuthUser } from '../models/AuthUser';
 
 @Component({
   selector: 'app-create',
@@ -19,12 +16,7 @@ import { AuthUser } from '../models/AuthUser';
 })
 export class LayoutsComponent implements OnInit{
 
-  authUser:AuthUser={
-    id: 0,
-    nome: '',
-    role: 0,
-    chavePrimaria:''
-  }
+ 
 
   pkUser:any
   roleUser:any

@@ -1,13 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Paciente } from '../models/Paciente';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthUser } from '../models/AuthUser';
 import { PermissionsService } from '../controller/permissions.service';
 import { PacienteService } from '../../services/pacientesServices/paciente.service';
 import { SharedService } from '../../shared/shared.service';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile',
