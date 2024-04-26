@@ -37,7 +37,7 @@
           </button>
           <div *ngIf="menuPaciente" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <div *ngFor="let paciente of pacientes" class="py-1" role="none">
-              <button  (click)="buscarPorPaciente(paciente.cpfPaciente)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="paciente.cpfPaciente">{{ paciente.nomePaciente }}</button>
+              <button  (click)="buscarPorPaciente(paciente.nomePaciente)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="paciente.cpfPaciente">{{ paciente.nomePaciente }}</button>
             </div>
           </div>
          </div>
@@ -50,9 +50,8 @@
             </svg>
           </button>
           <div *ngIf="menuData" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-            <input type="date" [min]="minDate" [(ngModel)]="dataFilter" class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-600 dark:focus:ring-gray-300 dark:focus:border-gray-300" placeholder="Selecione uma data">
-            <button (click)="buscarConsultasPorData(dataFilter)" class="block w-full px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900">Buscar</button>
-          </div>
+            <input  (change)="buscarConsultasPorData(dataFilter)" type="date" [min]="minDate" [(ngModel)]="dataFilter" class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-600 dark:focus:ring-gray-300 dark:focus:border-gray-300" placeholder="Selecione uma data">
+           </div>
          </div>
         </div>
      </div>
@@ -107,15 +106,21 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div *ngIf="medicoEmpty" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <a class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          <a class="block w-auto p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Não há nada para ver por aqui</h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">Não há nenhuma consulta marcada com você hoje!</p>
+            <p class="font-normal text-gray-700 dark:text-gray-400">Não há consultas marcadas com você em {{ dataShowInTemplate }}!</p>
           </a>
         </div>
         <div *ngIf="pacienteEmpty" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <a class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          <a class="block w-auto p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Não há nada para ver por aqui</h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">Você não marcou nenhuma consulta para hoje!</p>
+            <p class="font-normal text-gray-700 dark:text-gray-400">Você não marcou nenhuma consulta em {{ dataShowInTemplate }}!</p>
+          </a>
+        </div>
+        <div *ngIf="admEmpty" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <a class="block w-auto p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Não há nada para ver por aqui</h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400">Não há nenhuma consulta para {{ dataShowInTemplate }}!</p>
           </a>
         </div>
       </ng-template>

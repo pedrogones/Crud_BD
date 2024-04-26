@@ -21,6 +21,7 @@ export class ConsultasService {
       return this.http.get<ConsultaRequest>(`${this.apiUrl}/${id}`)
     }
     listarConsultasPaciente(nomePaciente: string): Observable<ConsultaRequest[]>{
+      console.log(`${this.apiUrl}/listar/paciente/${nomePaciente}`)
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/listar/paciente/${nomePaciente}`)
     }
 
@@ -39,6 +40,15 @@ export class ConsultasService {
     
     listarConsultasPorData(data: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/data?data=${data}`);
+    }
+    listarConsultasPorDataECpf(data: string, cpfPaciente: string): Observable<ConsultaRequest[]> {
+      const url = `${this.apiUrl}/paciente/dia?data=${data}&cpfPaciente=${cpfPaciente}`;
+      return this.http.get<ConsultaRequest[]>(url);
+    }
+    listarConsultasPorDataECrm(data: string, crm: string): Observable<ConsultaRequest[]> {
+      const url = `${this.apiUrl}/medico/dia?data=${data}&crm=${crm}`;
+      console.log(url)
+      return this.http.get<ConsultaRequest[]>(url);
     }
     listarConsultasPorCpf(cpf: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/paciente/${cpf}`);

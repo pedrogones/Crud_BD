@@ -14,15 +14,6 @@ import { MedicosService } from '../../../services/medicoServices/medicos.service
 import { ConsultasService } from '../../../services/consultasServices/consultas.service';
 import { Medico } from '../../models/Medico';
 import { DisponibilidadeHorarioService } from './Service/disponibilidade-horario.service';
-interface paciente{
-  nome:string,
-  id: number
-}
-interface medico{
-  nome:string,
-  id: string,
-  especialidade: string,
-}
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -34,7 +25,7 @@ interface medico{
 })
 
 export class CreateComponent implements OnInit {
-
+  availableTimes: any;
   menuData=false
   dataFilter =''
   hora = '';
@@ -42,9 +33,12 @@ export class CreateComponent implements OnInit {
   pkUser  : any
   medicos: Medico[]=[]
   selectedMedico=''
-  onMedicoChange(data: any, crm:any){
-    console.log("entreo")
-    this.obterHorariosDisponiveis(data, crm)
+  constructor(
+   private sharedService: SharedService,
+   private medicoService: MedicosService,
+   private pacienteService: PacienteService,
+   private consultaService: ConsultasService,
+   private horarioService: DisponibilidadeHorarioService) {
   }
   ngOnInit(): void {
     this.roleUser = localStorage.getItem('role')
@@ -56,16 +50,7 @@ export class CreateComponent implements OnInit {
       (error) => {
         console.error('Erro ao obter os médicos:', error);
       }
-    );
-    
-  
-  }
-  constructor(
-   private sharedService: SharedService,
-   private medicoService: MedicosService,
-   private pacienteService: PacienteService,
-   private consultaService: ConsultasService,
-   private horarioService: DisponibilidadeHorarioService) {
+    );  
   }
   consultas: Consultas = {
     idConsulta: '',
@@ -75,8 +60,8 @@ export class CreateComponent implements OnInit {
     motivoConsulta: ''
   }
   validate_inputs(consulta: Consultas): boolean {
-    if (consulta.cpfPaciente == '' ||
-      consulta.crm == '' ||
+    if (this.selectedMedico == '' ||
+      this.dataFilter == '' ||
       consulta.dataConsulta == '' ||
       consulta.motivoConsulta == ''||
       this.hora=='') {
@@ -85,13 +70,14 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
-  availableTimes: any;
+  onMedicoChange(data: any, crm:any){
+    this.obterHorariosDisponiveis(data, crm)
+  }
+  
   async obterHorariosDisponiveis(data: string, crmMedico: string) {
       try {
         const availableTimesWithSeconds = await this.horarioService.obterHorariosDisponiveis(data, crmMedico);
-        // Converter os horários para o formato hh:mm
         const availableTimes = availableTimesWithSeconds.map(time => time.substring(0, 5));
-        // Agora availableTimes está no formato hh:mm
         this.availableTimes = availableTimes;
       } catch (error) {
         console.log(error);
@@ -99,38 +85,29 @@ export class CreateComponent implements OnInit {
   }
   setHora(hora: string){
     this.selectHour = false;
-   this.hora = hora;
+    this.hora = hora;
   }
   formatDataTodb(hora: string): string {
     if (this.consultas.dataConsulta && hora) {
       const [ano, mes, dia] = this.consultas.dataConsulta.split('-');
-  
-      // Extrai a hora e os minutos da hora fornecida
-      const [horas, minutos] = hora.split(':');
-  
-      // Formata a data e hora no formato LocalDateTime
+      const [horas, minutos] = hora.split(':');  
       const dataHoraFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
-  
       return dataHoraFormatada;
     } else {
       console.log('Data e/ou hora inválidas.');
       return '';
     }
   }
-  
-  
- hoje = new Date();
- amanha = new Date();
- setMinDate(){
-   this.amanha.setDate(this.hoje.getDate() + 1);
-   return this.amanha.toISOString().split('T')[0];
- }
- minDate = this.setMinDate()
+  hoje = new Date();
+  amanha = new Date();
+  setMinDate(){
+    this.amanha.setDate(this.hoje.getDate() + 1);
+    return this.amanha.toISOString().split('T')[0];
+  }
+  minDate = this.setMinDate()
   selectHour = false
   backHome() {this.sharedService.home()}
-
   dataConsulta(data: any) {this.menuData = false;}
-
   tipoConsulta=""
   save(): void {
     let datayhora = this.formatDataTodb(this.hora);

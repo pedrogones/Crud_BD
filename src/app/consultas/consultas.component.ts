@@ -22,14 +22,9 @@ export class ConsultasComponent implements OnInit {
   consultaIsEmpty = true;
   isContentVisible = false;
   dataSource = new MatTableDataSource<ConsultaRequest>();
-
-  displayedColumns: string[] = ['idConsulta', 'nomePaciente', 'nomeMedico', 'dataConsulta', 'motivoConsulta'];
-
   constructor(private sharedService: SharedService, private consultaService: ConsultasService) {}
-
   roleUser:any
   pkUser:any
-
   ngOnInit(): void {
     this.roleUser=localStorage.getItem('role')
     this.pkUser = localStorage.getItem('chavePrimaria');
@@ -45,7 +40,7 @@ export class ConsultasComponent implements OnInit {
   }
 
   index() {
-    if (this.roleUser === '1') { // Se for médico
+    if (this.roleUser == 1) { // Se for médico
       this.loadConsultasMedico();
     } else { // Se for adm ou outro tipo de usuário
       this.loadConsultasAll();
@@ -54,7 +49,23 @@ export class ConsultasComponent implements OnInit {
   searchByName(name: string) {
     if (name.trim() === "") {
       this.index();
-    } else {
+    } else if(this.roleUser==2) {
+      this.consultaService.listarConsultasPaciente(name).subscribe(
+        (data: ConsultaRequest[]) => {
+          this.dataSource.data = data;
+          this.consultaIsEmpty = data.length === 0;
+          if (data.length === 0) {
+            this.openDialog('Nenhuma consulta encontrada para o paciente especificado.');
+            this.index()
+          }
+        },
+        error => {
+          this.openDialog('Nenhuma consulta encontrada para o paciente especificado.');
+          this.index()
+        }
+      );
+    }else if(this.roleUser==1){
+      //aqui fica faltando um filtro de pacientes de um determinado medico
       this.consultaService.listarConsultasPaciente(name).subscribe(
         (data: ConsultaRequest[]) => {
           this.dataSource.data = data;
@@ -75,7 +86,8 @@ export class ConsultasComponent implements OnInit {
   searchByMedico(name: string) {
     if (name.trim() === "") {
       this.index();
-    } else {
+    } else
+     {
       this.consultaService.listarConsultasMedico(name).subscribe(
         (data: ConsultaRequest[]) => {
           this.dataSource.data = data;
@@ -92,9 +104,7 @@ export class ConsultasComponent implements OnInit {
       );
     }
   }
-
   converterData(data: any): string {
-    // Suponho que esta função esteja correta, então deixei inalterada
     return this.sharedService.converterData(data);
   }
 
@@ -118,7 +128,6 @@ export class ConsultasComponent implements OnInit {
     this.sharedService.create();
   }
   loadConsultasMedico() {
-  
           this.consultaService.listarConsultasPorCrm(this.pkUser).subscribe(
             (data: ConsultaRequest[]) => {
               this.consultas = data;
