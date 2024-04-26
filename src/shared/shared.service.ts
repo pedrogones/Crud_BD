@@ -44,6 +44,8 @@ export class SharedService {
       this.router.navigate(['/perfil-paciente']);
     }else if(role==1){
       this.router.navigate(['/perfil-medico']);
+    }else if(role==2){
+      this.router.navigate(['/perfil-admin']);
     }
 
   }
@@ -78,14 +80,14 @@ formatarHora(data: string):string{
     return `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
   }
   dateRigthFormat(data: string): string {
-    const dataHora = new Date(data); // Converter a string para um objeto Date
+    const dataHora = new Date(data);
     const dia = this.pad(dataHora.getDate());
     const mes = this.pad(dataHora.getMonth() + 1);
     const ano = dataHora.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
 formatData(data: any){
-  const dataHora = new Date(data); // Converter a string para um objeto Date
+  const dataHora = new Date(data);
   const dia = this.pad(dataHora.getDate());
   const mes = this.pad(dataHora.getMonth() + 1);
   const ano = dataHora.getFullYear();

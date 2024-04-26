@@ -82,6 +82,8 @@ export class HistoricoComponent {
         }
       );
     } else {
+      this.loadMedicos();
+      this.loadPacientes();
       observable = this.consultasService.index();
       observable.subscribe(
         (data: ConsultaRequest[]) => {
@@ -118,6 +120,7 @@ export class HistoricoComponent {
     );
   }
   loadByPaciente(nome: string) {
+    this.medicoSelect=''
     this.consultasService.listarConsultasPaciente(nome).subscribe(
       (data: ConsultaRequest[]) => {
         if (data && data.length > 0) {
@@ -136,6 +139,7 @@ export class HistoricoComponent {
   }
   
   loadByMedico(nome: string) {
+    this.pacienteSelect=''
     this.consultasService.listarConsultasMedico(nome).subscribe(
       (data: ConsultaRequest[]) => {
         if (data && data.length > 0) {

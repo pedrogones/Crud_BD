@@ -49,6 +49,8 @@ export class LayoutsComponent implements OnInit{
       this.router.navigate(['/perfil-paciente']);
     }else if(this.roleUser==1){
       this.router.navigate(['/perfil-medico']);
+    } else if(this.roleUser==2){
+      this.router.navigate(['/perfil-admin']);
     }
   }
 

@@ -2,7 +2,7 @@
   <div class="mx-auto px-6 lg:px-8">
     <div class=" flex justify-between min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Seu histórico de Consultas</h2>
-      <div *ngIf="role == 1">
+      <div *ngIf="role != 0 ">
         <div class="mx-auto px-6 lg:px-8">
           <div class="flex justify-between min-w-0 flex">
             <label for="selectPaciente" class="text-lg font-semibold">Filtre o histórico por paciente</label><br>
@@ -17,15 +17,15 @@
         </div>
       </div>
 
-      <div *ngIf="role == 0">
+      <div *ngIf="role != 1">
         <div class="mx-auto px-6 lg:px-8">
           <div class="flex justify-between min-w-0 flex">
             <label for="selectMedico" class="text-lg font-semibold">Filtre o histórico por médico</label><br>
           </div>
           <div>
-            <select id="selectMedico" class="rounded px-3 py-2 mt-2" [(ngModel)]="medicoSelect">
-              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" disabled>Médico</option>
-              <option (click)="loadByMedico(medico.nomeMedico)" class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos">{{ medico.nomeMedico }}</option>
+            <select id="selectMedico" class="rounded px-3 py-2 mt-2" [(ngModel)]="medicoSelect" (change)="loadByMedico(medicoSelect)">
+              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione o médico</option>
+              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos">{{ medico.nomeMedico }}</option>
             </select>
           </div>
         </div>
