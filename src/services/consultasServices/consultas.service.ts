@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Consultas } from '../../app/models/Consultas';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, first, map } from 'rxjs';
 import { ConsultaRequest } from '../../app/models/ConsultaRequest';
 
@@ -69,5 +69,33 @@ export class ConsultasService {
       return this.http.put<Consultas>(`${this.apiUrl}/atualizar/${paciente.cpfPaciente}`, paciente, { responseType: 'text' as 'json' as 'json' });
     }
 
+    gerarRelatorio(): Observable<Blob> {
+      // Define os cabeçalhos para indicar que a resposta é um arquivo para download
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/octet-stream',
+      });
+  
+      // Faz a solicitação HTTP para o endpoint de exportação de tabela
+      return this.http.get(`${this.apiUrl}/exportar-tabela`, {
+        responseType: 'blob', // Tipo de resposta é um blob (arquivo)
+        headers: headers, // Adiciona os cabeçalhos definidos
+      });
+    }
+    gerarRelatorioPorDatas(dataInicio: string, dataFim: string, crm: string): Observable<Blob> {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/octet-stream',
+      });
+  
+    console.log("API: "+`${this.apiUrl}/medico/exportar-tabela`)
+      return this.http.get(`${this.apiUrl}/medico/exportar-tabela`, {
+        responseType: 'blob', // Tipo de resposta é um blob (arquivo)
+        headers: headers, // Adiciona os cabeçalhos definidos
+        params: {
+          dataInicio: dataInicio,
+          dataFim: dataFim,
+          crm: crm,
+        },
+      });
+    }
   }
 
