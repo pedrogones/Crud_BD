@@ -5,7 +5,7 @@
         <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Tabela de Consultas</h2>
         <div class="flex">
 
-          <div *ngIf="roleUser!=0"  class="w-auto">
+          <div  *ngIf="roleUser!=0"  class="w-auto">
             <button style="margin-right: 5px;" (click)="openModalRelatorio()" class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
              Relatório
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -78,31 +78,33 @@
                  <p class="relative rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Médico: Dr. {{ consulta.medico.nomeMedico }}</p>
               </div>
             </div>
-            <div class="p-6 ">
-              <h5
-                class="mb-2 text-xl font-medium leading-tight">
-                Motivo:  {{ consulta.motivoConsulta }}
+            <div class="p-6">
+              <h5 class="mb-2 text-xl font-medium leading-tight">
+                {{ consulta.motivoConsulta }}
               </h5>
-              <p class="mb-4 text-base">
-              </p>
-              <div class="relative mt-8 flex items-center gap-x-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="relative flex items-center gap-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
 
-                <div class="text-sm leading-6">
-                  <p class="font-semibold text-gray-900">
-                    <a href="#">
-                      <span class="absolute inset-0"></span>
-                    </a>
-                  </p>
-                  <p class="text-xs font-medium uppercase leading-normal text-black shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
-                    Paciente:   {{consulta.paciente.nomePaciente}}
-                  </p>
+                  <div class="text-sm">
+                    <p class="font-bold text-gray-700">Paciente:</p>
+                    <p class="font-medium text-xs text-gray-600">{{ consulta.paciente.nomePaciente }}</p>
+                  </div>
+                </div>
+                <div class="relative flex items-center gap-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  <div class="text-sm">
+                    <p class="font-bold text-gray-700">Valor da consulta:</p>
+                    <p class="font-medium text-xs text-gray-600">R$ {{ consulta.valorConsulta }}</p>
+                  </div>
                 </div>
               </div>
-
             </div>
+
           </div>
         </div>
       </div>
