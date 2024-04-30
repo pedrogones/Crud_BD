@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../shared/shared.service';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';

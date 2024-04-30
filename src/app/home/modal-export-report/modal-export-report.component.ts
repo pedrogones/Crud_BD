@@ -62,10 +62,6 @@ selecionarMedico(nome: string): void {
 gerarRelatorio(): void {
   let crm:string
   if(this.roleUser==2){
-      if(this.medicoSelect==''){
-        this.sharedService.openDialog("Você precisa selecionar um médico!")
-        return
-      }
       crm = this.medicoSelect
     }else{
      crm = this.pkUser
@@ -89,6 +85,10 @@ gerarRelatorio(): void {
       }
     );
   }else if(this.gerRelatorio.value=='2'){ 
+    if((this.roleUser==2)&&(this.medicoSelect=='')){
+      this.sharedService.openDialog("Você precisa selecionar um médico!")
+      return
+    }
     this.consultasService.gerarRelatorioPorDatas(this.dateInit, this.dateEnd, crm).subscribe(
       (data: Blob) => {
         this.sharedService.openDialog("Aguarde um momento, seu relatorio será gerado em até 5 segundos!")

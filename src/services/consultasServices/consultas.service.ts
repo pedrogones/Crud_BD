@@ -29,15 +29,14 @@ export class ConsultasService {
       const params = { data, crm };
       console.log(crm, data)
       return this.http.get<string[]>(`${this.apiUrl}/horarios-indisponiveis`, { params });
-    }  
+    }
     listarConsultasMedico(nomeMedico: string): Observable<ConsultaRequest[]>{
-      
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/medico/${nomeMedico}`)
     }
     listarConsultasPorCrm(crmMedico: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/medico?crm=${crmMedico}`);
     }
-    
+
     listarConsultasPorData(data: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/data?data=${data}`);
     }
@@ -74,7 +73,7 @@ export class ConsultasService {
       const headers = new HttpHeaders({
         'Content-Type': 'application/octet-stream',
       });
-  
+
       // Faz a solicitação HTTP para o endpoint de exportação de tabela
       return this.http.get(`${this.apiUrl}/exportar-tabela`, {
         responseType: 'blob', // Tipo de resposta é um blob (arquivo)
@@ -85,7 +84,7 @@ export class ConsultasService {
       const headers = new HttpHeaders({
         'Content-Type': 'application/octet-stream',
       });
-  
+
     console.log("API: "+`${this.apiUrl}/medico/exportar-tabela`)
       return this.http.get(`${this.apiUrl}/medico/exportar-tabela`, {
         responseType: 'blob', // Tipo de resposta é um blob (arquivo)

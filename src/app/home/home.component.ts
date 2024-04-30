@@ -144,7 +144,48 @@ export class HomeComponent implements OnInit {
     this.menuMedico = true;
   }
 
-
+  allConsultas(){
+    if(this.roleUser==0){
+      console.log("deveria estar aq")
+      this.httpConsult.listarConsultasPorCpf(this.pkUser).subscribe((data: ConsultaRequest[])=>{
+        if (data && data.length > 0) {
+          this.consultas = data;
+          this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
+          this.consultaIsEmpty = false;
+          this.pacienteEmpty=false
+          this.isContentVisible = true;
+        }
+      }, (er)=>{
+        this.sharedService.openDialog("Não há consultas para esse paciente!")
+      })
+    } else if(this.roleUser==1){
+      this.httpConsult.listarConsultasPorCrm(this.pkUser).subscribe((data: ConsultaRequest[])=>{
+        if (data && data.length > 0) {
+          this.consultas = data;
+          this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
+          this.consultaIsEmpty = false;
+          this.medicoEmpty=false
+          this.isContentVisible = true;
+        }
+      }, (er)=>{
+        console.log(er)
+        this.sharedService.openDialog("Não há consultas para esse médico!")
+      })
+    }else{
+      this.httpConsult.index().subscribe((data: ConsultaRequest[])=>{
+        if (data && data.length > 0) {
+          this.consultas = data;
+          this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
+          this.consultaIsEmpty = false;
+          this.admEmpty=false
+          this.isContentVisible = true;
+        }
+      }, (er)=>{
+        console.log(er)
+        this.sharedService.openDialog("Não há consultas marcadas!")
+      })
+    }
+  }
   buscarPorMedico(nome: string) {
     this.menuMedico = false;
     if (nome == "") { this.index(); return }
@@ -153,7 +194,9 @@ export class HomeComponent implements OnInit {
         if (data && data.length > 0) {
           this.consultas = data;
           this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
-          this.consultaIsEmpty = false;
+          this.consultaIsEmpty = true;
+          this.admEmpty=false
+          this.isContentVisible = true;
         } else {
           this.index();
         }
@@ -173,7 +216,9 @@ export class HomeComponent implements OnInit {
           if (data && data.length > 0) {
             this.consultas = data;
             this.dataSource.data = this.consultas;
-            this.consultaIsEmpty = false;
+            this.consultaIsEmpty = true;
+            this.admEmpty = false;
+            this.isContentVisible = true;
           } else {
             this.index();
             this.sharedService.openDialog('Não há consultas a data selecionada.');
@@ -186,6 +231,7 @@ export class HomeComponent implements OnInit {
           if (data && data.length > 0) {
             this.consultas = data;
             this.dataSource.data = this.consultas;
+            this.consultaIsEmpty = true
             this.admEmpty = false;
             this.isContentVisible = true;
           } else {
@@ -203,6 +249,7 @@ export class HomeComponent implements OnInit {
           if (data && data.length > 0) {
             this.consultas = data;
             this.dataSource.data = this.consultas;
+            this.consultaIsEmpty = true
             this.medicoEmpty = false;
             this.isContentVisible = true;
           } else {
@@ -224,7 +271,8 @@ export class HomeComponent implements OnInit {
           this.consultas = data;
           this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
           this.isContentVisible = true
-          this.medicoEmpty = false
+          this.consultaIsEmpty = false
+         if(this.roleUser==1){this.medicoEmpty = false} else{this.admEmpty=false}
         } else {
           this.sharedService.openDialog('Não há consultas com esse paciente.');
         }
@@ -260,7 +308,7 @@ export class HomeComponent implements OnInit {
     let mes = (this.hoje.getMonth() + 1).toString().padStart(2, '0');
     let dia = this.hoje.getDate().toString().padStart(2, '0');
     return `${ano}-${mes}-${dia}`
- 
+
    }
   dataTemplate(data: string): string {
     console.log(this.hoje)

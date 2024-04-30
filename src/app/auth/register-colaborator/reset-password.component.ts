@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from '../../../shared/shared.service';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { merge } from 'rxjs';
@@ -30,16 +30,16 @@ export class ResetPasswordComponent {
   crm = new FormControl('', [Validators.required]);
   sexo = new FormControl('', Validators.required);
   dataNascimento = new FormControl('', [Validators.required]);
-  tipoUsuario=''
+  tipoUsuario='medico'
   errorMessage = '';
   cpfErrorMessage = ''
   emailErrorMessage = '';
   celularErrorMessage = ''
   crmErrorMessage = ''
+  nascimentoErrorMessage=''
+  sexErrorMessage = ''
 
-
-
-  constructor(private sharedService: SharedService, private httpMedico: MedicosService, private httpAdm: AdminService) {
+  constructor(public dialogRef: MatDialogRef<any>, private sharedService: SharedService, private httpMedico: MedicosService, private httpAdm: AdminService) {
   }
 medico:Medico={
   nomeMedico: '',
@@ -87,6 +87,7 @@ dataInFormat(data: any){
       console.log('Por favor, preencha todos os campos corretamente.')
       return;
     }
+    this.dialogRef.close();
     if(this.tipoUsuario==="medico"){
       let medicoObservable = this.att(this.medico)
        console.log(medicoObservable)
@@ -117,7 +118,7 @@ dataInFormat(data: any){
 
             this.sharedService.consultas();
           }, 2000);
-          localStorage.setItem('chavePrimaria', admObservable.nomeAdmin);
+          localStorage.setItem('chavePrimaria', admObservable.cpfAdmin);
           localStorage.setItem('role', '2');
           localStorage.setItem('nomeUser', admObservable.nomeAdmin);
         },
@@ -130,10 +131,13 @@ dataInFormat(data: any){
   updateErrorMessage(field: FormControl) {
     if (field.invalid && (field.dirty || field.touched)) {
       if (field.hasError('required')) {
-        this.errorMessage = 'Esse campo é obrigatório!';
-        this.crmErrorMessage = 'Esse campo é obrigatório!';
-        this.emailErrorMessage = 'Esse campo é obrigatório!';
-        this.celularErrorMessage = 'Esse campo é obrigatório!';
+        this.errorMessage = 'Nome é obrigatório!';
+        this.crmErrorMessage = 'Crm é obrigatório!';
+        this.emailErrorMessage = 'Email é obrigatório!';
+        this.celularErrorMessage = 'Telefone é obrigatório!';
+        this.nascimentoErrorMessage = 'Data obrigatória!';
+        this.sexErrorMessage = 'Selecione seu sexo!'
+        this.cpfErrorMessage = 'Cpf é obrigatorio!'
       } else if (field.hasError('email')) {
         this.emailErrorMessage = 'Formato de e-mail inválido!';
       } else if (field.hasError('minlength')) {
@@ -149,14 +153,12 @@ dataInFormat(data: any){
 
   changeValue(tipoUser: any) {
     if (tipoUser === 'administrador') {
-      this.crm.setValue(''); // Define o valor do campo CRM como vazio quando o tipo de usuário é administrador
-      this.crm.clearValidators(); // Limpa os validadores do campo CRM quando o tipo de usuário é administrador
+      this.crm.setValue('');
+      this.crm.clearValidators();
     }
-    this.tipoUsuario = tipoUser; // Define o tipo de usuário selecionado
+    this.tipoUsuario = tipoUser;
   }
-  cadastrarColab(){
-     }
-     formatarCrm(event: any) {
+  formatarCrm(event: any) {
       let inputValue: string = event.target.value.toString();
       const estadoMaxLength = 2;
       const crmMaxLength = 6;
@@ -169,7 +171,6 @@ dataInFormat(data: any){
         event.target.value = `${crmPart}/${estadoPart}`;
       }
     }
-
      formatarCpf(event: any) {
       let inputValue: string = event.target.value.toString();
       const maxLength = 14;
@@ -180,6 +181,26 @@ dataInFormat(data: any){
           event.target.value += '-';
         }
       } else {
+        event.target.value = inputValue.slice(0, maxLength);
+      }
+    }
+    formatCel(event: any) {
+      let inputValue: string = event.target.value.toString().replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+      const maxLength = 14;
+
+      if (inputValue.length <= maxLength) {
+        if (inputValue.length >= 2) {
+          // Adiciona '(' depois dos primeiros dois dígitos
+          inputValue = '(' + inputValue.substring(0, 2) + ')' + inputValue.substring(2);
+        }
+        if (inputValue.length >= 7) {
+          inputValue = inputValue.substring(0, 9) + '-' + inputValue.substring(9);
+        }
+
+        // Atualiza o valor do campo com a formatação correta
+        event.target.value = inputValue;
+      } else {
+        // Se exceder o comprimento máximo, corta o valor para o comprimento máximo
         event.target.value = inputValue.slice(0, maxLength);
       }
     }

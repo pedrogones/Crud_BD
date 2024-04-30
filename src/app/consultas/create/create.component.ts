@@ -50,7 +50,7 @@ export class CreateComponent implements OnInit {
       (error) => {
         console.error('Erro ao obter os médicos:', error);
       }
-    );  
+    );
   }
   consultas: Consultas = {
     idConsulta: '',
@@ -73,7 +73,7 @@ export class CreateComponent implements OnInit {
   onMedicoChange(data: any, crm:any){
     this.obterHorariosDisponiveis(data, crm)
   }
-  
+
   async obterHorariosDisponiveis(data: string, crmMedico: string) {
       try {
         const availableTimesWithSeconds = await this.horarioService.obterHorariosDisponiveis(data, crmMedico);
@@ -90,7 +90,7 @@ export class CreateComponent implements OnInit {
   formatDataTodb(hora: string): string {
     if (this.consultas.dataConsulta && hora) {
       const [ano, mes, dia] = this.consultas.dataConsulta.split('-');
-      const [horas, minutos] = hora.split(':');  
+      const [horas, minutos] = hora.split(':');
       const dataHoraFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
       return dataHoraFormatada;
     } else {
@@ -127,7 +127,7 @@ export class CreateComponent implements OnInit {
               this.consultaService.create(consultaRequest).subscribe(
                 (response) => {
                   this.sharedService.openDialog("Consulta criada com Sucesso");
-                  this.sharedService.home();
+                  this.sharedService.consultas();
                 },
                 (error) => {
                   this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. É possível que já haja uma consulta nesse horário!");
@@ -144,7 +144,7 @@ export class CreateComponent implements OnInit {
         }
       );
     }
-  
+
 
 
 }

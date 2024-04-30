@@ -8,7 +8,7 @@
             <label for="selectPaciente" class="text-lg font-semibold">Filtre o histórico por paciente</label><br>
           </div>
           <div>
-            <select id="selectPaciente" class="rounded px-3 py-2 mt-2" [(ngModel)]="pacienteSelect" (change)="loadByPaciente(pacienteSelect)">
+            <select id="selectPaciente"  class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" [(ngModel)]="pacienteSelect" (change)="loadByPaciente(pacienteSelect)">
               <option cclass="text-gray-900" value="" disabled selected hidden>Selecione o paciente</option>
               <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let paciente of pacientes" [value]="paciente.nomePaciente">{{ paciente.nomePaciente }}</option>
             </select>
@@ -23,7 +23,7 @@
             <label for="selectMedico" class="text-lg font-semibold">Filtre o histórico por médico</label><br>
           </div>
           <div>
-            <select id="selectMedico" class="rounded px-3 py-2 mt-2" [(ngModel)]="medicoSelect" (change)="loadByMedico(medicoSelect)">
+            <select id="selectMedico"  class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" [(ngModel)]="medicoSelect" (change)="loadByMedico(medicoSelect)">
               <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione o médico</option>
               <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos">{{ medico.nomeMedico }}</option>
             </select>
@@ -40,10 +40,10 @@
               <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ formatDate(consulta.dataConsulta) }}</time>
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                 <ng-container *ngIf="role == '0'; else medicoConsulta">
-                  Paciente {{ consulta.paciente.nomePaciente }} consultou-se com {{ consulta.medico.nomeMedico }}, no dia {{ formatHora(consulta.dataConsulta) }}
+                  Paciente {{ consulta.paciente.nomePaciente }} tem/teve uma consulta com {{ consulta.medico.nomeMedico }}, no dia {{ formatHora(consulta.dataConsulta) }}
                 </ng-container>
                 <ng-template #medicoConsulta>
-                  Médico {{ consulta.medico.nomeMedico }} realizou a consulta com {{ consulta.paciente.nomePaciente }}, no dia {{ formatHora(consulta.dataConsulta) }}
+                  Médico {{ consulta.medico.nomeMedico }} tem/teve uma consulta com {{ consulta.paciente.nomePaciente }}, no dia {{ formatHora(consulta.dataConsulta) }}
                 </ng-template>
               </h3>
               <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Tipo: {{ consulta.motivoConsulta }}</p>

@@ -53,7 +53,7 @@ export class RegisterComponent {
     if(field.hasError('required')){
       this.nomeErroMessage = 'O nome é obrigatório!';
       this.cpfErroMessage = 'Cpf é obrigatório!';
-      this.dataNascimentoErroMessage = "Campo Obrigatório!"
+      this.dataNascimentoErroMessage = "A data é obrigatória!"
       this.sexoErroMessage = 'Sexo é obrigatório!';
     } else if(field.hasError('minlength')){
       this.cpfErroMessage = 'No mínimo 14 caracteres';

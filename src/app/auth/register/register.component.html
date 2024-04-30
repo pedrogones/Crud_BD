@@ -21,9 +21,10 @@
           }
         </div>
         <div class="flex items-center border-2 py-2 px-6 rounded-2xl">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
           </svg>
+
           <input matInput [formControl]="cpf" (blur)="updateErrorMessage(cpf)" type="text" name="cpf" id="cpf" (input)="formatarCpf($event)"
             placeholder="Seu cpf"
             class="pl-2 w-full outline-none border-none"
@@ -58,8 +59,8 @@
         </div>
 
       </div>
-      <p mat-dialog-close class="text-sm font-light text-gray-500 dark:text-gray-400">
-        Ja tem conta? <a style="cursor: pointer;" class=" font-medium text-primary-600 hover:underline dark:text-primary-500">Tente fazer
+      <p class="mt-4 ml-4 text-sm font-light text-gray-500 dark:text-gray-400">
+        Ja tem conta? <a style="cursor: pointer;" mat-dialog-close class=" font-medium text-primary-600 hover:underline dark:text-primary-500">Tente fazer
           o login</a>
       </p>
       <div class="flex space-x-4">
