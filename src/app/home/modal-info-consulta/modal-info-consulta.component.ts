@@ -4,9 +4,10 @@ import { SharedService } from '../../../shared/shared.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth.service';
-import { UpdateComponent } from '../../consultas/update/update.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ConsultasService } from '../../../services/consultasServices/consultas.service';
+import { ConsultaRequest } from '../../models/ConsultaRequest';
 
 @Component({
   selector: 'app-modal-info-consulta',
@@ -16,18 +17,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './modal-info-consulta.component.scss'
 })
 export class ModalInfoConsultaComponent implements OnInit {
-consulta!: Consultas;
+consulta!: ConsultaRequest;
 
-constructor(@Inject(MAT_DIALOG_DATA) public data: { idConsulta: string }, private sharedService: SharedService, private http: AuthService, private route: ActivatedRoute) {
+constructor(@Inject(MAT_DIALOG_DATA) public data: { idConsulta: string },private sharedService: SharedService, private httpConsultas: ConsultasService, private route: ActivatedRoute) {
 
 }
 hora=''
 consultaIsEmpty = false;
 ngOnInit(){
-
-  console.log(this.data.idConsulta)
   this.route.params.subscribe(params => {
-    this.http.loadByID(this.data.idConsulta).subscribe(
+    this.httpConsultas.loadById(this.data.idConsulta).subscribe(
       consulta => {
         this.consulta = consulta;
         const datayhora = this.converterData(this.consulta.dataConsulta)
@@ -43,13 +42,9 @@ ngOnInit(){
   }
 
 
-  editConsulta(consulta: Consultas){
-    console.log(consulta)
-   this.sharedService.update(this.consulta.idConsulta)
-  }
 
-  deleteConsulta(consulta: Consultas) {
-    this.http.delete(consulta.idConsulta!).subscribe(
+  deleteConsulta() {
+    this.httpConsultas.delete(this.data.idConsulta).subscribe(
       () => {
         this.sharedService.openDialog("Consulta removida com sucesso");
 

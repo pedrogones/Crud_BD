@@ -16,21 +16,41 @@ export class SharedService {
     this.router.navigate(['/dashboard']);
   }
   consultasAndId(role: any) {
-    this.permissions.setRole(role)
-    this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']);
   }
   consultasPorChave(role: any, cpf: any){
-    this.permissions.setRole(role);
-    this.permissions.setChavePrimaria(cpf);
+    this.router.navigate(['/dashboard']);
+  }
+  dashboardRole(role: any, cpf: any){
     this.router.navigate(['/dashboard']);
   }
   home(){
     this.router.navigate(['/consultas'], { relativeTo: this.route });
   }
+  homeRole(role: any, primaryKey: any){
+    this.router.navigate(['/consultas'], { relativeTo: this.route });
+  }
   create(): void {
     this.router.navigate(['/consultas/create'], { relativeTo: this.route });
   }
+  createRole(role: any, primaryKey: any) {
+    this.router.navigate(['/consultas/create'], { relativeTo: this.route });
+  }
   update(id: any) {
+    this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
+  }
+  profileRole(role: any, primaryKey: any){
+    if(role==0){
+      this.router.navigate(['/perfil-paciente']);
+    }else if(role==1){
+      this.router.navigate(['/perfil-medico']);
+    }else if(role==2){
+      this.router.navigate(['/perfil-admin']);
+    }
+
+  }
+
+  updateRole(id: any, role: any, primaryKey: any) {
     this.router.navigate(['/consultas/update', id], { relativeTo: this.route });
   }
 
@@ -60,14 +80,14 @@ formatarHora(data: string):string{
     return `${dia}/${mes}/${ano} às ${hora}:${minutos}`;
   }
   dateRigthFormat(data: string): string {
-    const dataHora = new Date(data); // Converter a string para um objeto Date
+    const dataHora = new Date(data);
     const dia = this.pad(dataHora.getDate());
     const mes = this.pad(dataHora.getMonth() + 1);
     const ano = dataHora.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
 formatData(data: any){
-  const dataHora = new Date(data); // Converter a string para um objeto Date
+  const dataHora = new Date(data);
   const dia = this.pad(dataHora.getDate());
   const mes = this.pad(dataHora.getMonth() + 1);
   const ano = dataHora.getFullYear();

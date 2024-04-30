@@ -1,7 +1,7 @@
 <div class="py-4 px-10 border-b border-gray-900/10 pb-12">
 
 <h2 class="text-base font-semibold leading-7 text-gray-900">Crie aqui uma nova consulta</h2>
-<div style="margin-top: 15px;" class="flex grid grid-cols-2 gap-4">
+<div style="margin-top: 15px;" class="flex grid grid-cols-2 gap-4 mt-15 px-10">
   <div>
     <ol class="relative border-s border-gray-200 dark:border-gray-700">
       <li class="mb-10 ms-6">
@@ -23,24 +23,26 @@
               <div *ngIf="menuData" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                   <input (change)="menuData = false" type="date" [min]="minDate" [(ngModel)]="consultas.dataConsulta" class="block w-full px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-100 dark:text-gray-900 dark:border-gray-600 dark:focus:ring-gray-300 dark:focus:border-gray-300" placeholder="Selecione uma data">
               </div>
-          </div>          
+          </div>
           </div>
       </li>
       <li style="margin-top: 20px;" class="mb-10 ms-6">
         <h2 class="text-base font-semibold leading-7 text-blue-900">2º</h2>
         <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-              <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-              </svg>
-          </span>
-          <h3 class="mb-1 text-lg font-semibold text-white-900 dark:text-white">Selecione o medico disponível para essa data</h3>
-          <div class="w-25 px-2">
-           <select style="cursor: pointer;" id="nomeMedico" name="nomeMedico" autocomplete="nomeMedico" [(ngModel)]="consultas.nomeMedico" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione o médico</option>
-             <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" >André Ferreira</option>
-            </select>
-          </div>
-        </li>
+            <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+            </svg>
+        </span>
+        <h3 class="mb-1 text-lg font-semibold text-white-900 dark:text-white">Selecione o médico disponível para essa data</h3>
+        <div class="w-25 px-2">
+          <select style="cursor: pointer;" id="nomeMedico" name="nomeMedico" autocomplete="nomeMedico" [(ngModel)]="selectedMedico" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" (change)="onMedicoChange(consultas.dataConsulta, selectedMedico)">
+            <option class="text-gray-900" value="" disabled selected hidden>Selecione o médico</option>
+            <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.crm">{{ medico.nomeMedico }}</option>
+          </select>          
+        </div>
+        
+    </li>
+    
   </ol>
   </div>
   <div>
@@ -66,11 +68,12 @@
           <div class="flex" *ngIf="selectHour">
             <ul id="timetable" class="grid w-full grid-cols-3 gap-2 mt-5">
               <li *ngFor="let time of availableTimes">
-                <label  for="{{ time.value }}" class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">{{ time.value }}</label>
-                <input (click)="setHora(time.value)" type="radio" id="{{ time.value }}"  [value]="time.value" class="hidden peer" name="timetable">
-            </li>
+                <label for="{{ time }}" class="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">{{ time }}</label>
+                <input (click)="setHora(time)" type="radio" id="{{ time }}" [value]="time" class="hidden peer" name="timetable">
+              </li>
             </ul>
           </div>
+          
         </div>
       </div>
     </li>
@@ -85,14 +88,26 @@
       </span>
       <h3 class="mb-1 text-lg font-semibold text-white-900 dark:text-white">Escolha o tipo da consulta</h3>
       <div class="w-25 px-2">
-       <select  style="cursor: pointer;" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione aqui</option>
-         <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none">Primeira Consulta</option>
-         <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none">Consulta de Retorno</option>
+        <select [(ngModel)]="tipoConsulta" style="cursor: pointer;" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <option class="text-gray-900" value="" disabled selected hidden>Selecione aqui</option>
+          <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="Primeira Consulta">Primeira Consulta</option>
+          <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="Consulta de Retorno">Consulta de Retorno</option>
         </select>
+        
       </div>
     </li>
   </ol>
 </div>
+</div>
+<div class="flex justify-center mt-8 gap-4">
+  <div>
+    <a href="/dashboard"
+      class="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cancelar</a>
+  </div>
+  <div>
+    <button (click)="save()"
+      class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Marcar</button>
+  </div>
+
 </div>
 </div>

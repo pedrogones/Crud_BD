@@ -12,13 +12,13 @@
           <div class="mb-6">
             <div class="flex justify-between flex-wrap gap-2 w-full">
               <span class="text-gray-600 font-bold">Nome:</span>
-              <p style="cursor: pointer;" class="text-blue-600">{{ consulta.nomePaciente }}</p>
+              <p style="cursor: pointer;" class="text-blue-600">{{ consulta.paciente.nomePaciente }}</p>
             </div>
           </div>
           <div class="mb-6">
             <div class="flex justify-between flex-wrap gap-2 w-full">
               <span class="text-gray-600 font-bold">Seu Médico:</span>
-              <p style="cursor: pointer;" class="text-blue-600">{{ consulta.nomeMedico }}</p>
+              <p style="cursor: pointer;" class="text-blue-600">{{ consulta.medico.nomeMedico }}</p>
             </div>
           </div>
           <div class="mb-6">
@@ -36,10 +36,8 @@
         </div>
 
         <div class="flex space-x-4">
-          <button mat-dialog-close (click)="deleteConsulta(consulta)"
+          <button mat-dialog-close (click)="deleteConsulta()"
             class="w-1/2 block w-full bg-red-600 mt-5 py-2 rounded-2xl hover:bg-red-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Desmarcar</button>
-          <button mat-dialog-close (click)="editConsulta(consulta.nomePaciente)"
-            class="w-1/2 block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">Editar</button>
         </div>
       </div>
       <ng-template #load>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalHistoryComponent } from './modal-history.component';
+import { ProfileAdminComponent } from './profile-admin.component';
 
-describe('ModalHistoryComponent', () => {
-  let component: ModalHistoryComponent;
-  let fixture: ComponentFixture<ModalHistoryComponent>;
+describe('ProfileAdminComponent', () => {
+  let component: ProfileAdminComponent;
+  let fixture: ComponentFixture<ProfileAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalHistoryComponent]
+      imports: [ProfileAdminComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ModalHistoryComponent);
+    fixture = TestBed.createComponent(ProfileAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

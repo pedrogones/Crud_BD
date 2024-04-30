@@ -1,9 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { delay } from 'rxjs';
-import { AuthService } from '../../../services/auth.service';
-import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
-import { SharedService } from '../../../shared/shared.service';
-import { AuthUser } from '../../models/AuthUser';
+
 import { Consultas } from '../../models/Consultas';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +19,7 @@ interface paciente{
   styleUrl: './teste.component.scss'
 })
 export class TesteComponent {
+  /*
   @ViewChild(DatePickerComponent)
   datePickerComponent!: DatePickerComponent<any>;
   exampleHeader = DatePickerComponent;
@@ -124,5 +121,5 @@ export class TesteComponent {
     this.menuData = false;
    console.log(data)
   }
-
+*/
 }

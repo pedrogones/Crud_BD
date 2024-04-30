@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from '../../../shared/shared.service';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { merge } from 'rxjs';
@@ -8,6 +8,10 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Medico } from '../../models/Medico';
+import { MedicosService } from '../../../services/medicoServices/medicos.service';
+import { Admin } from '../../models/Admin';
+import { AdminService } from '../../../services/adminServices/admin.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -21,59 +25,123 @@ export class ResetPasswordComponent {
   nome = new FormControl('', [Validators.required]);
   cpf = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
+ // password = new FormControl('', [Validators.required, Validators.minLength(6)]);
+ celularMedico = new FormControl('', Validators.required)
   crm = new FormControl('', [Validators.required]);
   sexo = new FormControl('', Validators.required);
   dataNascimento = new FormControl('', [Validators.required]);
-  tipoUsuario=''
+  tipoUsuario='medico'
   errorMessage = '';
   cpfErrorMessage = ''
   emailErrorMessage = '';
-  passwordErrorMessage = ''
+  celularErrorMessage = ''
   crmErrorMessage = ''
+  nascimentoErrorMessage=''
+  sexErrorMessage = ''
 
-
-
-  constructor(private sharedService: SharedService) {
-    merge(this.email.statusChanges, this.email.valueChanges).subscribe(() => this.updateErrorMessage(this.email));
-    merge(this.password.statusChanges, this.password.valueChanges).subscribe(() => this.updateErrorMessage(this.password));
-    merge(this.cpf.statusChanges, this.cpf.valueChanges).subscribe(() => this.updateErrorMessage(this.cpf));
-    merge(this.crm.statusChanges, this.crm.valueChanges).subscribe(() => this.updateErrorMessage(this.crm));
-    merge(this.sexo.statusChanges, this.sexo.valueChanges).subscribe(() => this.updateErrorMessage(this.sexo));
-    merge(this.dataNascimento.statusChanges, this.dataNascimento.valueChanges).subscribe(() => this.updateErrorMessage(this.dataNascimento));
-
+  constructor(public dialogRef: MatDialogRef<any>, private sharedService: SharedService, private httpMedico: MedicosService, private httpAdm: AdminService) {
   }
-
+medico:Medico={
+  nomeMedico: '',
+  crm: '',
+  dataNascMedico: '',
+  sexoMedico: '',
+  emailMedico: '',
+  celularMedico: '',
+  tipoUsuario: 1
+}
+adm: Admin={
+  nomeAdmin: '',
+  cpfAdmin:  '',
+  dataNascAdmin: '',
+  sexoAdmin: '',
+  emailAdmin:  '',
+  celularAdmin:  '',
+  tipoUsuario: 2
+}
+att(medico: Medico){
+  medico.nomeMedico = this.nome.value
+  medico.crm = this.crm.value
+  medico.dataNascMedico = this.dataInFormat(this.dataNascimento.value)
+  medico.sexoMedico = this.sexo.value
+  medico.emailMedico = this.email.value
+  medico.celularMedico = this.celularMedico.value
+  return medico
+}
+attAdm(adm: Admin){
+  adm.nomeAdmin = this.nome.value
+  adm.cpfAdmin = this.cpf.value
+  adm.dataNascAdmin = this.dataInFormat(this.dataNascimento.value)
+  adm.sexoAdmin = this.sexo.value
+  adm.emailAdmin = this.email.value
+  adm.celularAdmin = this.celularMedico.value
+  return adm
+}
+dataInFormat(data: any){
+  const partes = data.split('/');
+  const dataISO = partes[2] + '-' + partes[1] + '-' + partes[0];
+ return dataISO
+}
   cadastrar() {
-    if (this.nome.invalid || this.cpf.invalid || this.email.invalid || this.password.invalid) {
-      this.errorMessage = 'Por favor, preencha todos os campos corretamente.';
+    if (this.nome.invalid || this.email.invalid || this.celularMedico.invalid || this.celularMedico.invalid) {
+      console.log('Por favor, preencha todos os campos corretamente.')
       return;
     }
-    // Aqui você pode implementar a lógica para enviar os dados do cadastro para o backend
-    console.log('Dados do cadastro:', {
-      nome: this.nome.value,
-      cpf: this.cpf.value,
-      email: this.email.value,
-      password: this.password.value,
-      crm: this.crm.value,
-      sexo: this.sexo.value,
-      dataNascimento: this.dataNascimento.value
-    });
+    this.dialogRef.close();
+    if(this.tipoUsuario==="medico"){
+      let medicoObservable = this.att(this.medico)
+       console.log(medicoObservable)
+       this.sharedService.openDialog('Aguarde um momento!')
+       this.httpMedico.create(medicoObservable).subscribe(
+         (response) => {
+           this.sharedService.openDialog('Médico registrado com sucesso: ' + response);
+           setTimeout(() => {
 
-    this.sharedService.openDialog("Cadastro realizado com sucesso!");
-  }
+             this.sharedService.consultas();
+           }, 2000);
+           localStorage.setItem('chavePrimaria', medicoObservable.crm);
+           localStorage.setItem('role', '1');
+           localStorage.setItem('nomeUser', medicoObservable.nomeMedico);
+         },
+         (error) => {
+           this.sharedService.openDialog('Erro ao registrar Medico:'+ error);
+           }
+     );
+    }else{
+      let admObservable = this.attAdm(this.adm)
+      console.log(admObservable)
+      this.sharedService.openDialog('Aguarde um momento!')
+      this.httpAdm.create(admObservable).subscribe(
+        (response) => {
+          this.sharedService.openDialog('Administrador registrado com sucesso: ' + response);
+          setTimeout(() => {
 
+            this.sharedService.consultas();
+          }, 2000);
+          localStorage.setItem('chavePrimaria', admObservable.cpfAdmin);
+          localStorage.setItem('role', '2');
+          localStorage.setItem('nomeUser', admObservable.nomeAdmin);
+        },
+        (error) => {
+          this.sharedService.openDialog('Erro ao registrar Administrador:'+ error);
+          }
+    );
+    }
+}
   updateErrorMessage(field: FormControl) {
     if (field.invalid && (field.dirty || field.touched)) {
       if (field.hasError('required')) {
-        this.errorMessage = 'Esse campo é obrigatório!';
-        this.crmErrorMessage = 'Esse campo é obrigatório!';
-        this.emailErrorMessage = 'Esse campo é obrigatório!';
-        this.passwordErrorMessage = 'Esse campo é obrigatório!';
+        this.errorMessage = 'Nome é obrigatório!';
+        this.crmErrorMessage = 'Crm é obrigatório!';
+        this.emailErrorMessage = 'Email é obrigatório!';
+        this.celularErrorMessage = 'Telefone é obrigatório!';
+        this.nascimentoErrorMessage = 'Data obrigatória!';
+        this.sexErrorMessage = 'Selecione seu sexo!'
+        this.cpfErrorMessage = 'Cpf é obrigatorio!'
       } else if (field.hasError('email')) {
         this.emailErrorMessage = 'Formato de e-mail inválido!';
       } else if (field.hasError('minlength')) {
-        this.passwordErrorMessage = 'No mínimo 6 caracteres';
+        this.celularErrorMessage = 'No mínimo 6 caracteres';
         this.crmErrorMessage = 'No mínimo 5 caracteres';
       }else if (field.hasError('maxlength')) {
         this.crmErrorMessage = 'No máximo 5 caracteres';
@@ -85,21 +153,24 @@ export class ResetPasswordComponent {
 
   changeValue(tipoUser: any) {
     if (tipoUser === 'administrador') {
-      this.crm.setValue(''); // Define o valor do campo CRM como vazio quando o tipo de usuário é administrador
-      this.crm.clearValidators(); // Limpa os validadores do campo CRM quando o tipo de usuário é administrador
+      this.crm.setValue('');
+      this.crm.clearValidators();
     }
-    this.tipoUsuario = tipoUser; // Define o tipo de usuário selecionado
+    this.tipoUsuario = tipoUser;
   }
-  cadastrarColab(){
-     }
-     formatarCrm(event: any){
+  formatarCrm(event: any) {
       let inputValue: string = event.target.value.toString();
-      const maxLength = 5;
-      if(inputValue.length>maxLength){
-        event.target.value = inputValue.slice(0, maxLength);
-      }
+      const estadoMaxLength = 2;
+      const crmMaxLength = 6;
 
-     }
+      inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+
+      if (inputValue.length > crmMaxLength) {
+        const crmPart = inputValue.slice(0, crmMaxLength);
+        const estadoPart = inputValue.slice(crmMaxLength, crmMaxLength + estadoMaxLength);
+        event.target.value = `${crmPart}/${estadoPart}`;
+      }
+    }
      formatarCpf(event: any) {
       let inputValue: string = event.target.value.toString();
       const maxLength = 14;
@@ -110,6 +181,26 @@ export class ResetPasswordComponent {
           event.target.value += '-';
         }
       } else {
+        event.target.value = inputValue.slice(0, maxLength);
+      }
+    }
+    formatCel(event: any) {
+      let inputValue: string = event.target.value.toString().replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+      const maxLength = 14;
+
+      if (inputValue.length <= maxLength) {
+        if (inputValue.length >= 2) {
+          // Adiciona '(' depois dos primeiros dois dígitos
+          inputValue = '(' + inputValue.substring(0, 2) + ')' + inputValue.substring(2);
+        }
+        if (inputValue.length >= 7) {
+          inputValue = inputValue.substring(0, 9) + '-' + inputValue.substring(9);
+        }
+
+        // Atualiza o valor do campo com a formatação correta
+        event.target.value = inputValue;
+      } else {
+        // Se exceder o comprimento máximo, corta o valor para o comprimento máximo
         event.target.value = inputValue.slice(0, maxLength);
       }
     }

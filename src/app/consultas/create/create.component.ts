@@ -6,20 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { Cons, Subject, delay } from 'rxjs';
-import { DatePickerComponent } from '../../../services/date-picker/date-picker.component';
-import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { AuthUser } from '../../models/AuthUser';
-interface paciente{
-  nome:string,
-  id: number
-}
-interface medico{
-  nome:string,
-  id: string,
-  especialidade: string,
-}
+import { PermissionsService } from '../../controller/permissions.service';
+import { PacienteService } from '../../../services/pacientesServices/paciente.service';
+import { ConsultaRequest } from '../../models/ConsultaRequest';
+import { MedicosService } from '../../../services/medicoServices/medicos.service';
+import { ConsultasService } from '../../../services/consultasServices/consultas.service';
+import { Medico } from '../../models/Medico';
+import { DisponibilidadeHorarioService } from './Service/disponibilidade-horario.service';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -31,52 +25,43 @@ interface medico{
 })
 
 export class CreateComponent implements OnInit {
-  @ViewChild(DatePickerComponent)
-  datePickerComponent!: DatePickerComponent<any>;
-  exampleHeader = DatePickerComponent;
-
-  //para mudar o layout que será renderizado na tela mude a variavel authUser ára 1 ou 0
-  authUser=0;
+  availableTimes: any;
   menuData=false
   dataFilter =''
-  private authUser1: AuthUser = {
-    id: 0,
-    nome: '',
-    role: -1,
-    chavePrimaria: '',
-    email: '',
-    senha: ''
-  };
-
-  paciente:paciente = {
-    nome: 'joao pedro',
-    id: 7
-  }
   hora = '';
-
-  ngOnInit(): void {
-  }
-  minDate = new Date();
+  roleUser:any
+  pkUser  : any
+  medicos: Medico[]=[]
+  selectedMedico=''
   constructor(
-    private sharedService: SharedService, private http: AuthService) {
+   private sharedService: SharedService,
+   private medicoService: MedicosService,
+   private pacienteService: PacienteService,
+   private consultaService: ConsultasService,
+   private horarioService: DisponibilidadeHorarioService) {
+  }
+  ngOnInit(): void {
+    this.roleUser = localStorage.getItem('role')
+    this.pkUser = localStorage.getItem('chavePrimaria')
+    this.medicoService.index().subscribe(
+      (data: Medico[]) => { // Certifique-se de que o método index() retorna Medico[]
+        this.medicos = data;
+      },
+      (error) => {
+        console.error('Erro ao obter os médicos:', error);
+      }
+    );
   }
   consultas: Consultas = {
-    idConsulta: null,
-    nomePaciente: '',
-    nomeMedico: '',
+    idConsulta: '',
+    cpfPaciente: '',
+    crm: '',
     dataConsulta: '',
     motivoConsulta: ''
   }
-  pacientes = [
-    { nome: 'Joao Gomes', id: 0 },
-    { nome: 'Maria Silva', id: 1 },
-    { nome: 'José Santos', id: 2 }
-];
-
-
   validate_inputs(consulta: Consultas): boolean {
-    if (consulta.nomePaciente == '' ||
-      consulta.nomeMedico == '' ||
+    if (this.selectedMedico == '' ||
+      this.dataFilter == '' ||
       consulta.dataConsulta == '' ||
       consulta.motivoConsulta == ''||
       this.hora=='') {
@@ -85,62 +70,81 @@ export class CreateComponent implements OnInit {
       return true
     }
   }
-  availableTimes = [
-    { value: '10:00' },
-    { value: '11:00' },
-    { value: '13:30'}
-  ];
+  onMedicoChange(data: any, crm:any){
+    this.obterHorariosDisponiveis(data, crm)
+  }
+
+  async obterHorariosDisponiveis(data: string, crmMedico: string) {
+      try {
+        const availableTimesWithSeconds = await this.horarioService.obterHorariosDisponiveis(data, crmMedico);
+        const availableTimes = availableTimesWithSeconds.map(time => time.substring(0, 5));
+        this.availableTimes = availableTimes;
+      } catch (error) {
+        console.log(error);
+      }
+  }
   setHora(hora: string){
     this.selectHour = false;
-   this.hora = hora; 
+    this.hora = hora;
   }
-
-  formatDataTodb(): any{
-    if (this.consultas.dataConsulta instanceof Date) {
-      const year = this.consultas.dataConsulta.getUTCFullYear();
-      const month = (this.consultas.dataConsulta.getUTCMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
-      const day = this.consultas.dataConsulta.getUTCDate().toString().padStart(2, '0');
-      const hours = this.hora.substring(0, 2); // Obtém as horas da string
-      const minutes = this.hora.substring(3); // Obtém os minutos da string
-      const seconds = this.consultas.dataConsulta.getUTCSeconds().toString().padStart(2, '0');
-      const dataConsultaFormatada = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-      return dataConsultaFormatada;
+  formatDataTodb(hora: string): string {
+    if (this.consultas.dataConsulta && hora) {
+      const [ano, mes, dia] = this.consultas.dataConsulta.split('-');
+      const [horas, minutos] = hora.split(':');
+      const dataHoraFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
+      return dataHoraFormatada;
+    } else {
+      console.log('Data e/ou hora inválidas.');
+      return '';
     }
   }
-  save(): void {if(this.authUser==1){
-    this.consultas.nomePaciente=this.paciente.nome
+  hoje = new Date();
+  amanha = new Date();
+  setMinDate(){
+    this.amanha.setDate(this.hoje.getDate() + 1);
+    return this.amanha.toISOString().split('T')[0];
   }
-    if (this.validate_inputs(this.consultas)) {
-      this.consultas.dataConsulta =  this.formatDataTodb()
-      console.log(this.consultas)
-      this.http.create(this.consultas)
-      .pipe(
-        delay(2000) // Atraso de 2 segundos
-      ).subscribe(
-        (response: any) => {
-         this.sharedService.openDialog("Consulta criada com Sucesso");
-          this.sharedService.home();
+  minDate = this.setMinDate()
+  selectHour = false
+  backHome() {this.sharedService.home()}
+  dataConsulta(data: any) {this.menuData = false;}
+  tipoConsulta=""
+  save(): void {
+    let datayhora = this.formatDataTodb(this.hora);
+      this.medicoService.getMedicoPorCrm(this.selectedMedico).subscribe(
+        (medico) => {
+          this.pacienteService.loadByCpf(this.pkUser).subscribe(
+            (paciente) => {
+              const consultaRequest: ConsultaRequest = {
+                idConsulta:'',
+                paciente: paciente,
+                medico: medico,
+                dataConsulta: datayhora,
+                motivoConsulta: this.tipoConsulta
+              };
+              console.log(consultaRequest)
+              // Criar a consulta
+              this.consultaService.create(consultaRequest).subscribe(
+                (response) => {
+                  this.sharedService.openDialog("Consulta criada com Sucesso");
+                  this.sharedService.consultas();
+                },
+                (error) => {
+                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. É possível que já haja uma consulta nesse horário!");
+                }
+              );
+            },
+            (error) => {
+              console.log("Erro ao obter dados do paciente:", error);
+            }
+          );
         },
-        error => {
-          this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. é possível que já haja uma consulta nesse horário!")
+        (error) => {
+          console.log("Erro ao obter dados do médico:", error);
         }
       );
-    } else {
-     this.sharedService.openDialog('Preencha todos os campos!');
     }
-  }
-  selectHour = false
-  backHome() {
-   if(this.authUser==0){
-    this.sharedService.home()
-   }else if(this.authUser==1){
-    this.sharedService.consultas()
-   }
-  }
 
-  dataConsulta(data: any) {
-    this.menuData = false;
-   console.log(data)
-  }
+
 
 }
