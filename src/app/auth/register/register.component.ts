@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
@@ -25,14 +25,21 @@ export class RegisterComponent {
     cpfPaciente: '',
     dataNascPaciente: '',
     sexoPaciente: '',
-    tipoUsuario: null
+    tipoUsuario: null,
+    flamengo: false,
+    onepiece: false,
+    souza: false
   }
-
+  isFlamengo = new FormControl(false)
+  isOnePiecer = new FormControl(false)
+  isSouza = new FormControl(false)
   nome = new FormControl('', [Validators.required])
   cpf = new FormControl('', [Validators.required, Validators.minLength(14)])
   dataNascimento = new FormControl('', [Validators.required])
   sexo = new FormControl('', Validators.required)
-
+teste(){
+  //console.log(this.isFlamengo.value, this.isSouza.value, this.isOnePiecer.value)
+}
   nomeErroMessage=''
   cpfErroMessage=''
   dataNascimentoErroMessage=''
@@ -95,11 +102,14 @@ export class RegisterComponent {
 
   registerPaciente(): void {
     if(this.nome.valid&&this.cpf.valid&&this.dataNascimento.valid&&this.sexo.valid){
-      console.log(this.paciente);
       this.paciente.nomePaciente = this.nome.value;
       this.paciente.cpfPaciente = this.cpf.value;
       this.paciente.dataNascPaciente = this.dataInFormat(this.dataNascimento.value);
       this.paciente.sexoPaciente = this.sexo.value;
+      this.paciente.flamengo=this.isFlamengo.value
+      this.paciente.onepiece=this.isOnePiecer.value
+      this.paciente.souza=this.isSouza.value
+      console.log(this.paciente);
 
       this.httpPaciente.create(this.paciente).subscribe(
         (response) => {

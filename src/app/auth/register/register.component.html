@@ -58,7 +58,22 @@
               }
         </div>
 
+
       </div>
+        <div class="grid grid-cols-3 gap-4 mt-4">
+          <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 rounded-2xl">
+            <input id="isFlamengo" [formControl]="isFlamengo" type="checkbox" value="true" name="isFlamengo" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="isFlamengo" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sou flamenguista</label>
+        </div>
+        <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 rounded-2xl">
+            <input [formControl]="isOnePiecer" value="true" id="isOnePiecer" type="checkbox" value="true" name="isOnePiecer" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="isOnePiecer" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sou fão do one piece</label>
+        </div>
+        <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700 rounded-2xl">
+          <input [formControl]="isSouza" value="true" id="isSouza" type="checkbox" value="true" name="isSouza" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+          <label for="isSouza" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sou de Souza</label>
+      </div>
+        </div>
       <p class="mt-4 ml-4 text-sm font-light text-gray-500 dark:text-gray-400">
         Ja tem conta? <a style="cursor: pointer;" mat-dialog-close class=" font-medium text-primary-600 hover:underline dark:text-primary-500">Tente fazer
           o login</a>
