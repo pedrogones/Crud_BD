@@ -22,7 +22,7 @@
           </button>
           <div *ngIf="menuMedico" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <div *ngFor="let medico of medicos" class="py-1" role="none">
-              <button  (click)="buscarPorMedico(medico.nomeMedico)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="medico.crm">{{ medico.nomeMedico }}</button>
+              <button  (click)="buscarPorMedico(medico.crm)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="medico.crm">{{ medico.nomeMedico }}</button>
             </div>
           </div>
          </div>
@@ -35,7 +35,7 @@
           </button>
           <div *ngIf="menuPaciente" class="absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <div *ngFor="let paciente of pacientes" class="py-1" role="none">
-              <button  (click)="buscarPorPaciente(paciente.nomePaciente)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="paciente.cpfPaciente">{{ paciente.nomePaciente }}</button>
+              <button  (click)="buscarPorPaciente(paciente.cpfPaciente, paciente.nomePaciente)" class="text-gray-700 block w-full px-4 py-2 text-sm hover:bg-blue-100 dark:bg-blue-70" role="menuitem" tabindex="-1" id="menu-item-0" [value]="paciente.cpfPaciente">{{ paciente.nomePaciente }}</button>
             </div>
           </div>
          </div>

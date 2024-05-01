@@ -5,24 +5,36 @@
         <div class="border-b justify-center items-center">
           <div class="text-xl text-center">
             <p class="text-xl font-bold mt-6 mb-4">Gerar Relatório</p>
-            <p class="text-xl mt-6 mb-4">Você pode gerar o relatorio<br> completo ou entre datas especificas</p>
+            <p class="text-xl mt-6 mb-4">Você pode gerar o relatorio<br> entre datas específicas</p><p *ngIf="roleUser==2" > ou geral</p>
           </div>
-          <div class="flex justify-center items-center mb-4 mt-4">
-            <div class="flex items-center h-5">
-              <input (change)="changeValueRequest()" id="relatSemData" [formControl]="gerRelatorio" name="tipoUsuario" value="1" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
+          <div *ngIf="roleUser==2" >
+            <div class="flex justify-center items-center mb-4 mt-4">
+              <div class="flex items-center h-5 ml-6">
+                <input (change)="changeValueRequest()" id="relatData" [formControl]="gerRelatorio" name="tipoUsuario" value="2" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
+              </div>
+              <div class="ml-2 mr-3 text-sm">
+                <label for="relatData" class="font-light text-gray-500 dark:text-gray-300">Relatorio por data</label>
+              </div>
+              <div class="flex items-center h-5">
+                <input (change)="changeValueRequest()" id="relatSemData" [formControl]="gerRelatorio" name="tipoUsuario" value="1" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800">
+            </div>
+            <div class="ml-2 mr-3 text-sm">
+                <label  for="relatSemData" class="font-light text-gray-500 dark:text-gray-300">Relatorio geral</label>
+            </div>
+            </div>
+          </div>
+          <div *ngIf="roleUser==1">
+            <div class="flex justify-center items-center mb-4 mt-4">
+            <div class="flex items-center h-5 ml-6">
+              <input (change)="changeValueRequest()" checked id="relatData" [formControl]="gerRelatorio" name="tipoUsuario" value="2" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
           </div>
           <div class="ml-3 text-sm">
-              <label  for="relatSemData" class="font-light text-gray-500 dark:text-gray-300">Relatorio geral</label>
+              <label for="relatData" class="font-light text-gray-500 dark:text-gray-300">Relatorio por data</label>
           </div>
-            <div class="flex items-center h-5 ml-6">
-                <input (change)="changeValueRequest()" id="relatData" [formControl]="gerRelatorio" name="tipoUsuario" value="2" type="radio" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
-            </div>
-            <div class="ml-3 text-sm">
-                <label for="relatData" class="font-light text-gray-500 dark:text-gray-300">Relatorio por data</label>
-            </div>
+          </div>
           </div>
         </div>
-        <div class="col-1 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">         
+        <div class="col-1 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
           <div *ngIf="gerRelatorio.value=='2'" >
             <div class="flex px-8 gap-4 text-center mt-5 mb-5">
               <div>
