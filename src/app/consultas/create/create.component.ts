@@ -136,11 +136,11 @@ export class CreateComponent implements OnInit {
               console.log(consultaRequest)
               this.consultaService.create(consultaRequest).subscribe(
                 (response) => {
-                  this.sharedService.openDialog("Consulta criada com Sucesso");
+                  this.sharedService.openDialog("Consulta criada com Sucesso"+ response);
                   this.sharedService.consultas();
                 },
                 (error) => {
-                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. É possível que já haja uma consulta nesse horário!");
+                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. "+ error);
                 }
               );
         },
