@@ -36,7 +36,7 @@ authUser = 1;
 dateInit!: string;
 dateEnd!: string;
 
-gerRelatorio = new FormControl('1');
+gerRelatorio = new FormControl('2');
 
   selectLoad(){
     if(this.roleUser==2){
@@ -77,14 +77,16 @@ gerarRelatorio(): void {
         link.download = `todas_${nameFile}.xlsx`; // Define o nome do arquivo para download
         document.body.appendChild(link); // Adiciona o link ao corpo do documento
         link.click(); // Simula o clique no link para iniciar o download
-        document.body.removeChild(link); 
+        document.body.removeChild(link);
       },
       error => {
         console.error('Erro ao gerar o relatório:', error);
         // Trate o erro conforme necessário
       }
     );
-  }else if(this.gerRelatorio.value=='2'){ 
+  }else if(this.gerRelatorio.value=='2'){
+    if(!this.dateEnd&&!this.dateInit){this.sharedService.openDialog("É necessário selecionar as duas datas!")
+      return;}
     if((this.roleUser==2)&&(this.medicoSelect=='')){
       this.sharedService.openDialog("Você precisa selecionar um médico!")
       return

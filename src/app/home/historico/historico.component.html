@@ -10,9 +10,9 @@
           <div>
             <select id="selectPaciente"  class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" [(ngModel)]="pacienteSelect" (change)="loadByPaciente(pacienteSelect)">
               <option cclass="text-gray-900" value="" disabled selected hidden>Selecione o paciente</option>
-              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let paciente of pacientes" [value]="paciente.nomePaciente">{{ paciente.nomePaciente }}</option>
+              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let paciente of pacientes" [value]="paciente.cpfPaciente">{{ paciente.nomePaciente }}</option>
             </select>
-            
+
           </div>
         </div>
       </div>
@@ -25,10 +25,12 @@
           <div>
             <select id="selectMedico"  class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" [(ngModel)]="medicoSelect" (change)="loadByMedico(medicoSelect)">
               <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="" disabled selected hidden>Selecione o médico</option>
-              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos">{{ medico.nomeMedico }}</option>
+              <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.crm">{{ medico.nomeMedico }}</option>
             </select>
           </div>
         </div>
+      </div>
+      <div>
       </div>
     </div>
     <div class="rounded-lg w-auto overflow-hidden bg-white m-5">
@@ -37,8 +39,8 @@
           <div class="flex items-start">
             <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div> <!-- Bolinha -->
             <div class="ml-4">
-              <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ formatDate(consulta.dataConsulta) }}</time>
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <time class="mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ formatDate(consulta.dataConsulta) }}</time>
+              <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
                 <ng-container *ngIf="role == '0'; else medicoConsulta">
                   Paciente {{ consulta.paciente.nomePaciente }} tem/teve uma consulta com {{ consulta.medico.nomeMedico }}, no dia {{ formatHora(consulta.dataConsulta) }}
                 </ng-container>
@@ -46,12 +48,13 @@
                   Médico {{ consulta.medico.nomeMedico }} tem/teve uma consulta com {{ consulta.paciente.nomePaciente }}, no dia {{ formatHora(consulta.dataConsulta) }}
                 </ng-template>
               </h3>
-              <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Tipo: {{ consulta.motivoConsulta }}</p>
+              <p class="mb-2 text-base font-normal text-gray-500 dark:text-gray-400">Tipo: {{ consulta.motivoConsulta }}</p>
+              <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Valor da consulta: R${{ consulta.valorConsulta }}</p>
             </div>
           </div>
           <div class="absolute top-3 start-0 h-full border-l border-gray-200 dark:border-gray-700"></div> <!-- Linha vertical -->
         </li>
-        
+
   </ol>
 </div>
 </div>

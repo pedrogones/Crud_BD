@@ -4,5 +4,7 @@ export interface Paciente {
 	dataNascPaciente: any
 	sexoPaciente: any
 	tipoUsuario: any
-
+  flamengo: any,
+  onepiece: any,
+  souza: any
 }

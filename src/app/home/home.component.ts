@@ -186,10 +186,10 @@ export class HomeComponent implements OnInit {
       })
     }
   }
-  buscarPorMedico(nome: string) {
+  buscarPorMedico(crm: string) {
     this.menuMedico = false;
-    if (nome == "") { this.index(); return }
-    this.httpConsult.listarConsultasMedico(nome).subscribe(
+    if (crm == "") { this.index(); return }
+    this.httpConsult.listarConsultasPorCrm_Cpf(crm, this.pkUser).subscribe(
       (data: ConsultaRequest[]) => {
         if (data && data.length > 0) {
           this.consultas = data;
@@ -198,6 +198,7 @@ export class HomeComponent implements OnInit {
           this.admEmpty=false
           this.isContentVisible = true;
         } else {
+        this.sharedService.openDialog("Não há consultas com esse médico!")
           this.index();
         }
       },
@@ -263,21 +264,39 @@ export class HomeComponent implements OnInit {
       );
     }
   }
-  buscarPorPaciente(nome: any) {
-    this.menuPaciente = false;
-    this.httpConsult.listarConsultasPaciente(nome).subscribe(
-      (data: ConsultaRequest[]) => {
-        if (data && data.length > 0) {
-          this.consultas = data;
-          this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
-          this.isContentVisible = true
-          this.consultaIsEmpty = false
-         if(this.roleUser==1){this.medicoEmpty = false} else{this.admEmpty=false}
-        } else {
-          this.sharedService.openDialog('Não há consultas com esse paciente.');
+  buscarPorPaciente(cpf: any, nome: any) {
+    if(this.roleUser==2){
+      this.menuPaciente = false;
+      this.httpConsult.listarConsultasPaciente(nome).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
+            this.isContentVisible = true
+            this.consultaIsEmpty = false
+           if(this.roleUser==1){this.medicoEmpty = false} else{this.admEmpty=false}
+          } else {
+            this.sharedService.openDialog('Não há consultas com esse paciente.');
+          }
         }
-      }
-    );
+      );
+    } else if(this.roleUser==1){
+      this.menuPaciente = false;
+      this.httpConsult.listarConsultasPorCrm_Cpf(this.pkUser, cpf).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas; // Atualiza a fonte de dados da tabela
+            this.isContentVisible = true
+            this.consultaIsEmpty = false
+           if(this.roleUser==1){this.medicoEmpty = false} else{this.admEmpty=false}
+          } else {
+            this.sharedService.openDialog('Não há consultas com esse paciente.');
+          }
+        }
+      );
+
+    }
   }
   openModalRelatorio() {
     const dialogRef = this.dialog.open(ModalExportReportComponent);

@@ -119,44 +119,80 @@ export class HistoricoComponent {
       }
     );
   }
-  loadByPaciente(nome: string) {
+  loadByPaciente(cpf: any) {
     this.medicoSelect=''
-    this.consultasService.listarConsultasPaciente(nome).subscribe(
-      (data: ConsultaRequest[]) => {
-        if (data && data.length > 0) {
-          this.consultas = data;
-          this.dataSource.data = this.consultas;
-        } else {
-          this.loadConsultas();
-          this.sharedService.openDialog('Não há historico com o paciente selecionado.');
+    if(this.role==1){
+      console.log("Entrou aq")
+      this.consultasService.listarConsultasPorCrm_Cpf(this.pkUser, cpf).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas;
+          } else {
+            this.loadConsultas();
+            this.sharedService.openDialog('Não há historico com o paciente selecionado.');
+          }
+        },
+        error => {
+          this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
         }
-      },
-      error => {
-        this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
-      }
-    );
-    nome=''
+      );
+    }else if(this.role==2){
+      const pacienteSelecionado = this.pacientes.find(paciente => paciente.cpfPaciente === cpf);
+      this.consultasService.listarConsultasPaciente(pacienteSelecionado?.nomePaciente).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas;
+          } else {
+            this.loadConsultas();
+            this.sharedService.openDialog('Não há historico com o paciente selecionado.');
+          }
+        },
+        error => {
+          this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
+        }
+      );
+    }
+    cpf=''
   }
-  
-  loadByMedico(nome: string) {
+
+  loadByMedico(crm: string) {
     this.pacienteSelect=''
-    this.consultasService.listarConsultasMedico(nome).subscribe(
-      (data: ConsultaRequest[]) => {
-        if (data && data.length > 0) {
-          this.consultas = data;
-          this.dataSource.data = this.consultas;
-        } else {
-          this.loadConsultas();
-          this.sharedService.openDialog('Não há historico com o médico selecionado.');
+    if(this.role==0){
+      this.consultasService.listarConsultasPorCrm_Cpf(crm, this.pkUser).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas;
+          } else {
+            this.loadConsultas();
+            this.sharedService.openDialog('Não há historico com o médico selecionado.');
+          }
+        },
+        error => {
+          this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
         }
-      },
-      error => {
-        this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
-      }
-    );
-    nome=''
+      );
+    }else if(this.role==2){
+      const medicoSelecionado = this.medicos.find(medico => medico.crm === crm);
+      this.consultasService.listarConsultasMedico(medicoSelecionado?.nomeMedico).subscribe(
+        (data: ConsultaRequest[]) => {
+          if (data && data.length > 0) {
+            this.consultas = data;
+            this.dataSource.data = this.consultas;
+          } else {
+            this.loadConsultas();
+            this.sharedService.openDialog('Não há historico com o médico selecionado.');
+          }
+        },
+        error => {
+          this.sharedService.openDialog('Ocorreu um erro ao buscar  o historico, tente novamente mais tarde');
+        }
+      );
+    }
   }
-  
+
   consultas!: ConsultaRequest[];
   medicoSelect = '';
   medicos!: Medico[];

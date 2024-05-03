@@ -14,6 +14,7 @@ import { MedicosService } from '../../../services/medicoServices/medicos.service
 import { ConsultasService } from '../../../services/consultasServices/consultas.service';
 import { Medico } from '../../models/Medico';
 import { DisponibilidadeHorarioService } from './Service/disponibilidade-horario.service';
+import { Paciente } from '../../models/Paciente';
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -32,6 +33,7 @@ export class CreateComponent implements OnInit {
   roleUser:any
   pkUser  : any
   medicos: Medico[]=[]
+  paciente!:Paciente;
   selectedMedico=''
   constructor(
    private sharedService: SharedService,
@@ -49,6 +51,16 @@ export class CreateComponent implements OnInit {
       },
       (error) => {
         console.error('Erro ao obter os médicos:', error);
+      }
+    );
+
+    this.pacienteService.loadByCpf(this.pkUser).subscribe(
+      (paciente: Paciente) => {
+        this.paciente = paciente
+        console.log(paciente)
+      },
+      (error) => {
+        console.log("Erro ao obter dados do paciente:", error);
       }
     );
   }
@@ -113,38 +125,42 @@ export class CreateComponent implements OnInit {
     let datayhora = this.formatDataTodb(this.hora);
       this.medicoService.getMedicoPorCrm(this.selectedMedico).subscribe(
         (medico) => {
-          this.pacienteService.loadByCpf(this.pkUser).subscribe(
-            (paciente) => {
               const consultaRequest: ConsultaRequest = {
                 idConsulta:'',
-                paciente: paciente,
+                paciente: this.paciente,
                 medico: medico,
                 dataConsulta: datayhora,
-                motivoConsulta: this.tipoConsulta
+                motivoConsulta: this.tipoConsulta,
+                valorConsulta:0
               };
               console.log(consultaRequest)
-              // Criar a consulta
               this.consultaService.create(consultaRequest).subscribe(
                 (response) => {
-                  this.sharedService.openDialog("Consulta criada com Sucesso");
+                  this.sharedService.openDialog("Consulta criada com Sucesso"+ response);
                   this.sharedService.consultas();
                 },
                 (error) => {
-                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. É possível que já haja uma consulta nesse horário!");
+                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. "+ error);
                 }
               );
-            },
-            (error) => {
-              console.log("Erro ao obter dados do paciente:", error);
-            }
-          );
         },
         (error) => {
           console.log("Erro ao obter dados do médico:", error);
         }
       );
     }
-
-
-
+    consultaValue(): any {
+      const paciente = this.paciente;
+      let valorConsulta = 100;
+      if (paciente.flamengo) {
+        valorConsulta -= 5;
+      }
+      if (paciente.souza) {
+        valorConsulta -= 5;
+      }
+      if (paciente.onepiece) {
+        valorConsulta -= 5;
+      }
+      return valorConsulta;
+    }
 }

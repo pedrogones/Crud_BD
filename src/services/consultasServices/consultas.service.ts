@@ -36,7 +36,10 @@ export class ConsultasService {
     listarConsultasPorCrm(crmMedico: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/medico?crm=${crmMedico}`);
     }
-
+    listarConsultasPorCrm_Cpf(crm:String, cpf:string): Observable<ConsultaRequest[]>{
+      console.log(`${this.apiUrl}/paciente-medico?cpfPaciente=${cpf}&crm=${crm}`)
+      return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/paciente-medico?cpfPaciente=${cpf}&crm=${crm}`);
+    }
     listarConsultasPorData(data: string): Observable<ConsultaRequest[]> {
       return this.http.get<ConsultaRequest[]>(`${this.apiUrl}/data?data=${data}`);
     }

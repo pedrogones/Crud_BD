@@ -1,7 +1,7 @@
 <div class="py-4 px-10 border-b border-gray-900/10 pb-12">
 
 <h2 class="text-base font-semibold leading-7 text-gray-900">Crie aqui uma nova consulta</h2>
-<div style="margin-top: 15px;" class="flex grid grid-cols-2 gap-4 mt-15 px-10">
+<div style="margin-top: 15px;" class="flex grid grid-cols-3 gap-4 mt-15 px-10">
   <div>
     <ol class="relative border-s border-gray-200 dark:border-gray-700">
       <li class="mb-10 ms-6">
@@ -38,11 +38,11 @@
           <select style="cursor: pointer;" id="nomeMedico" name="nomeMedico" autocomplete="nomeMedico" [(ngModel)]="selectedMedico" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" (change)="onMedicoChange(consultas.dataConsulta, selectedMedico)">
             <option class="text-gray-900" value="" disabled selected hidden>Selecione o médico</option>
             <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" *ngFor="let medico of medicos" [value]="medico.crm">{{ medico.nomeMedico }}</option>
-          </select>          
+          </select>
         </div>
-        
+
     </li>
-    
+
   </ol>
   </div>
   <div>
@@ -73,7 +73,7 @@
               </li>
             </ul>
           </div>
-          
+
         </div>
       </div>
     </li>
@@ -93,13 +93,76 @@
           <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="Primeira Consulta">Primeira Consulta</option>
           <option class="text-gray-900 absolute z-10 mt-2 w-auto items-center origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black focus:outline-none" value="Consulta de Retorno">Consulta de Retorno</option>
         </select>
-        
+
       </div>
     </li>
   </ol>
 </div>
+ <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
+  <h3 class="mb-2 text-2xl font-semibold">Valor da sua consulta</h3>
+  <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Descontos são aplicados automaticamente!</p>
+  <ul role="list" class="mb-2 mt-2 space-y-4 text-left">
+    <li class="flex items-center space-x-3">
+      <div *ngIf="!paciente.flamengo; else firstCond">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 flex-shrink-0 w-5 h-5 text-red-500 dark:text-red-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      </div>
+      <ng-template #firstCond>
+        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+
+      </ng-template>
+      <span class="font-semibold">É flamenguista:  {{ paciente.flamengo ? '-R$5' : 'R$5' }}</span>
+    </li>
+    <li class="flex items-center space-x-3">
+      <div *ngIf="!paciente.onepiece; else secCond">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 flex-shrink-0 w-5 h-5 text-red-500 dark:text-red-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      </div>
+      <ng-template #secCond>
+        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </ng-template>
+      <span class="font-semibold">É fã de One Piece:  {{ paciente.onepiece ? '-R$5' : 'R$5' }}</span>
+    </li>
+    <li class="flex items-center space-x-3">
+      <div *ngIf="!paciente.souza; else thirdCond">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 flex-shrink-0 w-5 h-5 text-red-500 dark:text-red-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      </div>
+      <ng-template #thirdCond>
+        <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </ng-template>
+      <span class="font-semibold">É de Souza:  {{ paciente.souza ? '-R$5' : 'R$5' }}</span>
+    </li>
+  </ul>
+  <div class="justify-center my-8">
+    <span *ngIf="consultaValue() < 100">
+      <div style="text-decoration: line-through;" class="text-2xl">R$100,00</div>
+    </span>
+    <span class="mr-2">
+      <ng-container *ngIf="consultaValue() === 100; else discount">
+        <p class="text-5xl font-extrabold"> R${{ consultaValue() }},00</p>
+        <p class="text-2xl mt-3 font-serif">Você não possui descontos!</p>
+      </ng-container>
+      <ng-template #discount>
+        <p class="text-5xl font-extrabold"> R${{ consultaValue() }},00</p>
+      </ng-template>
+    </span>
+  </div>
+
+
+
 </div>
-<div class="flex justify-center mt-8 gap-4">
+</div>
+<div class="flex justify-center mt-4 gap-4">
   <div>
     <a href="/dashboard"
       class="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cancelar</a>

@@ -7,4 +7,5 @@ export interface ConsultaRequest {
   medico: Medico;
   dataConsulta: any;
   motivoConsulta?: any;
+  valorConsulta:number;
 }
