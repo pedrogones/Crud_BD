@@ -75,14 +75,14 @@ changeValue(tipoUser:any){
     }
     if (this.tipoColab.value == '1') {
       console.log('Médico: ' + pkAuth)
-      this.sharedService.openDialog("Aguarde um momento.")
+      this.sharedService.openDialogWarning("Aguarde um momento.")
       this.medicoService.getMedicoPorCrm(pkAuth).subscribe(
         (data: Medico) => {
           if (data.crm == pkAuth) {
             localStorage.setItem('chavePrimaria', data.crm);
             localStorage.setItem('role', '1');
             localStorage.setItem('nomeUser', data.nomeMedico);
-            this.sharedService.openDialog("Entrando!")
+            this.sharedService.openDialogSuccess("Entrando!")
             this.sharedService.consultas();
           }
         }, (erro) => {
@@ -92,14 +92,14 @@ changeValue(tipoUser:any){
       )
     } else if (this.tipoColab.value == '2') {
       console.log('Adm: ' + pkAuth)
-      this.sharedService.openDialog("Aguarde um momento.")
+      this.sharedService.openDialogWarning("Aguarde um momento.")
       this.admService.loadByCpf(pkAuth).subscribe(
         (data: Admin) => {
           if (data.cpfAdmin == pkAuth) {
             localStorage.setItem('chavePrimaria', data.cpfAdmin);
             localStorage.setItem('role', '2');
             localStorage.setItem('nomeUser', data.nomeAdmin);
-            this.sharedService.openDialog("Entrando!")
+            this.sharedService.openDialogSuccess("Entrando!")
             this.sharedService.consultas();
           }
         }, (erro) => {
@@ -117,7 +117,7 @@ changeValue(tipoUser:any){
     
     if (cpf.invalid) {
       this.sharedService.openDialog("Preencha os campos!");
-      return; // Retorna para evitar que o restante do código seja executado se o formulário for inválido
+      return;
     }
     this.pacienteService.loadByCpf(this.loginFormPaciente.cpf).subscribe(
       (paciente: Paciente) => {
@@ -178,11 +178,8 @@ changeValue(tipoUser:any){
     }
   }
   resetPassword(){
-    const dialogRef = this.dialog.open(ResetPasswordComponent);
+    this.dialog.open(ResetPasswordComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 }
 

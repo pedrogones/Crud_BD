@@ -50,17 +50,17 @@ export class CreateComponent implements OnInit {
         this.medicos = data;
       },
       (error) => {
-        console.error('Erro ao obter os médicos:', error);
+        this.sharedService.openDialogSuccess('Erro ao obter os médicos');
       }
     );
 
     this.pacienteService.loadByCpf(this.pkUser).subscribe(
       (paciente: Paciente) => {
         this.paciente = paciente
-        console.log(paciente)
+      
       },
       (error) => {
-        console.log("Erro ao obter dados do paciente:", error);
+      
       }
     );
   }
@@ -106,7 +106,6 @@ export class CreateComponent implements OnInit {
       const dataHoraFormatada = `${ano}-${mes}-${dia}T${horas}:${minutos}:00`;
       return dataHoraFormatada;
     } else {
-      console.log('Data e/ou hora inválidas.');
       return '';
     }
   }
@@ -123,24 +122,24 @@ export class CreateComponent implements OnInit {
   tipoConsulta=""
   save(): void {
     let datayhora = this.formatDataTodb(this.hora);
-      this.medicoService.getMedicoPorCrm(this.selectedMedico).subscribe(
-        (medico) => {
-              const consultaRequest: ConsultaRequest = {
-                idConsulta:'',
-                paciente: this.paciente,
-                medico: medico,
-                dataConsulta: datayhora,
-                motivoConsulta: this.tipoConsulta,
-                valorConsulta:0
-              };
-              console.log(consultaRequest)
-              this.consultaService.create(consultaRequest).subscribe(
-                (response) => {
-                  this.sharedService.openDialog("Consulta criada com Sucesso"+ response);
+    this.medicoService.getMedicoPorCrm(this.selectedMedico).subscribe(
+      (medico) => {
+            const consultaRequest: ConsultaRequest = {
+              idConsulta:'',
+              paciente: this.paciente,
+              medico: medico,
+              dataConsulta: datayhora,
+              motivoConsulta: this.tipoConsulta,
+              valorConsulta:0
+            };
+            console.log(consultaRequest)
+            this.consultaService.create(consultaRequest).subscribe(
+              (response) => {
+                  this.sharedService.openDialogSuccess("Consulta criada com Sucesso");
                   this.sharedService.consultas();
                 },
                 (error) => {
-                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. "+ error);
+                  this.sharedService.openDialog("Ocorreu um erro ao criar a consulta. ");
                 }
               );
         },

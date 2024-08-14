@@ -19,7 +19,6 @@ import { SharedService } from '../../../shared/shared.service';
 })
 export class RegisterComponent {
 
-  //objetos p cadastro
   paciente: Paciente={
     nomePaciente: '',
     cpfPaciente: '',
@@ -113,7 +112,7 @@ teste(){
 
       this.httpPaciente.create(this.paciente).subscribe(
         (response) => {
-          this.sharedService.openDialog('Paciente registrado com sucesso: ' + response);
+          this.sharedService.openDialogSuccess('Paciente registrado com sucesso: ' + response);
           setTimeout(() => {
 
             this.sharedService.dashboardRole(0, this.paciente.cpfPaciente);

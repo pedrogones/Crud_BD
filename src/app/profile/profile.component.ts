@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit{
     if (this.paciente) {
       this.httpPaciente.update(this.paciente).subscribe(
         (response) => {
-          this.sharedService.openDialog('Perfil do paciente atualizado com sucesso!');
+          this.sharedService.openDialogSuccess('Perfil do paciente atualizado com sucesso!');
           this.anableInputs = false;
           localStorage.setItem('nomeUser', this.paciente!.nomePaciente);
           this.foto = this.photo.photoProfile(this.paciente!.nomePaciente);

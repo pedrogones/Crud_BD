@@ -5,11 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { time } from 'console';
 import { PermissionsService } from '../app/controller/permissions.service';
 
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
+ 
   horaFormatada!:string;
   constructor(private permissions: PermissionsService, private dialog: MatDialog,private router: Router, private route: ActivatedRoute) { }
   consultas() {
@@ -55,14 +57,25 @@ export class SharedService {
   }
 
   openDialog(message: string) {
-    const dialogRef = this.dialog.open(ErrorDialogComponent, {
-      data: message,
+      Swal.fire({
+        icon: 'error', 
+        text: message,
+        timer: 2000
+      });
+  }
+  openDialogSuccess(message: string) {
+      Swal.fire({
+        icon: 'success', 
+        text: message,
+        timer: 2000
+      });
+  }
+  openDialogWarning(message: string) {
+    Swal.fire({
+      icon: 'warning', 
+      text: message,
+      timer: 2000
     });
-
-    setTimeout(() => {
-      dialogRef.close();
-    }, 1500);
-
   }
 
 formatarHora(data: string):string{

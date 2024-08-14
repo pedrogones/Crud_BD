@@ -46,7 +46,7 @@ ngOnInit(){
   deleteConsulta() {
     this.httpConsultas.delete(this.data.idConsulta).subscribe(
       () => {
-        this.sharedService.openDialog("Consulta removida com sucesso");
+        this.sharedService.openDialogSuccess("Consulta removida com sucesso");
 
       },
       error => {

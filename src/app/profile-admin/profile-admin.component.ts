@@ -51,7 +51,7 @@ export class ProfileAdminComponent {
     if (this.admin) {
       this.adminService.update(this.admin).subscribe(
         (response) => {
-          this.sharedService.openDialog('Perfil do Administrador atualizado com sucesso!');
+          this.sharedService.openDialogSuccess('Perfil do Administrador atualizado com sucesso!');
           this.anableInputs = false;
           localStorage.setItem('nomeUser', this.admin!.nomeAdmin);
           this.foto = this.http.photoProfile(this.admin!.nomeAdmin);

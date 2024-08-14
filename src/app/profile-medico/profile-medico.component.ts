@@ -48,7 +48,7 @@ export class ProfileMedicoComponent implements OnInit {
     if (this.medico) {
       this.httpMedico.updateMedico(this.medico.crm, this.medico).subscribe(
         (response) => {
-          this.sharedService.openDialog('Perfil do Médico atualizado com sucesso!');
+          this.sharedService.openDialogSuccess('Perfil do Médico atualizado com sucesso!');
           this.anableInputs = false;
           localStorage.setItem('nomeUser', this.medico!.nomeMedico);
           this.foto = this.http.photoProfile(this.medico!.nomeMedico);

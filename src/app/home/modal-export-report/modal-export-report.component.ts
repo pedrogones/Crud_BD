@@ -70,7 +70,7 @@ gerarRelatorio(): void {
   if(this.gerRelatorio.value=='1'){
     this.consultasService.gerarRelatorio().subscribe(
       (data: Blob) => {
-        this.sharedService.openDialog("Aguarde um momento, seu relatorio será gerado em até 5 segundos!")
+        this.sharedService.openDialogWarning("Aguarde um momento, seu relatorio será gerado em até 5 segundos!")
         const url = URL.createObjectURL(data); // Cria o URL do Blob
         const link = document.createElement('a'); // Cria um elemento de link
         link.href = url; // Define o URL do link
@@ -85,15 +85,15 @@ gerarRelatorio(): void {
       }
     );
   }else if(this.gerRelatorio.value=='2'){
-    if(!this.dateEnd&&!this.dateInit){this.sharedService.openDialog("É necessário selecionar as duas datas!")
+    if(!this.dateEnd&&!this.dateInit){this.sharedService.openDialogWarning("É necessário selecionar as duas datas!")
       return;}
     if((this.roleUser==2)&&(this.medicoSelect=='')){
-      this.sharedService.openDialog("Você precisa selecionar um médico!")
+      this.sharedService.openDialogWarning("Você precisa selecionar um médico!")
       return
     }
     this.consultasService.gerarRelatorioPorDatas(this.dateInit, this.dateEnd, crm).subscribe(
       (data: Blob) => {
-        this.sharedService.openDialog("Aguarde um momento, seu relatorio será gerado em até 5 segundos!")
+        this.sharedService.openDialogWarning("Aguarde um momento, seu relatorio será gerado em até 5 segundos!")
         const url = URL.createObjectURL(data); // Cria o URL do Blob
         const link = document.createElement('a'); // Cria um elemento de link
         link.href = url; // Define o URL do link

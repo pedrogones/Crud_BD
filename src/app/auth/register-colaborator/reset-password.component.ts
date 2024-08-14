@@ -91,10 +91,10 @@ dataInFormat(data: any){
     if(this.tipoUsuario==="medico"){
       let medicoObservable = this.att(this.medico)
        console.log(medicoObservable)
-       this.sharedService.openDialog('Aguarde um momento!')
+       this.sharedService.openDialogWarning('Aguarde um momento!')
        this.httpMedico.create(medicoObservable).subscribe(
          (response) => {
-           this.sharedService.openDialog('Médico registrado com sucesso: ' + response);
+           this.sharedService.openDialogSuccess('Médico registrado com sucesso: ' + response);
            setTimeout(() => {
 
              this.sharedService.consultas();
@@ -110,10 +110,10 @@ dataInFormat(data: any){
     }else{
       let admObservable = this.attAdm(this.adm)
       console.log(admObservable)
-      this.sharedService.openDialog('Aguarde um momento!')
+      this.sharedService.openDialogWarning('Aguarde um momento!')
       this.httpAdm.create(admObservable).subscribe(
         (response) => {
-          this.sharedService.openDialog('Administrador registrado com sucesso: ' + response);
+          this.sharedService.openDialogSuccess('Administrador registrado com sucesso: ' + response);
           setTimeout(() => {
 
             this.sharedService.consultas();
